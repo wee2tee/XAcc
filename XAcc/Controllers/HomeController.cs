@@ -10,8 +10,17 @@ namespace XAcc.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly DBContext db_context;
+
+        public HomeController(DBContext db_context)
+        {
+            this.db_context = db_context;
+        }
+
         public IActionResult Index()
         {
+            ViewBag.stmas = this.db_context.Stmas.OrderBy(s => s.stkcod).ToList();
+            
             return View();
         }
 

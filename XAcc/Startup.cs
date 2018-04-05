@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using XAcc.Migrations;
+using XAcc.Models;
 
 namespace XAcc
 {
@@ -22,6 +25,13 @@ namespace XAcc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+
+            services.AddDbContext<DBContext>(options =>
+                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection"))
+            );
+
+            var serviceProvider = services.BuildServiceProvider();
+            DBInitialize.INIT(serviceProvider);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -104,3 +104,26 @@
         </ul>
     </div>
 </div>
+
+<div class="row">
+    <table class="table table-bordered table-striped table-hover">
+        <tr>
+            <th>ID</th>
+            <th>รหัส</th>
+            <th>ชื่อ(ไทย)</th>
+            <th>ชื่อ(Eng.)</th>
+            <th>ราคา</th>
+        </tr>
+        @foreach (var item in (List<Stmas>)ViewBag.stmas)
+        {
+        <tr>
+            <td>@item.ID</td>
+            <td>@item.stkcod</td>
+            <td>@item.stkdes</td>
+            <td>@item.stkdes2</td>
+            <td>@item.sellpr1</td>
+            <td><form asp-controller="stmas" asp-action="delete" method="post"><input type="submit" value="ลบ" /><input type="hidden" name="id" value="@item.ID" /></form></td>
+        </tr>
+        }
+    </table>
+</div>
