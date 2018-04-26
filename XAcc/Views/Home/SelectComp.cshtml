@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "เลือกที่เก็บข้อมูล";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <table class="table table-bordered table-striped table-hover">
+        <tr>
+            <th>ID</th>
+            <th>ชื่อบริษัท</th>
+            <th>รหัส</th>
+            <th>ชื่อฐานข้อมูล</th>
+            <th>สร้างเมื่อ</th>
+        </tr>
+        @foreach (var item in (List<XAcc.Models.Secure.Sccomp>)ViewBag.sccomp)
+        {
+            <tr>
+                <td>@item.ID</td>
+                <td>@item.compnam</td>
+                <td>@item.compcod</td>
+                <td>@item.dbname</td>
+                <td>@item.credat</td>
+                <td><form asp-controller="stmas" asp-action="delete" method="post"><input type="submit" value="ลบ" /><input type="hidden" name="id" value="@item.ID" /></form></td>
+            </tr>
+        }
+    </table>
+
+    <table class="table table-bordered table-striped table-hover">
+        @foreach (var item in (List<KeyValuePair<string, string>>)ViewBag.claim)
+        {
+            <tr>
+                <td>@item.Key</td>
+                <td>@item.Value</td>
+                <td><form asp-controller="stmas" asp-action="delete" method="post"><input type="submit" value="ลบ" /><input type="hidden" name="id" value="@item.Value" /></form></td>
+            </tr>
+        }
+    </table>
+</div>
+

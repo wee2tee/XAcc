@@ -5,29 +5,26 @@
 
 @*<div class="row">
     <div class="col-md-7">*@
-        <h2>@ViewData["Title"]</h2>
-        <form asp-action="add" method="post" role="form">
-            <div class="form-group">
-                <label for="">รหัสสินค้า</label>
-                <input name="stkcod" type="text" class="form-control" id="" placeholder="stkcod : รหัสสินค้า" />
-            </div>
-            <div class="form-group">
-                <label for="">ชื่อ (ไทย)</label>
-                <input name="stkdes" type="text" class="form-control" id="" placeholder="stkdes : ชื่อ (ไทย)" />
-            </div>
-            <div class="form-group">
-                <label for="">ชื่อ (Eng.)</label>
-                <input name="stkdes2" type="text" class="form-control" id="" placeholder="stkdes2 : ชื่อ (Eng.)" />
-            </div>
-            <div class="form-group">
-                <label for="">ราคาขาย</label>
-                <input name="sellpr1" type="number" class="form-control" id="" placeholder="sellpr1 : ราคาขาย" />
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-@*</div>
-
-    <div class="col-md-5">*@
+<h2>@ViewData["Title"]</h2>
+<form asp-action="add" method="post" role="form">
+    <div class="form-group">
+        <label for="">รหัสสินค้า</label>
+        <input name="stkcod" type="text" class="form-control" id="" placeholder="stkcod : รหัสสินค้า" />
+    </div>
+    <div class="form-group">
+        <label for="">ชื่อ (ไทย)</label>
+        <input name="stkdes" type="text" class="form-control" id="" placeholder="stkdes : ชื่อ (ไทย)" />
+    </div>
+    <div class="form-group">
+        <label for="">ชื่อ (Eng.)</label>
+        <input name="stkdes2" type="text" class="form-control" id="" placeholder="stkdes2 : ชื่อ (Eng.)" />
+    </div>
+    <div class="form-group">
+        <label for="">ราคาขาย</label>
+        <input name="sellpr1" type="number" class="form-control" id="" placeholder="sellpr1 : ราคาขาย" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
 <table class="table table-bordered">
     @foreach (var st in (List<Stmas>)ViewBag.stmas)
     {
@@ -41,7 +38,16 @@
         </tr>
     }
 </table>
-@*</div>
-    </div>*@
 
-
+@*<table class="table table-bordered">
+    @foreach (var st in (List<Stmas>)ViewBag.stmas2)
+    {
+        <tr>
+            <td>@st.ID</td>
+            <td>@st.stkcod</td>
+            <td>@st.stkdes</td>
+            <td>@st.stkdes2</td>
+            <td>@st.sellpr1</td>
+        </tr>
+    }
+</table>*@
