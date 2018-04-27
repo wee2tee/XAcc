@@ -4,37 +4,60 @@
 }
 
 <h2>@ViewData["Title"]</h2>
-<div class="row">
-    <table class="table table-bordered table-striped table-hover">
-        <tr>
-            <th>ID</th>
-            <th>ชื่อบริษัท</th>
-            <th>รหัส</th>
-            <th>ชื่อฐานข้อมูล</th>
-            <th>สร้างเมื่อ</th>
-        </tr>
-        @foreach (var item in (List<XAcc.Models.Secure.Sccomp>)ViewBag.sccomp)
-        {
-            <tr>
-                <td>@item.ID</td>
-                <td>@item.compnam</td>
-                <td>@item.compcod</td>
-                <td>@item.dbname</td>
-                <td>@item.credat</td>
-                <td><form asp-controller="stmas" asp-action="delete" method="post"><input type="submit" value="ลบ" /><input type="hidden" name="id" value="@item.ID" /></form></td>
-            </tr>
-        }
-    </table>
+<div class="modal fade" tabindex="-1" role="dialog" id="my-modal-dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@ViewData["Title"]</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped table-hover">
+                    <tr>
+                        <th>ID</th>
+                        <th>ชื่อบริษัท</th>
+                        <th>รหัส</th>
+                        <th>ชื่อฐานข้อมูล</th>
+                        <th>สร้างเมื่อ</th>
+                    </tr>
+                    @foreach (var item in (List<XAcc.Models.Secure.Sccomp>)ViewBag.sccomp)
+    {
+                <tr>
+                    <td>@item.ID</td>
+                    <td>@item.compnam</td>
+                    <td>@item.compcod</td>
+                    <td>@item.dbname</td>
+                    <td>@item.credat</td>
+                    <td><form asp-controller="stmas" asp-action="delete" method="post"><input type="submit" value="ลบ" /><input type="hidden" name="id" value="@item.ID" /></form></td>
+                </tr>
+}
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
-    <table class="table table-bordered table-striped table-hover">
-        @foreach (var item in (List<KeyValuePair<string, string>>)ViewBag.claim)
-        {
-            <tr>
-                <td>@item.Key</td>
-                <td>@item.Value</td>
-                <td><form asp-controller="stmas" asp-action="delete" method="post"><input type="submit" value="ลบ" /><input type="hidden" name="id" value="@item.Value" /></form></td>
-            </tr>
-        }
-    </table>
-</div>
+@*<div id="select-comp-dialog" class="modal fade" tabindex="-1" role="dialog">
+    <div class="row">
+        <table class="table table-bordered table-striped table-hover">
+            @foreach (var item in (List<KeyValuePair<string, string>>)ViewBag.claim)
+            {
+                <tr>
+                    <td>@item.Key</td>
+                    <td>@item.Value</td>
+                    <td><form asp-controller="stmas" asp-action="delete" method="post"><input type="submit" value="ลบ" /><input type="hidden" name="id" value="@item.Value" /></form></td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>*@
 
+@section scripts{
+    <script>
+        $("#my-modal-dialog").modal("show");
+    </script>
+}

@@ -9,20 +9,49 @@
     <form method="post" asp-action="Login">
         <div class="form-group">
             <label for="sernum">S/N</label>
-            <input type="text" id="sernum" name="sernum" />
+            <input type="text" id="sernum" name="sernum" value="W-10T-000008" />
         </div>
         <div class="form-group">
             <label for="phrase">Secret phrase</label>
-            <input type="text" id="phrase" name="phrase" />
+            <input type="text" id="phrase" name="phrase" value="xxx" />
         </div>
         <div class="form-group">
             <label for="username">User name</label>
-            <input type="text" id="username" name="username" />
+            <input type="text" id="username" name="username" value="BIT9" />
         </div>
         <div class="form-group">
             <label for="pass">Password</label>
-            <input type="password" id="pass" name="pass" />
+            <input type="password" id="pass" name="pass" value="BIT9" />
         </div>
         <button type="submit">Log in</button>
+        <button type="button" onclick="ajax_test()">Test Ajax</button>
     </form>
 </div>
+
+@section scripts{ 
+    <script>
+        function ajax_test() {
+            var login_info = new Object();
+            login_info.sernum = $("#sernum").val();
+            login_info.phrase = $("#phrase").val();
+            login_info.username = $("#username").val();
+            login_info.pass = $("#pass").val();
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/AjaxLogin",
+                data: JSON.stringify(login_info),
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+
+                },
+                dataType: "json"
+            }).done(function (data) {
+                console.log(data.username);
+            });
+        }
+        
+    </script>
+}
