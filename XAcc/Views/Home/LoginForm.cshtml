@@ -4,7 +4,7 @@
 }
 
 <h2>LoginForm</h2>
-
+<input type="hidden" id="errmsg" value="@ViewBag.errmsg" />
 <div>
     <form method="post" asp-action="Login">
         <div class="form-group">
@@ -28,8 +28,35 @@
     </form>
 </div>
 
-@section scripts{ 
+<div class="modal fade" tabindex="-1" role="dialog" id="select-comp-dialog">
+    @*<div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <form method="post" asp-action="Logout">
+                    <button type="submit" class="close"><span aria-hidden="true">&times;</span></button>
+                </form>
+                <h4 class="modal-title">เลือกที่เก็บข้อมูล</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped table-hover" id="select-comp-table">
+                    <tr>
+                        <th>ชื่อบริษัท</th>
+                        <th>รหัส</th>
+                        <th>ชื่อฐานข้อมูล</th>
+                        <th>สร้างเมื่อ</th>
+                    </tr>
+                </table>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->*@
+</div><!-- /.modal -->
+
+@section scripts{
     <script>
+        if ($("#errmsg").val().trim().length > 0) {
+            alert($("#errmsg").val());
+        }
+                 
         function ajax_test() {
             var login_info = new Object();
             login_info.sernum = $("#sernum").val();
@@ -45,13 +72,29 @@
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("XSRF-TOKEN",
                         $('input:hidden[name="__RequestVerificationToken"]').val());
-
                 },
-                dataType: "json"
+                //dataType: "json",
             }).done(function (data) {
-                console.log(data.username);
+                $("#select-comp-dialog").html(data);
+                $("#select-comp-dialog").modal({
+                    "show": true,
+                    "backdrop": false,
+                    "keyboard": false
+                });
+
+
+                //if (data.result === true) {
+                //    for (var i = 0; i < data.return_obj.length; i++) {
+                //        $("#select-comp-table tr:last").after("<tr><td><a href='/Home/SelectComp?" + data.return_obj[i].id + "'>" + data.return_obj[i].compnam + "</a></td><td>" + data.return_obj[i].compcod + "</td><td>" + data.return_obj[i].dbname + "</td><td>" + data.return_obj[i].credat + "</td></tr > ");
+                //    }
+
+                //    $("#select-comp-dialog").modal({
+                //        "show": true,
+                //        "backdrop": false,
+                //        "keyboard": false
+                //    });
+                //}
             });
         }
-        
     </script>
 }

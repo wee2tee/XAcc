@@ -1,5 +1,41 @@
-﻿
-@*
+﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            @*<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>*@
+            <form method="post" asp-action="Logout">
+                <button type="submit" class="close"><span aria-hidden="true">&times;</span></button>
+            </form>
+            @*<a href="/Home/Index">
+                    <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+                </a>*@
+            <h4 class="modal-title">เลือกที่เก็บข้อมูล</h4>
+        </div>
+        <div class="modal-body">
+            <table class="table table-bordered table-striped table-hover" id="select-comp-table">
+                <tr>
+                    <th>ชื่อบริษัท</th>
+                    <th>รหัส</th>
+                    <th>ชื่อฐานข้อมูล</th>
+                    <th>สร้างเมื่อ</th>
+                </tr>
+                @foreach (var item in (List<XAcc.Models.Secure.Sccomp>)Model)
+                {
+                    <tr>
+                        <td>@item.compnam</td>
+                        <td>@item.compcod</td>
+                        <td>@item.dbname</td>
+                        <td>@item.credat</td>
+                    </tr>
+                }
+            </table>
+        </div>
+        @*<div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Select</button>
+            </div>*@
+    </div><!-- /.modal-content -->
+</div><!-- /.modal-dialog -->

@@ -45,19 +45,35 @@ namespace XAcc.Controllers
         //    }
         //}
 
-        [Authorize(Policy = "Customer")]
-        public IActionResult SelectComp()
+        [HttpGet, Authorize(Policy = "Customer")]
+        public IActionResult SelectComp(int? ID)
         {
             var dbsecure_context = this.GetCustomerIdentity(this.dbmain_context).EnsureDbSecureCreated(this.configuration);
-            ViewBag.sccomp = dbsecure_context.Sccomp.OrderBy(s => s.compnam).ToList();
+
+            if (/*!string.IsNullOrEmpty(ID)*/ ID.HasValue)
+            {
+                Sccomp comp = dbsecure_context.Sccomp.Where(c => c.ID == ID).FirstOrDefault();
+
+                if(comp != null)
+                {
+                    User.Identities.First().AddClaim(new Claim(ClaimTypes.Role, comp.dbname));
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            else
+            {
+                ViewBag.sccomp = dbsecure_context.Sccomp.OrderBy(s => s.compnam).ToList();
+                return View();
+            }
 
 
             // test get claim value
-            User.Identities.First().AddClaim(new Claim(ClaimTypes.UserData, "testpump"));
-            ViewBag.claim = User.Identities.First().Claims.Select(c => new KeyValuePair<string, string>(c.Type, c.Value)).ToList();
-
-            
-            return View();
+            //User.Identities.First().AddClaim(new Claim(ClaimTypes.UserData, "testpump"));
+            //ViewBag.claim = User.Identities.First().Claims.Select(c => new KeyValuePair<string, string>(c.Type, c.Value)).ToList();
         }
 
         [Authorize(Policy = "Customer")]
@@ -71,47 +87,54 @@ namespace XAcc.Controllers
 
         public IActionResult LoginForm()
         {
-            if (User.Identity.IsAuthenticated)
-                return RedirectToAction("Index");
+            //if (User.Identity.IsAuthenticated)
+            //    return RedirectToAction("Index");
 
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string sernum)
+        public async Task<IActionResult> Login(LoginInfo login_info)
         {
-            if (string.IsNullOrEmpty(sernum))
+            if (login_info == null)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            var customer = this.dbmain_context.Customer.Where(c => c.sernum.Trim() == sernum.Trim()).FirstOrDefault();
+            var customer = this.dbmain_context.Customer.Where(c => c.sernum.Trim() == login_info.sernum.Trim() && c.pass_phrase.Trim() == login_info.phrase.Trim()).FirstOrDefault();
             if (customer != null)
             {
-                var identity = new ClaimsIdentity(new[]
+                var dbsecure_context = customer.EnsureDbSecureCreated(this.configuration);
+                var user = dbsecure_context.Scuser.Where(u => u.reccod.Trim() == login_info.username.Trim() && u.userpwd.Trim() == login_info.pass.Trim() && u.status != "X").FirstOrDefault();
+
+                if (user != null) // Login completed
                 {
-                    new Claim(ClaimTypes.SerialNumber, customer.sernum),
-                    new Claim(ClaimTypes.Name, customer.prenam + " " + customer.compnam),
-                    new Claim(ClaimTypes.Role, "customer")
-                }, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var identity = new ClaimsIdentity(new[]
+                    {
+                        new Claim(ClaimTypes.SerialNumber, customer.sernum),
+                        new Claim(ClaimTypes.Name, user.reccod),
+                        new Claim(ClaimTypes.Role, "customer"),
+                    }, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                var principal = new ClaimsPrincipal(identity);
+                    var principal = new ClaimsPrincipal(identity);
 
-                await HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                principal);
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                    principal);
 
-                customer.EnsureDbSecureCreated(this.configuration);
-
-                return RedirectToAction("SelectComp");
+                    return RedirectToAction("SelectComp");
+                }
+                else
+                {
+                    ViewBag.errmsg = "รหัสผู้ใช้/รหัสผ่าน ไม่ถูกต้อง";
+                    return RedirectToAction("LoginForm");
+                }
             }
             else
             {
-                return RedirectToAction("Index");
+                ViewBag.errmsg = "Serial number/Pass phrase ไม่ถูกต้อง";
+                return RedirectToAction("LoginForm");
             }
-
-
-            //return RedirectToAction("SelectComp");
         }
 
         [HttpPost]
@@ -128,39 +151,40 @@ namespace XAcc.Controllers
             var customer = this.dbmain_context.Customer.Where(c => c.sernum.Trim() == login_info.sernum.Trim() && c.pass_phrase.Trim() == login_info.phrase.Trim()).FirstOrDefault();
             if (customer != null)
             {
-                //var dbsecure_context = this.EnsureDbSecureCreated(this.dbmain_context, this.configuration);
                 var dbsecure_context = customer.EnsureDbSecureCreated(this.configuration);
 
                 var user = dbsecure_context.Scuser.Where(u => u.reccod.Trim() == login_info.username.Trim() && u.userpwd.Trim() == login_info.pass.Trim() && u.status != "X").FirstOrDefault();
 
                 if(user != null) // Login completed
                 {
-                    var identity = new ClaimsIdentity(new[]
-                    {
-                        new Claim(ClaimTypes.SerialNumber, customer.sernum),
-                        new Claim(ClaimTypes.Name, user.reccod),
-                        new Claim(ClaimTypes.Role, "customer"),
-                    }, CookieAuthenticationDefaults.AuthenticationScheme);
+                    //var identity = new ClaimsIdentity(new[]
+                    //{
+                    //    new Claim(ClaimTypes.SerialNumber, customer.sernum),
+                    //    new Claim(ClaimTypes.Name, user.reccod),
+                    //    new Claim(ClaimTypes.Role, "customer"),
+                    //}, CookieAuthenticationDefaults.AuthenticationScheme);
 
-                    var principal = new ClaimsPrincipal(identity);
+                    //var principal = new ClaimsPrincipal(identity);
 
-                    await HttpContext.SignInAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme,
-                    principal);
+                    //await HttpContext.SignInAsync(
+                    //    CookieAuthenticationDefaults.AuthenticationScheme,
+                    //principal);
 
-                    login_info.phrase = "****";
-                    login_info.pass = "****";
-                    login_info.login_result = true;
-                    return Json(login_info);
+                    var comp = dbsecure_context.Sccomp.OrderBy(c => c.compnam).ToList();
+                    return PartialView("_SelectComp", comp);
+                    //return Json(new LoginResult { result = true, return_obj = comp });
+                    //return Json(new LoginResult { result = true, return_obj = PartialView("_SelectComp", comp).ToString() });
                 }
                 else // User/Password is incorrect
                 {
+                    //return Json(new LoginResult { result = false, return_obj = "User name/Password is incorrect." });
                     return Json("User name/Password is incorrect.");
                 }
                 
             }
             else
             {
+                //return Json(new LoginResult { result = false, return_obj = "Serial number/Phrase is incorrect." });
                 return Json("Serial number/Phrase is incorrect.");
             }
         }
@@ -169,15 +193,8 @@ namespace XAcc.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("LoginForm");
         }
-
-        //[HttpPost]
-        //public IActionResult AjaxTest([FromBody] LoginInfo login_info/*string sernum, string phrase, string username, string pass*/)
-        //{
-        //    //return new JsonResult(login_info.username);
-        //    return Json(login_info);
-        //}
 
         [Authorize(Policy = "User")]
         public IActionResult ManageProfile() => View();
@@ -204,5 +221,11 @@ namespace XAcc.Controllers
         public IActionResult ErrorNotLoggedIn() => View();
 
         public IActionResult ErrorForbidden() => View();
+    }
+
+    public class LoginResult
+    {
+        public bool result { get; set; }
+        public object return_obj { get; set; }
     }
 }
