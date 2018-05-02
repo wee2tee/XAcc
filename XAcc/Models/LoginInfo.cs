@@ -11,6 +11,7 @@ namespace XAcc.Models
         public string phrase { get; set; }
         public string username { get; set; }
         public string pass { get; set; }
+        public string dbname { get; set; }
         public bool login_result { get; set; }
     }
 }

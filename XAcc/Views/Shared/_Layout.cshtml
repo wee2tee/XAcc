@@ -40,8 +40,8 @@
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><form method="post" asp-action="Logout"><button type="submit">Log out</button></form></li>
-
+                        @*<li><form method="post" asp-action="Logout"><button type="submit">Log out</button></form></li>*@
+                        <li><a asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>
                     }
                 </ul>
             </div>
@@ -52,10 +52,14 @@
         <hr />
         <footer class="xstyle">
             @{ 
-                var current_db = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Role).FirstOrDefault();
+                var sn = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.SerialNumber).FirstOrDefault();
+                var current_db = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.UserData).FirstOrDefault();
                 var db_name = current_db != null ? current_db.Value.ToString() : string.Empty;
+                var serial_number = sn != null ? sn.Value.ToString() : string.Empty;
+                var user = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault();
+                var user_name = user != null ? user.Value.ToString() : string.Empty;
             }
-            <p>&copy; 2561 - XAcc  ที่เก็บข้อมูล : @db_name</p>
+            <p>&copy; 2561 - XAcc, S/N : @serial_number,  ที่เก็บข้อมูล : @db_name, รหัสผู้ใช้งาน : @user_name</p>
             <p class="right"></p>
         </footer>
     </div>

@@ -87,8 +87,8 @@ namespace XAcc.Controllers
 
         public IActionResult LoginForm()
         {
-            //if (User.Identity.IsAuthenticated)
-            //    return RedirectToAction("Index");
+            if (User.Identity.IsAuthenticated)
+                return RedirectToAction("Index");
 
             return View();
         }
@@ -138,14 +138,22 @@ namespace XAcc.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AjaxLogin([FromBody] LoginInfo login_info)
+        public IActionResult ValidateUser([FromBody] LoginInfo login_info)
         {
-            if (string.IsNullOrEmpty(login_info.sernum) || 
-                string.IsNullOrEmpty(login_info.phrase) || 
-                string.IsNullOrEmpty(login_info.username) || 
+            if (User.Identity.IsAuthenticated)
+            {
+                return Json(new LoginResult { result = true, return_obj = "Already login" });
+            }
+
+            if (string.IsNullOrEmpty(login_info.sernum) ||
+                string.IsNullOrEmpty(login_info.phrase))
+            {
+                return Json(new LoginResult { result = false, return_obj = "Serial number/Phrase is incorrect." });
+            }
+            if(string.IsNullOrEmpty(login_info.username) || 
                 string.IsNullOrEmpty(login_info.pass))
             {
-                return RedirectToAction(nameof(Index));
+                return Json(new LoginResult { result = false, return_obj = "User name/Password is incorrect." });
             }
 
             var customer = this.dbmain_context.Customer.Where(c => c.sernum.Trim() == login_info.sernum.Trim() && c.pass_phrase.Trim() == login_info.phrase.Trim()).FirstOrDefault();
@@ -157,39 +165,106 @@ namespace XAcc.Controllers
 
                 if(user != null) // Login completed
                 {
-                    //var identity = new ClaimsIdentity(new[]
-                    //{
-                    //    new Claim(ClaimTypes.SerialNumber, customer.sernum),
-                    //    new Claim(ClaimTypes.Name, user.reccod),
-                    //    new Claim(ClaimTypes.Role, "customer"),
-                    //}, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                    //var principal = new ClaimsPrincipal(identity);
-
-                    //await HttpContext.SignInAsync(
-                    //    CookieAuthenticationDefaults.AuthenticationScheme,
-                    //principal);
-
-                    var comp = dbsecure_context.Sccomp.OrderBy(c => c.compnam).ToList();
-                    return PartialView("_SelectComp", comp);
-                    //return Json(new LoginResult { result = true, return_obj = comp });
-                    //return Json(new LoginResult { result = true, return_obj = PartialView("_SelectComp", comp).ToString() });
+                    return Json(new LoginResult { result = true, return_obj = "Success" /*comp*/ });
                 }
                 else // User/Password is incorrect
                 {
-                    //return Json(new LoginResult { result = false, return_obj = "User name/Password is incorrect." });
-                    return Json("User name/Password is incorrect.");
+                    return Json(new LoginResult { result = false, return_obj = "User name/Password is incorrect." });
                 }
                 
             }
             else
             {
-                //return Json(new LoginResult { result = false, return_obj = "Serial number/Phrase is incorrect." });
-                return Json("Serial number/Phrase is incorrect.");
+                return Json(new LoginResult { result = false, return_obj = "Serial number/Phrase is incorrect." });
             }
         }
 
         [HttpPost]
+        public IActionResult GetDataList([FromBody] LoginInfo login_info)
+        {
+            if (string.IsNullOrEmpty(login_info.sernum) ||
+                string.IsNullOrEmpty(login_info.phrase) ||
+                string.IsNullOrEmpty(login_info.username) ||
+                string.IsNullOrEmpty(login_info.pass))
+            {
+                return PartialView("_SelectComp");
+            }
+
+            var customer = this.dbmain_context.Customer.Where(c => c.sernum.Trim() == login_info.sernum.Trim() && c.pass_phrase.Trim() == login_info.phrase.Trim()).FirstOrDefault();
+            if (customer != null)
+            {
+                var dbsecure_context = customer.EnsureDbSecureCreated(this.configuration);
+
+                var user = dbsecure_context.Scuser.Where(u => u.reccod.Trim() == login_info.username.Trim() && u.userpwd.Trim() == login_info.pass.Trim() && u.status != "X").FirstOrDefault();
+
+                if (user != null) // Login completed
+                {
+                    ViewBag.login_info = login_info;
+                    var comp = dbsecure_context.Sccomp.OrderBy(c => c.compnam).ToList();
+                    return PartialView("_SelectComp", comp);
+                }
+                else // User/Password is incorrect
+                {
+                    return PartialView("_SelectComp");
+                }
+
+            }
+            else
+            {
+                return PartialView("_SelectComp");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignIn(LoginInfo login_info)
+        {
+            if (string.IsNullOrEmpty(login_info.sernum) ||
+                string.IsNullOrEmpty(login_info.phrase) ||
+                string.IsNullOrEmpty(login_info.username) ||
+                string.IsNullOrEmpty(login_info.pass) ||
+                string.IsNullOrEmpty(login_info.dbname))
+            {
+                return RedirectToAction("LoginForm"); //Json(new LoginResult { result = false, return_obj = "Sign in failed." });
+            }
+
+            var customer = this.dbmain_context.Customer.Where(c => c.sernum.Trim() == login_info.sernum.Trim() && c.pass_phrase.Trim() == login_info.phrase.Trim()).FirstOrDefault();
+            if (customer != null)
+            {
+                var dbsecure_context = customer.EnsureDbSecureCreated(this.configuration);
+
+                var user = dbsecure_context.Scuser.Where(u => u.reccod.Trim() == login_info.username.Trim() && u.userpwd.Trim() == login_info.pass.Trim() && u.status != "X").FirstOrDefault();
+
+                if (user != null) // Login completed
+                {
+                    var identity = new ClaimsIdentity(new[]
+                    {
+                        new Claim(ClaimTypes.SerialNumber, customer.sernum),
+                        new Claim(ClaimTypes.Name, user.reccod),
+                        new Claim(ClaimTypes.Role, "customer"),
+                        new Claim(ClaimTypes.UserData, login_info.dbname)
+                    }, CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    var principal = new ClaimsPrincipal(identity);
+
+                    await HttpContext.SignInAsync(
+                        CookieAuthenticationDefaults.AuthenticationScheme,
+                    principal);
+
+                    return RedirectToAction("Index"); //Json(new LoginResult { result = true, return_obj = "Success" });
+                }
+                else // User/Password is incorrect
+                {
+                    return RedirectToAction("LoginForm"); //Json(new LoginResult { result = false, return_obj = "Sign in failed." });
+                }
+
+            }
+            else
+            {
+                return RedirectToAction("LoginForm"); //Json(new LoginResult { result = false, return_obj = "Sign in failed." });
+            }
+        }
+
+        //[HttpPost] // problem with multiple logout
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

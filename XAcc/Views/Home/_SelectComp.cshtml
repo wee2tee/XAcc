@@ -5,37 +5,64 @@
 <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
-            @*<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>*@
-            <form method="post" asp-action="Logout">
-                <button type="submit" class="close"><span aria-hidden="true">&times;</span></button>
-            </form>
-            @*<a href="/Home/Index">
-                    <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
-                </a>*@
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">เลือกที่เก็บข้อมูล</h4>
         </div>
-        <div class="modal-body">
-            <table class="table table-bordered table-striped table-hover" id="select-comp-table">
-                <tr>
-                    <th>ชื่อบริษัท</th>
-                    <th>รหัส</th>
-                    <th>ชื่อฐานข้อมูล</th>
-                    <th>สร้างเมื่อ</th>
-                </tr>
-                @foreach (var item in (List<XAcc.Models.Secure.Sccomp>)Model)
-                {
+        <form method="post" asp-action="SignIn">
+            @{
+        var login_info = (LoginInfo)ViewBag.login_info;
+            }
+            <input type="hidden" name="sernum" id="sernum" value="@login_info.sernum" />
+            <input type="hidden" name="phrase" id="phrase" value="@login_info.phrase" />
+            <input type="hidden" name="username" id="username" value="@login_info.username" />
+            <input type="hidden" name="pass" id="pass" value="@login_info.pass" />
+            <input type="hidden" value="" name="dbname" id="dbname" />
+            <div class="modal-body">
+                <table class="table table-bordered table-striped table-hover" id="select-comp-table">
                     <tr>
-                        <td>@item.compnam</td>
-                        <td>@item.compcod</td>
-                        <td>@item.dbname</td>
-                        <td>@item.credat</td>
+                        <th style="display:none;">ID</th>
+                        <th>ชื่อบริษัท</th>
+                        <th>รหัส</th>
+                        <th>ชื่อฐานข้อมูล</th>
+                        <th>สร้างเมื่อ</th>
                     </tr>
-                }
-            </table>
-        </div>
-        @*<div class="modal-footer">
+                    @foreach (var item in (List<XAcc.Models.Secure.Sccomp>)Model)
+            {
+                <tr class="row-comp">
+                    <td style="display:none;" class="col-id">@item.ID</td>
+                    <td>@item.compnam</td>
+                    <td>@item.compcod</td>
+                    <td class="col-dbname">@item.dbname</td>
+                    <td>@item.credat</td>
+                </tr>
+    }
+                </table>
+            </div>
+            <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Select</button>
-            </div>*@
+                <button type="submit" class="btn btn-primary">Select</button>
+            </div>
+        </form>
     </div><!-- /.modal-content -->
 </div><!-- /.modal-dialog -->
+
+<style>
+    .row-comp {
+        cursor: pointer;
+    }
+    .row-comp.selected {
+        background-color: lightblue !important;
+        color: blue;
+    }
+</style>
+
+<script>
+    $(".row-comp").on("click", function (e) {
+        $.each($(".row-comp"), function (k, v) {
+            $(v).removeClass('selected');
+        });
+
+        $(this).addClass('selected');
+        $("#dbname").val($(this).find(".col-dbname").html());
+    });
+</script>

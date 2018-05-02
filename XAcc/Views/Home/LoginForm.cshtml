@@ -23,41 +23,24 @@
             <label for="pass">Password</label>
             <input type="password" id="pass" name="pass" value="BIT9" />
         </div>
-        <button type="submit">Log in</button>
-        <button type="button" onclick="ajax_test()">Test Ajax</button>
+        @*<button type="submit">Log in</button>*@
+        <button type="button" onclick="validateUser()">Log in</button>
     </form>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="select-comp-dialog">
-    @*<div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <form method="post" asp-action="Logout">
-                    <button type="submit" class="close"><span aria-hidden="true">&times;</span></button>
-                </form>
-                <h4 class="modal-title">เลือกที่เก็บข้อมูล</h4>
-            </div>
-            <div class="modal-body">
-                <table class="table table-bordered table-striped table-hover" id="select-comp-table">
-                    <tr>
-                        <th>ชื่อบริษัท</th>
-                        <th>รหัส</th>
-                        <th>ชื่อฐานข้อมูล</th>
-                        <th>สร้างเมื่อ</th>
-                    </tr>
-                </table>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->*@
-</div><!-- /.modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="select-comp-dialog"></div>
 
 @section scripts{
     <script>
         if ($("#errmsg").val().trim().length > 0) {
             alert($("#errmsg").val());
         }
-                 
-        function ajax_test() {
+
+        $("#select-comp-dialog").on("hidden.bs.modal", function (e) {
+            document.location.reload(true);
+        });
+
+        function validateUser() {
             var login_info = new Object();
             login_info.sernum = $("#sernum").val();
             login_info.phrase = $("#phrase").val();
@@ -66,35 +49,60 @@
 
             $.ajax({
                 type: "POST",
-                url: "/Home/AjaxLogin",
+                url: "/Home/ValidateUser",
                 data: JSON.stringify(login_info),
                 contentType: "application/json; charset=utf-8",
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader("XSRF-TOKEN",
                         $('input:hidden[name="__RequestVerificationToken"]').val());
                 },
-                //dataType: "json",
+                dataType: "json",
+                error: function (err) {
+                    if (err.status == 400) {
+                        window.location.reload(true);
+                    }
+
+                }
             }).done(function (data) {
-                $("#select-comp-dialog").html(data);
-                $("#select-comp-dialog").modal({
-                    "show": true,
-                    "backdrop": false,
-                    "keyboard": false
-                });
+                if (data.result === true) {
+                    $("#select-comp-dialog").getDataList(login_info.sernum, login_info.phrase, login_info.username, login_info.pass);
+                }
+                else {
+                    alert(data.return_obj);
 
-
-                //if (data.result === true) {
-                //    for (var i = 0; i < data.return_obj.length; i++) {
-                //        $("#select-comp-table tr:last").after("<tr><td><a href='/Home/SelectComp?" + data.return_obj[i].id + "'>" + data.return_obj[i].compnam + "</a></td><td>" + data.return_obj[i].compcod + "</td><td>" + data.return_obj[i].dbname + "</td><td>" + data.return_obj[i].credat + "</td></tr > ");
-                //    }
-
-                //    $("#select-comp-dialog").modal({
-                //        "show": true,
-                //        "backdrop": false,
-                //        "keyboard": false
-                //    });
-                //}
+                }
             });
         }
+
+        $.fn.extend({
+            getDataList: function (sernum, phrase, username, pass) {
+                var target_elem = $(this);
+                var post_data = new Object();
+                post_data.sernum = sernum;
+                post_data.phrase = phrase;
+                post_data.username = username;
+                post_data.pass = pass;
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/GetDataList",
+                    data: JSON.stringify(post_data),
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                }).done(function (data) {
+                    target_elem.html(data);
+                    return target_elem.modal({
+                        "show": true,
+                        "backdrop": true,
+                        "keyboard": false
+                    });
+                });
+
+            }
+
+        });
     </script>
 }

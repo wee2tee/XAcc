@@ -109,11 +109,12 @@
     <div class="row">
         <h2>Hello, @*@if (!User.Identity.IsAuthenticated) { User.Identity.Name + "(" + ViewBag.UserId + ")" }*@ ...</h2>
 
-<form method="post" asp-action="Logout">
+@*<form method="post" asp-action="Logout">
 
     <button type="submit">Log out</button>
 
-</form>
+</form>*@
+    <a href="/Home/Logout" class="btn btn-default">Log out</a>
 
 </div>
 }
