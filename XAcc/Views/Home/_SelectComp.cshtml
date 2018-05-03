@@ -10,7 +10,7 @@
         </div>
         <form method="post" asp-action="SignIn">
             @{
-        var login_info = (LoginInfo)ViewBag.login_info;
+            var login_info = (LoginInfo)ViewBag.login_info;
             }
             <input type="hidden" name="sernum" id="sernum" value="@login_info.sernum" />
             <input type="hidden" name="phrase" id="phrase" value="@login_info.phrase" />
@@ -40,7 +40,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Select</button>
+                @*<button type="submit" class="btn btn-primary">Select</button>*@
+                <button type="button" class="btn btn-primary" onclick="$(this).submitSignin()">Select</button>
             </div>
         </form>
     </div><!-- /.modal-content -->
@@ -64,5 +65,43 @@
 
         $(this).addClass('selected');
         $("#dbname").val($(this).find(".col-dbname").html());
+    });
+
+    $.fn.extend({
+        submitSignin: function () {
+            if ($("#dbname").val().trim().length == 0) {
+                alert("กรุณาคลิกเลือกที่เก็บข้อมูลที่ต้องการ");
+                return;
+            }
+
+            var form = $(this).parents("form");
+            var url = $(form).attr("action");
+            var signin_info = new Object();
+            signin_info.sernum = $(form).find("[name='sernum']").val();
+            signin_info.phrase = $(form).find("[name='phrase']").val();
+            signin_info.username = $(form).find("[name='username']").val();
+            signin_info.pass = $(form).find("[name='pass']").val();
+            signin_info.dbname = $(form).find("[name='dbname']").val();
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify(signin_info),
+                contentType: "application/json; charset=utf-8",
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader("XSRF-TOKEN",
+                        $('input:hidden[name="__RequestVerificationToken"]').val());
+                },
+                error: function (err) {
+                    if (err.status === 400) {
+                        window.location.reload(true);
+                    }
+                },
+                success: function (data) {
+                    window.location.reload(true);
+                }
+            });
+        }
+
     });
 </script>

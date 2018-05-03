@@ -215,24 +215,60 @@ namespace XAcc.Controllers
             }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> SignIn(LoginInfo login_info)
+        [HttpPost, Authorize]
+        public IActionResult GetSelectDataList([FromBody] LoginInfo login_info)
         {
             if (string.IsNullOrEmpty(login_info.sernum) ||
-                string.IsNullOrEmpty(login_info.phrase) ||
+                //string.IsNullOrEmpty(login_info.phrase) ||
+                string.IsNullOrEmpty(login_info.username)
+                /*string.IsNullOrEmpty(login_info.pass)*/)
+            {
+                return PartialView("_SelectComp");
+            }
+
+            var customer = this.dbmain_context.Customer.Where(c => c.sernum.Trim() == login_info.sernum.Trim() /*&& c.pass_phrase.Trim() == login_info.phrase.Trim()*/).FirstOrDefault();
+            if (customer != null)
+            {
+                var dbsecure_context = customer.EnsureDbSecureCreated(this.configuration);
+
+                var user = dbsecure_context.Scuser.Where(u => u.reccod.Trim() == login_info.username.Trim() /*&& u.userpwd.Trim() == login_info.pass.Trim()*/ && u.status != "X").FirstOrDefault();
+
+                if (user != null) // Login completed
+                {
+                    ViewBag.login_info = login_info;
+                    var comp = dbsecure_context.Sccomp.OrderBy(c => c.compnam).ToList();
+                    return PartialView("_SelectComp", comp);
+                }
+                else // User/Password is incorrect
+                {
+                    return PartialView("_SelectComp");
+                }
+
+            }
+            else
+            {
+                return PartialView("_SelectComp");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignIn([FromBody] LoginInfo login_info)
+        {
+            if (string.IsNullOrEmpty(login_info.sernum) ||
+                //string.IsNullOrEmpty(login_info.phrase) ||
                 string.IsNullOrEmpty(login_info.username) ||
-                string.IsNullOrEmpty(login_info.pass) ||
+                //string.IsNullOrEmpty(login_info.pass) ||
                 string.IsNullOrEmpty(login_info.dbname))
             {
                 return RedirectToAction("LoginForm"); //Json(new LoginResult { result = false, return_obj = "Sign in failed." });
             }
 
-            var customer = this.dbmain_context.Customer.Where(c => c.sernum.Trim() == login_info.sernum.Trim() && c.pass_phrase.Trim() == login_info.phrase.Trim()).FirstOrDefault();
+            var customer = this.dbmain_context.Customer.Where(c => c.sernum.Trim() == login_info.sernum.Trim() /*&& c.pass_phrase.Trim() == login_info.phrase.Trim()*/).FirstOrDefault();
             if (customer != null)
             {
                 var dbsecure_context = customer.EnsureDbSecureCreated(this.configuration);
 
-                var user = dbsecure_context.Scuser.Where(u => u.reccod.Trim() == login_info.username.Trim() && u.userpwd.Trim() == login_info.pass.Trim() && u.status != "X").FirstOrDefault();
+                var user = dbsecure_context.Scuser.Where(u => u.reccod.Trim() == login_info.username.Trim() /*&& u.userpwd.Trim() == login_info.pass.Trim()*/ && u.status != "X").FirstOrDefault();
 
                 if (user != null) // Login completed
                 {

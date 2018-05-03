@@ -28,7 +28,7 @@
     </form>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" id="select-comp-dialog"></div>
+
 
 @section scripts{
     <script>
@@ -58,7 +58,7 @@
                 },
                 dataType: "json",
                 error: function (err) {
-                    if (err.status == 400) {
+                    if (err.status === 400) {
                         window.location.reload(true);
                     }
 
@@ -74,35 +74,6 @@
             });
         }
 
-        $.fn.extend({
-            getDataList: function (sernum, phrase, username, pass) {
-                var target_elem = $(this);
-                var post_data = new Object();
-                post_data.sernum = sernum;
-                post_data.phrase = phrase;
-                post_data.username = username;
-                post_data.pass = pass;
-
-                $.ajax({
-                    type: "POST",
-                    url: "/Home/GetDataList",
-                    data: JSON.stringify(post_data),
-                    contentType: "application/json; charset=utf-8",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("XSRF-TOKEN",
-                            $('input:hidden[name="__RequestVerificationToken"]').val());
-                    },
-                }).done(function (data) {
-                    target_elem.html(data);
-                    return target_elem.modal({
-                        "show": true,
-                        "backdrop": true,
-                        "keyboard": false
-                    });
-                });
-
-            }
-
-        });
+        
     </script>
 }

@@ -17,6 +17,14 @@
     </environment>
 </head>
 <body>
+    @{
+        var sn = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.SerialNumber).FirstOrDefault();
+        var serial_number = sn != null ? sn.Value.ToString() : string.Empty;
+        var current_db = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.UserData).FirstOrDefault();
+        var db_name = current_db != null ? current_db.Value.ToString() : string.Empty;
+        var user = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault();
+        var user_name = user != null ? user.Value.ToString() : string.Empty;
+    }
     <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -34,14 +42,15 @@
                     {
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                         <li><a asp-area="" asp-controller="Stmas" asp-action="Index">Stock</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="SelectComp">Change Company</a></li>
+                        @*<li><a asp-area="" asp-controller="Home" asp-action="SelectComp">Change Company</a></li>*@
+                        <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company</a></li>
                     }
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @*<li><form method="post" asp-action="Logout"><button type="submit">Log out</button></form></li>*@
-                        <li><a asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>
+                        @*<li><a asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>*@
+                        <li><a onclick="confirmLogout()">Log out</a></li>
                     }
                 </ul>
             </div>
@@ -51,24 +60,17 @@
         @RenderBody()
         <hr />
         <footer class="xstyle">
-            @{ 
-                var sn = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.SerialNumber).FirstOrDefault();
-                var current_db = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.UserData).FirstOrDefault();
-                var db_name = current_db != null ? current_db.Value.ToString() : string.Empty;
-                var serial_number = sn != null ? sn.Value.ToString() : string.Empty;
-                var user = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault();
-                var user_name = user != null ? user.Value.ToString() : string.Empty;
-            }
             <p>&copy; 2561 - XAcc, S/N : @serial_number,  ที่เก็บข้อมูล : @db_name, รหัสผู้ใช้งาน : @user_name</p>
             <p class="right"></p>
         </footer>
     </div>
-
+    <form class="fake-form" asp-action="Index"></form>
+    <div class="modal fade" tabindex="-1" role="dialog" id="select-comp-dialog"></div>
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-        
+
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -87,5 +89,80 @@
     </environment>
 
     @RenderSection("Scripts", required: false)
+
+    <script>
+        var confirmLogout = function () {
+            if (confirm("ยืนยันการออกจากระบบ") === true) {
+                window.location = "/Home/Logout";
+            }
+        }
+
+        $.fn.extend({
+            getDataList: function (sernum, phrase, username, pass) {
+                var target_elem = $(this);
+                var post_data = new Object();
+                post_data.sernum = sernum;
+                post_data.phrase = phrase;
+                post_data.username = username;
+                post_data.pass = pass;
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/GetDataList",
+                    data: JSON.stringify(post_data),
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    error: function (err) {
+                        if (err.status === 400) {
+                            window.location.reload(true);
+                        }
+                    }
+                }).done(function (data) {
+                    target_elem.html(data);
+                    return target_elem.modal({
+                        "show": true,
+                        "backdrop": true,
+                        "keyboard": false
+                    });
+                });
+
+            },
+            getSelectDataList: function (sernum, username) {
+                var target_elem = $(this);
+                var post_data = new Object();
+                post_data.sernum = sernum;
+                post_data.phrase = '';
+                post_data.username = username;
+                post_data.pass = '';
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Home/GetSelectDataList",
+                    data: JSON.stringify(post_data),
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    error: function (err) {
+                        if (err.status === 400) {
+                            window.location.reload(true);
+                        }
+                    }
+                }).done(function (data) {
+                    target_elem.html(data);
+                    return target_elem.modal({
+                        "show": true,
+                        "backdrop": true,
+                        "keyboard": false
+                    });
+                });
+
+            }
+        });
+    </script>
 </body>
 </html>
