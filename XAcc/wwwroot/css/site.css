@@ -1,5 +1,5 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 0; /*50px;*/
     padding-bottom: 20px;
 }
 
@@ -8,6 +8,8 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    /*border: 1px solid red;*/
+    margin-top: 1px;
 }
 
 /* Carousel */
@@ -39,12 +41,64 @@
 /******** Extended ********/
 footer.xstyle {
     position: fixed;
+    border-top: 1px solid rgb(180, 180, 180);
+    box-shadow: 0 0 3px rgb(160, 160, 160);
     bottom: 0px;
     left: 0px;
     right: 0px;
-    height: 22px;
+    height: 20px;
     line-height: 22px;
     background-color: #cecece;
     font-size: 0.8em;
     text-shadow: 1px 1px 1px #ffffff;
+}
+.brand-dashboard h2 {
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.6em;
+}
+
+.brand-dashboard a {
+    color: #000000;
+    text-decoration: none;
+    border-bottom: 1px solid #cecece;
+    background-color: #efefef;
+    display: block;
+}
+
+.brand-dashboard a:hover {
+    background-color: #cecece;
+}
+
+.nav-sidebar {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 20px;
+    width: 200px;
+    /*background-color: #b9eeff;
+    border-right: #1b6bc1;
+    box-shadow: 3px 0 3px rgba(133, 213, 254, 0.45);*/
+    background-color: #000000;
+    border-right: #efefef;
+    box-shadow: 2px 0 5px rgba(100, 100, 100, 0.8);
+    opacity: 0.95;
+    z-index: 1000;
+    overflow: auto;
+}
+.nav-sidebar ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+.nav-sidebar ul li > a{
+    padding: 15px 10px;
+    color: #ffffff;
+    display: block;
+}
+.nav-sidebar ul li a:hover{
+    text-decoration: none;
+    background-color: #333333;
 }

@@ -320,6 +320,7 @@ namespace XAcc.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
+            var x = User;
 
             return View();
         }

@@ -25,7 +25,7 @@
         var user = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault();
         var user_name = user != null ? user.Value.ToString() : string.Empty;
     }
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    @*<nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -40,20 +40,47 @@
                 <ul class="nav navbar-nav">
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance</a></li>
                         <li><a asp-area="" asp-controller="Stmas" asp-action="Index">Stock</a></li>
-                        @*<li><a asp-area="" asp-controller="Home" asp-action="SelectComp">Change Company</a></li>*@
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Account</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Report</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Other</a></li>
                         <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company</a></li>
                     }
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     @if (User.Identity.IsAuthenticated)
                     {
-                        @*<li><a asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>*@
-                        <li><a onclick="confirmLogout()">Log out</a></li>
+                        <li><a href="#" onclick="confirmLogout()">Log out</a></li>
                     }
                 </ul>
             </div>
+        </div>
+    </nav>*@
+    <nav class="nav-sidebar">
+        <div>
+            <div class="brand-dashboard">
+                <a asp-controller="Home" asp-action="Index"><h2>@@</h2></a>
+            </div>
+            <ul class="">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance</a></li>
+                    <li><a asp-area="" asp-controller="Stmas" asp-action="Index">Stock</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Account</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Report</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Other</a></li>
+                    <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company</a></li>
+                }
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <li><a href="#" onclick="confirmLogout()">Log out</a></li>
+                }
+            </ul>
         </div>
     </nav>
     <div class="container body-content">
