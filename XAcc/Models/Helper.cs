@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using XAcc.Controllers;
 using XAcc.Models;
 using XAcc.Models.MainDB;
 using XAcc.Models.Secure;
@@ -14,6 +15,20 @@ namespace XAcc.Models
 {
     public static class Helper
     {
+
+        public static string GetIdentityClaimValue(this ControllerExtend controller, string claimtype)
+        {
+            if (controller.User.Identity.IsAuthenticated)
+            {
+                var claim = controller.User.Identities.First().Claims.Where(c => c.Type == claimtype/*System.Security.Claims.ClaimTypes.SerialNumber*/).FirstOrDefault();
+                return claim != null ? claim.Value.ToString() : string.Empty;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         public static Customer GetCustomerIdentity(this Controller controller, DBMainContext dbmain_context)
         {
             if (controller.User.Identity.IsAuthenticated)
@@ -27,6 +42,53 @@ namespace XAcc.Models
             else
             {
                 return null;
+            }
+        }
+
+        public static Customer GetCustomerIdentity(this ControllerExtend controller)
+        {
+            if (controller.User.Identity.IsAuthenticated)
+            {
+                var identity = controller.User.Identity as ClaimsIdentity;
+                var sernum = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.SerialNumber)?.Value;
+
+                Customer customer = controller.dbmain_context.Customer.Where(c => c.sernum.Trim() == sernum.Trim()).FirstOrDefault();
+                return customer;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static bool PrepareDbContext(this ControllerExtend controller)
+        {
+            if (controller.User.Identity.IsAuthenticated)
+            {
+                controller.dbsecure_context = controller.GetCustomerIdentity().EnsureDbSecureCreated(controller.configuration);
+
+                var dbname = controller.GetIdentityClaimValue(ClaimTypes.UserData);
+                if (!string.IsNullOrEmpty(dbname))
+                {
+                    var sccomp = controller.dbsecure_context.Sccomp.Where(s => s.dbname == dbname).FirstOrDefault();
+                    if(sccomp != null)
+                    {
+                        controller.dbacc_context = controller.GetCustomerIdentity().EnsureDbAccContextCreated(controller.configuration, sccomp);
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
             }
         }
 

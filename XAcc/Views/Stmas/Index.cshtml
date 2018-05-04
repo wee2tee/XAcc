@@ -34,7 +34,7 @@
             <td>@st.stkdes</td>
             <td>@st.stkdes2</td>
             <td>@st.sellpr1</td>
-            <td><form asp-action="delete" method="post"><input type="submit" value="ลบ" /><input type="hidden" name="id" value="@st.ID" /></form></td>
+            <td><form asp-action="delete" method="post"><input type="submit" value="ลบ" data-stkcod="@st.stkcod" onclick="$(this).confirmDeleteStmas(event)" /><input type="hidden" name="id" value="@st.ID" /></form></td>
         </tr>
     }
 </table>
@@ -51,3 +51,15 @@
         </tr>
     }
 </table>*@
+@section Scripts{ 
+    <script>
+        $.fn.extend({
+            confirmDeleteStmas: function (event) {
+                event.preventDefault();
+                if (confirm("ลบรหัสสินค้า " + $(this).attr("data-stkcod") + " , ทำต่อหรือไม่?") === true) {
+                    $(this).parents("form").submit();
+                }
+            }
+        });
+    </script>
+}

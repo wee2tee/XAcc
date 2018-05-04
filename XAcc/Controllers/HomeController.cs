@@ -17,33 +17,18 @@ using XAcc.Models.Secure;
 
 namespace XAcc.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : ControllerExtend
     {
-        private readonly DBMainContext dbmain_context;
-        private readonly IConfiguration configuration;
-        private string acc_conn_str = string.Empty;
-        private DBSecureContext dbsecure_context;
+        //private readonly DBMainContext dbmain_context;
+        //private readonly IConfiguration configuration;
+        //private string acc_conn_str = string.Empty;
+        //private DBSecureContext dbsecure_context;
 
         public HomeController(DBMainContext dbmain_context, IConfiguration configuration)
         {
             this.dbmain_context = dbmain_context;
             this.configuration = configuration;
         }
-
-        //[Authorize]
-        //private void EnsureDbReady()
-        //{
-        //    /* Ensure Secure DB / Dat,Test DB is created */
-        //    if (User.Identity.IsAuthenticated)
-        //    {
-        //        var identity = this.User.Identity as ClaimsIdentity;
-        //        var sernum = identity.Claims.FirstOrDefault(c => c.Type == ClaimTypes.SerialNumber)?.Value;
-
-        //        Customer customer = dbmain_context.Customer.Where(c => c.sernum.Trim() == sernum.Trim()).FirstOrDefault();
-
-        //        this.dbsecure_context = this.EnsureDbSecureCreated(this.dbmain_context, this.configuration);
-        //    }
-        //}
 
         [HttpGet, Authorize(Policy = "Customer")]
         public IActionResult SelectComp(int? ID)
