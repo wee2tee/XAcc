@@ -51,54 +51,82 @@ footer.xstyle {
     background-color: #cecece;
     font-size: 0.8em;
     text-shadow: 1px 1px 1px #ffffff;
+    z-index: 1005;
 }
-.brand-dashboard h2 {
-    margin: 0;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1.6em;
-}
-
-.brand-dashboard a {
-    color: #000000;
-    text-decoration: none;
-    border-bottom: 1px solid #cecece;
-    background-color: #efefef;
-    display: block;
-}
-
-.brand-dashboard a:hover {
-    background-color: #cecece;
-}
-
 .nav-sidebar {
     position: fixed;
     top: 0px;
     left: 0px;
     bottom: 20px;
     width: 200px;
-    /*background-color: #b9eeff;
-    border-right: #1b6bc1;
-    box-shadow: 3px 0 3px rgba(133, 213, 254, 0.45);*/
-    background-color: #000000;
+    background-color: #ffffff;
     border-right: #efefef;
     box-shadow: 2px 0 5px rgba(100, 100, 100, 0.8);
-    opacity: 0.95;
     z-index: 1000;
     overflow: auto;
+    animation-duration: 4s;
 }
-.nav-sidebar ul{
-    list-style-type: none;
+.nav-sidebar.minimize {
+    left: -150px;
+}
+.nav-sidebar-brand {
+    width: 150px;
+    float: left;
+}
+.nav-sidebar-brand h2 {
+    margin: 0;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.6em;
+}
+.nav-sidebar-brand a {
+    left: 0px;
+    right: 0px;
+    color: #ffffff;
+    text-decoration: none;
+    border-bottom: 1px solid #cecece;
+    background-color: #090909;
+    display: block;
+    height: 50px;
+    line-height: 50px;
+}
+.nav-sidebar-brand a:hover {
+    /*background-color: #cecece;*/
+}
+.nav-sidebar-toggle-btn {
+    position:relative;
+    float: right;
+    width: 50px;
+    height: 50px;
+    background-color: darkgray;
+    cursor: pointer;
+}
+.nav-sidebar-menu {
+    position: fixed;
+    top: 50px;
+    left: 0px;
+    bottom: 20px;
     padding: 0;
     margin: 0;
+    width: 200px;
+    overflow: auto;
 }
-.nav-sidebar ul li > a{
+.nav-sidebar.minimize .nav-sidebar-menu {
+    left: -150px;
+}
+.nav-sidebar-menu ul {
+    position: relative;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.nav-sidebar-menu li > a {
     padding: 15px 10px;
-    color: #ffffff;
+    color: #333333;
     display: block;
 }
-.nav-sidebar ul li a:hover{
+.nav-sidebar-menu li a:hover {
     text-decoration: none;
-    background-color: #333333;
+    background-color: #efefef;
 }

@@ -8,7 +8,7 @@ namespace XAcc.Models
 {
     public class Stmas
     {
-        public int ID { get; set; }
+        public int id { get; set; }
         public string stkcod { get; set; }
         public string stkdes { get; set; }
         public string stkdes2 { get; set; }

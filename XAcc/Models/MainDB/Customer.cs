@@ -7,7 +7,7 @@ namespace XAcc.Models.MainDB
 {
     public class Customer
     {
-        public int ID { get; set; }
+        public int id { get; set; }
         public string sernum { get; set; }
         public string prenam { get; set; }
         public string compnam { get; set; }

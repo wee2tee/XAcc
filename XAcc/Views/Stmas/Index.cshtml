@@ -29,12 +29,12 @@
     @foreach (var st in (List<Stmas>)ViewBag.stmas)
     {
         <tr>
-            <td>@st.ID</td>
+            <td>@st.id</td>
             <td>@st.stkcod</td>
             <td>@st.stkdes</td>
             <td>@st.stkdes2</td>
             <td>@st.sellpr1</td>
-            <td><form asp-action="delete" method="post"><input type="submit" value="ลบ" data-stkcod="@st.stkcod" onclick="$(this).confirmDeleteStmas(event)" /><input type="hidden" name="id" value="@st.ID" /></form></td>
+            <td><form asp-action="delete" method="post"><input type="submit" value="ลบ" data-stkcod="@st.stkcod" onclick="$(this).confirmDeleteStmas(event)" /><input type="hidden" name="id" value="@st.id" /></form></td>
         </tr>
     }
 </table>

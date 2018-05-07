@@ -58,7 +58,7 @@ namespace XAcc.Controllers
         {
             this.PrepareDbContext();
 
-            var delete_item = this.dbacc_context.Stmas.Where(s => s.ID == Convert.ToInt32(id)).FirstOrDefault();
+            var delete_item = this.dbacc_context.Stmas.Where(s => s.id == Convert.ToInt32(id)).FirstOrDefault();
             if (delete_item != null)
             {
                 this.dbacc_context.Stmas.Remove(delete_item);

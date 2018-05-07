@@ -8,12 +8,14 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        @*<link rel="stylesheet" href="~/css/scrollpane.css" />*@
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+        @*<link rel="stylesheet" href="~/css/scrollpane.min.css" asp-append-version="true" />*@
     </environment>
 </head>
 <body>
@@ -26,20 +28,51 @@
         var user_name = user != null ? user.Value.ToString() : string.Empty;
     }
     @*<nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">XAcc</a>
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">XAcc</a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance</a></li>
+                            <li><a asp-area="" asp-controller="Stmas" asp-action="Index">Stock</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Account</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Report</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup</a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Other</a></li>
+                            <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company</a></li>
+                        }
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li><a href="#" onclick="confirmLogout()">Log out</a></li>
+                        }
+                    </ul>
+                </div>
             </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    @if (User.Identity.IsAuthenticated)
-                    {
+        </nav>*@
+    @if (User.Identity.IsAuthenticated)
+    {
+        <nav class="nav-sidebar">
+            <div>
+                <div class="nav-sidebar-brand">
+                    <a asp-controller="Home" asp-action="Index"><h2>@@</h2></a>
+                </div>
+                <div class="nav-sidebar-toggle-btn" onclick="$(this).toggleShowSidebar(event)">
+
+                </div>
+
+                <div class="nav-sidebar-menu">
+                    <ul class="">
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance</a></li>
@@ -49,40 +82,13 @@
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup</a></li>
                         <li><a asp-area="" asp-controller="Home" asp-action="Index">Other</a></li>
                         <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company</a></li>
-                    }
-                    @if (User.Identity.IsAuthenticated)
-                    {
                         <li><a href="#" onclick="confirmLogout()">Log out</a></li>
-                    }
-                </ul>
+                    </ul>
+                </div>
+                
             </div>
-        </div>
-    </nav>*@
-    <nav class="nav-sidebar">
-        <div>
-            <div class="brand-dashboard">
-                <a asp-controller="Home" asp-action="Index"><h2>@@</h2></a>
-            </div>
-            <ul class="">
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance</a></li>
-                    <li><a asp-area="" asp-controller="Stmas" asp-action="Index">Stock</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Account</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Report</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Index">Other</a></li>
-                    <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company</a></li>
-                }
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <li><a href="#" onclick="confirmLogout()">Log out</a></li>
-                }
-            </ul>
-        </div>
-    </nav>
+        </nav>
+    }
     <div class="container body-content">
         @RenderBody()
         <hr />
@@ -97,6 +103,10 @@
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        @*<script src="~/js/jquery.mousewheel.js" asp-append-version="true"></script>
+        <script src="~/js/mwheelintent.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.jscrollpane.js" asp-append-version="true"></script>*@
+        <script src="~/js/jquery.slimscroll.js" asp-append-version="true"></script>
 
     </environment>
     <environment exclude="Development">
@@ -113,83 +123,14 @@
                 integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
         </script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        @*<script src="~/js/jquery.mousewheel.min.js" asp-append-version="true"></script>
+        <script src="~/js/mwheelintent.min.js" asp-append-version="true"></script>
+        <script src="~/js/jquery.jscrollpane.min.js" asp-append-version="true"></script>*@
+        <script src="~/js/jquery.slimscroll.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
 
-    <script>
-        var confirmLogout = function () {
-            if (confirm("ยืนยันการออกจากระบบ") === true) {
-                window.location = "/Home/Logout";
-            }
-        }
-
-        $.fn.extend({
-            getDataList: function (sernum, phrase, username, pass) {
-                var target_elem = $(this);
-                var post_data = new Object();
-                post_data.sernum = sernum;
-                post_data.phrase = phrase;
-                post_data.username = username;
-                post_data.pass = pass;
-
-                $.ajax({
-                    type: "POST",
-                    url: "/Home/GetDataList",
-                    data: JSON.stringify(post_data),
-                    contentType: "application/json; charset=utf-8",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("XSRF-TOKEN",
-                            $('input:hidden[name="__RequestVerificationToken"]').val());
-                    },
-                    error: function (err) {
-                        if (err.status === 400) {
-                            window.location.reload(true);
-                        }
-                    }
-                }).done(function (data) {
-                    target_elem.html(data);
-                    return target_elem.modal({
-                        "show": true,
-                        "backdrop": true,
-                        "keyboard": false
-                    });
-                });
-
-            },
-            getSelectDataList: function (sernum, username) {
-                var target_elem = $(this);
-                var post_data = new Object();
-                post_data.sernum = sernum;
-                post_data.phrase = '';
-                post_data.username = username;
-                post_data.pass = '';
-
-                $.ajax({
-                    type: "POST",
-                    url: "/Home/GetSelectDataList",
-                    data: JSON.stringify(post_data),
-                    contentType: "application/json; charset=utf-8",
-                    beforeSend: function (xhr) {
-                        xhr.setRequestHeader("XSRF-TOKEN",
-                            $('input:hidden[name="__RequestVerificationToken"]').val());
-                    },
-                    error: function (err) {
-                        if (err.status === 400) {
-                            window.location.reload(true);
-                        }
-                    }
-                }).done(function (data) {
-                    target_elem.html(data);
-                    return target_elem.modal({
-                        "show": true,
-                        "backdrop": true,
-                        "keyboard": false
-                    });
-                });
-
-            }
-        });
-    </script>
+    
 </body>
 </html>

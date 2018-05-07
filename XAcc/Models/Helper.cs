@@ -200,7 +200,7 @@ namespace XAcc.Models
                         {
                             new Stmas
                             {
-                                ID = 1,
+                                id = 1,
                                 stkcod = "01-INTL-CL600",
                                 stkdes = "ซีพียูอินเทล เซเลอรอน 600 เมกะเฮิร์ตซ์",
                                 stkdes2 = "Cpu Intel Celeron 600 MHz.",
@@ -208,7 +208,7 @@ namespace XAcc.Models
                             },
                             new Stmas
                             {
-                                ID = 2,
+                                id = 2,
                                 stkcod = "01-INTL-P4750",
                                 stkdes = "ซีพียูอินเทล เพนเทียมโฟร์ 750 เมกะเฮิร์ตซ์",
                                 stkdes2 = "Cpu Intel Pentium 4 750 MHz.",

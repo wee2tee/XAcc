@@ -21,7 +21,7 @@ namespace XAcc.Models
                 {
                     new MainDB.Customer
                     {
-                        ID = 1,
+                        id = 1,
                         sernum = "W-10T-000008",
                         prenam = "บริษัท",
                         compnam = "สบายใจ จำกัด",
