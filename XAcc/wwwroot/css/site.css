@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 0; /*50px;*/
-    padding-bottom: 20px;
+    padding-bottom: 0; /*20px;*/
+    padding-left: 0; /*50px;*/
 }
 
 /* Wrapping element */
@@ -39,6 +40,12 @@
 
 
 /******** Extended ********/
+body {
+    padding-left: 40px !important;
+}
+.ui.container {
+    margin-bottom: 20px;
+}
 footer.xstyle {
     position: fixed;
     border-top: 1px solid rgb(180, 180, 180);
@@ -53,6 +60,16 @@ footer.xstyle {
     text-shadow: 1px 1px 1px #ffffff;
     z-index: 1005;
 }
+.sub-menu-display-panel {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    right: 0px;
+    z-index: 1000;
+    background-color: rgba(108, 108, 108, 0.74);
+    display: none;
+}
 .nav-sidebar {
     position: fixed;
     top: 0px;
@@ -62,15 +79,15 @@ footer.xstyle {
     background-color: #ffffff;
     border-right: #efefef;
     box-shadow: 2px 0 5px rgba(100, 100, 100, 0.8);
-    z-index: 1000;
+    z-index: 1001;
     overflow: auto;
     animation-duration: 4s;
 }
 .nav-sidebar.minimize {
-    left: -150px;
+    left: -160px;
 }
 .nav-sidebar-brand {
-    width: 150px;
+    width: 160px;
     float: left;
 }
 .nav-sidebar-brand h2 {
@@ -88,8 +105,8 @@ footer.xstyle {
     border-bottom: 1px solid #cecece;
     background-color: #090909;
     display: block;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
 }
 .nav-sidebar-brand a:hover {
     /*background-color: #cecece;*/
@@ -97,14 +114,16 @@ footer.xstyle {
 .nav-sidebar-toggle-btn {
     position:relative;
     float: right;
-    width: 50px;
-    height: 50px;
-    background-color: darkgray;
+    width: 40px;
+    height: 40px;
+    background-color: #cecece;
     cursor: pointer;
+    color: #ffffff;
+    padding: 7px;
 }
 .nav-sidebar-menu {
     position: fixed;
-    top: 50px;
+    top: 40px;
     left: 0px;
     bottom: 20px;
     padding: 0;
@@ -113,7 +132,7 @@ footer.xstyle {
     overflow: auto;
 }
 .nav-sidebar.minimize .nav-sidebar-menu {
-    left: -150px;
+    left: -160px;
 }
 .nav-sidebar-menu ul {
     position: relative;
@@ -122,11 +141,18 @@ footer.xstyle {
     padding: 0;
 }
 .nav-sidebar-menu li > a {
-    padding: 15px 10px;
+    /*padding: 15px 10px;*/
     color: #333333;
     display: block;
+    padding-left: 10px;
+    line-height: 40px;
+    border-bottom: 1px solid #efefef;
 }
 .nav-sidebar-menu li a:hover {
     text-decoration: none;
     background-color: #efefef;
+}
+.nav-sidebar-menu i.icon {
+    margin: 2px 10px 0 0;
+    float: right;
 }

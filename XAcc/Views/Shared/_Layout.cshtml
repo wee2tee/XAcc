@@ -6,16 +6,18 @@
     <title>@ViewData["Title"] - XAcc</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">*@
         <link rel="stylesheet" href="~/css/site.css" />
-        @*<link rel="stylesheet" href="~/css/scrollpane.css" />*@
+        <link rel="stylesheet" href="~/lib/semantic-ui/dist/semantic.css" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+        @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">*@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
-        @*<link rel="stylesheet" href="~/css/scrollpane.min.css" asp-append-version="true" />*@
+        <link rel="stylesheet" href="~/lib/semantic-ui/dist/semantic.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
@@ -27,69 +29,42 @@
         var user = User.Identities.First().Claims.Where(c => c.Type == System.Security.Claims.ClaimTypes.Name).FirstOrDefault();
         var user_name = user != null ? user.Value.ToString() : string.Empty;
     }
-    @*<nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">XAcc</a>
-                </div>
-                <div class="navbar-collapse collapse">
-                    <ul class="nav navbar-nav">
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance</a></li>
-                            <li><a asp-area="" asp-controller="Stmas" asp-action="Index">Stock</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Account</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Report</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup</a></li>
-                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Other</a></li>
-                            <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company</a></li>
-                        }
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                            <li><a href="#" onclick="confirmLogout()">Log out</a></li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        </nav>*@
+
+
+
     @if (User.Identity.IsAuthenticated)
     {
-        <nav class="nav-sidebar">
+        <nav class="nav-sidebar minimize">
             <div>
                 <div class="nav-sidebar-brand">
                     <a asp-controller="Home" asp-action="Index"><h2>@@</h2></a>
                 </div>
                 <div class="nav-sidebar-toggle-btn" onclick="$(this).toggleShowSidebar(event)">
-
+                    <i class="expand icon large"></i>
                 </div>
 
                 <div class="nav-sidebar-menu">
                     <ul class="">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance</a></li>
-                        <li><a asp-area="" asp-controller="Stmas" asp-action="Index">Stock</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Account</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Report</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup</a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Other</a></li>
-                        <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company</a></li>
-                        <li><a href="#" onclick="confirmLogout()">Log out</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase<i class="cart arrow down icon"></i></a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales<i class="shopping basket icon"></i></a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance<i class="money bill alternate outline icon"></i></a></li>
+                        <li><a asp-area="" asp-controller="Stmas" asp-action="Index">Stock<i class="cubes icon"></i></a></li>
+                        <li><a asp-area="" asp-controller="Glacc" asp-action="Index">Account<i class="dollar sign icon"></i></a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Report<i class="chart bar icon"></i></a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup<i class="cogs icon"></i></a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Other<i class="braille icon"></i></a></li>
+                        <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company<i class="retweet icon"></i></a></li>
+                        <li><a href="#" onclick="confirmLogout()">Log out<i class="sign out icon"></i></a></li>
                     </ul>
                 </div>
-                
+
             </div>
         </nav>
+        <div class="sub-menu-display-panel">
+
+        </div>
     }
-    <div class="container body-content">
+    <div class="ui container body-content">
         @RenderBody()
         <hr />
         <footer class="xstyle">
@@ -98,16 +73,33 @@
         </footer>
     </div>
     <form class="fake-form" asp-action="Index"></form>
-    <div class="modal fade" tabindex="-1" role="dialog" id="select-comp-dialog"></div>
+    @*<div tabindex="-1" class="long modal" id="select-comp-dialog"></div>*@
+    <div class="ui modal" id="select-comp-dialog">
+        <i class="close icon"></i>
+        <div class="header">
+            Modal Title
+        </div>
+        <div class="image content">
+            <div class="image">
+                An image can appear on left or an icon
+            </div>
+            <div class="description">
+                A description can appear on the right
+            </div>
+        </div>
+        <div class="actions">
+            <div class="ui button">Cancel</div>
+            <div class="ui button">OK</div>
+        </div>
+    </div>
+
+
     <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
-        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        @*<script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>*@
+        @*<script src="~/js/jquery.slimscroll.js" asp-append-version="true"></script>*@
+        <script src="~/lib/semantic-ui/dist/semantic.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
-        @*<script src="~/js/jquery.mousewheel.js" asp-append-version="true"></script>
-        <script src="~/js/mwheelintent.js" asp-append-version="true"></script>
-        <script src="~/js/jquery.jscrollpane.js" asp-append-version="true"></script>*@
-        <script src="~/js/jquery.slimscroll.js" asp-append-version="true"></script>
-
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -116,21 +108,19 @@
                 crossorigin="anonymous"
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
         </script>
-        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                crossorigin="anonymous"
-                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-        </script>
+        @*<script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                    crossorigin="anonymous"
+                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+            </script>
+            <script src="~/js/jquery.slimscroll.min.js" asp-append-version="true"></script>*@
+        <script src="~/lib/semantic-ui/dist/semantic.min.js" asp-append-version="true"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
-        @*<script src="~/js/jquery.mousewheel.min.js" asp-append-version="true"></script>
-        <script src="~/js/mwheelintent.min.js" asp-append-version="true"></script>
-        <script src="~/js/jquery.jscrollpane.min.js" asp-append-version="true"></script>*@
-        <script src="~/js/jquery.slimscroll.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
 
-    
+
 </body>
 </html>

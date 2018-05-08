@@ -14,29 +14,5 @@
       "enabled": true,
       "renameLocals": true
     }
-  },
-  {
-    "outputFileName": "wwwroot/css/scrollpane.min.css",
-    "inputFiles": [
-      "wwwroot/css/scrollpane.css"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/jquery.mousewheel.min.js",
-    "inputFiles": [
-      "wwwroot/js/jquery.mousewheel.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/mwheelintent.min.js",
-    "inputFiles": [
-      "wwwroot/js/mwheelintent.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/js/jquery.jscrollpane.min.js",
-    "inputFiles": [
-      "wwwroot/js/jquery.jscrollpane.js"
-    ]
   }
 ]
