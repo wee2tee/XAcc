@@ -13,6 +13,37 @@ $(document).ready(function () {
     $('.ui.accordion').accordion('refresh');
     $('.ui.sidebar').sidebar('toggle');
     $('.ui.icon.button').popup();
+    $('#glacc-table .item').tab({
+        cache: false,
+        //apiSettings: {
+        //    loadingDuration: 200,
+        //    mockResponse: function (settings) {
+        //        console.log(settings);
+
+        //        //var url = settings.url;
+        //        //$.ajax({
+        //        //    url: url,
+        //        //    type: "GET",
+        //        //}).done(function (data) {
+        //        //    return data;
+        //        //    console.log(data);
+        //        //});
+
+        //        var response = {
+        //            first: 'Ajax 1st tab',
+        //            second: 'Ajax 2nd tab',
+        //            third: 'Ajax 3rd tab'
+        //        };
+        //        console.log(settings);
+        //        return response[settings.urlData.tab];
+
+        //    }
+        //},
+        context: 'parent',
+        auto: true,
+        path: '/Glacc/',
+        
+    });
 });
 
 $.fn.extend({

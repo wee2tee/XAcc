@@ -56,7 +56,7 @@ footer.xstyle {
     height: 20px;
     line-height: 22px;
     background-color: #cecece;
-    font-size: 0.8em;
+    font-size: 0.82em;
     text-shadow: 1px 1px 1px #ffffff;
     z-index: 1005;
 }
@@ -66,8 +66,8 @@ footer.xstyle {
     left: 0px;
     bottom: 0px;
     right: 0px;
-    z-index: 1000;
-    background-color: rgba(108, 108, 108, 0.74);
+    z-index: 990 /*1000*/;
+    background-color: rgba(50, 50, 50, 0.8);
     display: none;
 }
 .nav-sidebar {
@@ -79,7 +79,7 @@ footer.xstyle {
     background-color: #ffffff;
     border-right: #efefef;
     box-shadow: 2px 0 5px rgba(100, 100, 100, 0.8);
-    z-index: 1001;
+    z-index: 991 /*1001*/;
     overflow: auto;
     animation-duration: 4s;
 }
