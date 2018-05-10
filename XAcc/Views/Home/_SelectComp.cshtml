@@ -2,58 +2,106 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-<div class="modal-dialog" role="document">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">เลือกที่เก็บข้อมูล</h4>
-        </div>
-        <form method="post" asp-action="SignIn">
-            @{
-            var login_info = (LoginInfo)ViewBag.login_info;
-            }
-            <input type="hidden" name="sernum" id="sernum" value="@login_info.sernum" />
-            <input type="hidden" name="phrase" id="phrase" value="@login_info.phrase" />
-            <input type="hidden" name="username" id="username" value="@login_info.username" />
-            <input type="hidden" name="pass" id="pass" value="@login_info.pass" />
-            <input type="hidden" value="" name="dbname" id="dbname" />
-            <div class="modal-body">
-                <table class="table table-bordered table-striped table-hover" id="select-comp-table">
-                    <tr>
-                        <th style="display:none;">ID</th>
-                        <th>ชื่อบริษัท</th>
-                        <th>รหัส</th>
-                        <th>ชื่อฐานข้อมูล</th>
-                        <th>สร้างเมื่อ</th>
-                    </tr>
-                    @foreach (var item in (List<XAcc.Models.Secure.Sccomp>)Model)
-            {
-                <tr class="row-comp">
-                    <td style="display:none;" class="col-id">@item.ID</td>
-                    <td>@item.compnam</td>
-                    <td>@item.compcod</td>
-                    <td class="col-dbname">@item.dbname</td>
-                    <td>@item.credat</td>
-                </tr>
-    }
-                </table>
+
+<i class="close icon" id="close-btn"></i>
+<div class="header">
+    เลือกที่เก็บข้อมูล
+</div>
+<div class="scrolling content">
+    <table class="ui striped table">
+        @foreach (var item in (List<XAcc.Models.Secure.Sccomp>)Model)
+        {
+            <tr class="row-comp">
+                <td style="display:none;" class="col-id">@item.ID</td>
+                <td>@item.compnam</td>
+                <td>@item.compcod</td>
+                <td class="col-dbname">@item.dbname</td>
+                <td>@item.credat</td>
+            </tr>
+        }
+    </table>
+</div>
+<div class="actions">
+    <div class="ui button" onclick="$('#close-btn').click()">Cancel</div>
+    <div class="ui button" onclick="$('#formEntrance').submitSignin()">OK</div>
+</div>
+@{
+    var login_info = (LoginInfo)ViewBag.login_info;
+}
+<form method="post" asp-action="SignIn" id="formEntrance">
+    <input type="hidden" name="sernum" value="@login_info.sernum" />
+    <input type="hidden" name="phrase" value="@login_info.phrase" />
+    <input type="hidden" name="username" value="@login_info.username" />
+    <input type="hidden" name="pass" value="@login_info.pass" />
+    <input type="hidden" name="dbname" value="" />
+</form>
+
+
+
+
+@*<div class="ui modal">
+        <div class="header">เลือกที่เก็บข้อมูล</div>
+        <div class="scrolling content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">เลือกที่เก็บข้อมูล</h4>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                @*<button type="submit" class="btn btn-primary">Select</button>*@
-                <button type="button" class="btn btn-primary" onclick="$(this).submitSignin()">Select</button>
-            </div>
-        </form>
-    </div><!-- /.modal-content -->
-</div><!-- /.modal-dialog -->
+            <form method="post" asp-action="SignIn">
+                @{
+                var login_info = (LoginInfo)ViewBag.login_info;
+                }
+                <input type="hidden" name="sernum" id="sernum" value="@login_info.sernum" />
+                <input type="hidden" name="phrase" id="phrase" value="@login_info.phrase" />
+                <input type="hidden" name="username" id="username" value="@login_info.username" />
+                <input type="hidden" name="pass" id="pass" value="@login_info.pass" />
+                <input type="hidden" value="" name="dbname" id="dbname" />
+                <div class="modal-body">
+                    <table class="ui celled striped table" id="select-comp-table">
+                        <thead>
+                            <tr>
+                                <th style="display:none;">ID</th>
+                                <th>ชื่อบริษัท</th>
+                                <th>รหัส</th>
+                                <th>ชื่อฐานข้อมูล</th>
+                                <th>สร้างเมื่อ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in (List<XAcc.Models.Secure.Sccomp>)Model)
+                            {
+                                <tr class="row-comp">
+                                    <td style="display:none;" class="col-id">@item.ID</td>
+                                    <td>@item.compnam</td>
+                                    <td>@item.compcod</td>
+                                    <td class="col-dbname">@item.dbname</td>
+                                    <td>@item.credat</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="$(this).submitSignin()">Select</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->*@
 
 <style>
     .row-comp {
         cursor: pointer;
     }
+
     .row-comp.selected {
-        background-color: lightblue !important;
-        color: blue;
+        background-color: #242424 !important;
+        color: #ffffff;
+    }
+    .row-comp.selected > td:nth-child(2):before {
+        content: '> ';
+        position: fixed;
+        left: 8px;
+        color: #000000;
     }
 </style>
 
@@ -64,24 +112,60 @@
         });
 
         $(this).addClass('selected');
-        $("#dbname").val($(this).find(".col-dbname").html());
+        $('#formEntrance').find('[name="dbname"]').val($(this).find(".col-dbname").html());
     });
 
     $.fn.extend({
+        //submitSignin: function () {
+        //    if ($("#dbname").val().trim().length == 0) {
+        //        alert("กรุณาคลิกเลือกที่เก็บข้อมูลที่ต้องการ");
+        //        return;
+        //    }
+
+        //    var form = $(this).parents("form");
+        //    var url = $(form).attr("action");
+        //    var signin_info = new Object();
+        //    signin_info.sernum = $(form).find("[name='sernum']").val();
+        //    signin_info.phrase = $(form).find("[name='phrase']").val();
+        //    signin_info.username = $(form).find("[name='username']").val();
+        //    signin_info.pass = $(form).find("[name='pass']").val();
+        //    signin_info.dbname = $(form).find("[name='dbname']").val();
+
+        //    $.ajax({
+        //        type: "POST",
+        //        url: url,
+        //        data: JSON.stringify(signin_info),
+        //        contentType: "application/json; charset=utf-8",
+        //        beforeSend: function (xhr) {
+        //            xhr.setRequestHeader("XSRF-TOKEN",
+        //                $('input:hidden[name="__RequestVerificationToken"]').val());
+        //        },
+        //        error: function (err) {
+        //            if (err.status === 400) {
+        //                window.location.reload(true);
+        //            }
+        //        },
+        //        success: function (data) {
+        //            window.location.reload(true);
+        //        }
+        //    });
+        //}
+
         submitSignin: function () {
-            if ($("#dbname").val().trim().length == 0) {
+            var form = $(this)
+            var dbname = $(form).find("[name='dbname']").val();
+            if (dbname.trim().length == 0) {
                 alert("กรุณาคลิกเลือกที่เก็บข้อมูลที่ต้องการ");
                 return;
             }
 
-            var form = $(this).parents("form");
             var url = $(form).attr("action");
             var signin_info = new Object();
             signin_info.sernum = $(form).find("[name='sernum']").val();
             signin_info.phrase = $(form).find("[name='phrase']").val();
             signin_info.username = $(form).find("[name='username']").val();
             signin_info.pass = $(form).find("[name='pass']").val();
-            signin_info.dbname = $(form).find("[name='dbname']").val();
+            signin_info.dbname = dbname;
 
             $.ajax({
                 type: "POST",
@@ -102,6 +186,5 @@
                 }
             });
         }
-
     });
 </script>

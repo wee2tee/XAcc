@@ -63,6 +63,7 @@ namespace XAcc.Models
         }
 
         public DbSet<Stmas> Stmas { get; set; }
+        public DbSet<Glacc> Glacc { get; set; }
 
     }
 

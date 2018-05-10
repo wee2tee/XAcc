@@ -1,0 +1,29 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<table class="ui celled striped table">
+    <thead>
+        <tr>
+            <th class="single line">Acc. Number</th>
+            <th class="single line">Acc. Name(Tha.)</th>
+            <th class="single line">Acc. Name(Eng.)</th>
+            <th class="single line">Acc. Group</th>
+            <th class="single line">Level</th>
+            <th class="single line">Parent</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var acc in (List<GlaccVM>)Model)
+        {
+            <tr>
+                <td class="collapsing indent-@acc.level"><i class="@(acc.Glacc.acctyp == "1" ? "folder icon" : "file alternate outline icon")"></i> @acc.accnum</td>
+                <td>@acc.accnam</td>
+                <td>@acc.accnam2</td>
+                <td>@acc.accgrp</td>
+                <td>@acc.level</td>
+                <td>@acc.parent</td>
+            </tr>
+        }
+    </tbody>
+</table>

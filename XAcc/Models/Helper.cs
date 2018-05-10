@@ -191,30 +191,255 @@ namespace XAcc.Models
                 {
                     dbacc_context.Database.ExecuteSqlCommand("Alter Database " + dbacc_context.Database.GetDbConnection().Database + " DEFAULT CHARACTER SET='utf8' COLLATE='utf8_general_ci'");
                     dbacc_context.Database.ExecuteSqlCommand("Alter Table " + dbacc_context.Database.GetDbConnection().Database + ".Stmas CONVERT TO CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'");
+                    dbacc_context.Database.ExecuteSqlCommand("Alter Table " + dbacc_context.Database.GetDbConnection().Database + ".Glacc CONVERT TO CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'");
 
                     /* Initial data */
                     if (sccomp.dbname != "test")
                         return dbacc_context;
 
                     dbacc_context.Stmas.AddRange(new List<Stmas>
+                    {
+                        new Stmas
                         {
-                            new Stmas
-                            {
-                                id = 1,
-                                stkcod = "01-INTL-CL600",
-                                stkdes = "ซีพียูอินเทล เซเลอรอน 600 เมกะเฮิร์ตซ์",
-                                stkdes2 = "Cpu Intel Celeron 600 MHz.",
-                                sellpr1 = 6500,
-                            },
-                            new Stmas
-                            {
-                                id = 2,
-                                stkcod = "01-INTL-P4750",
-                                stkdes = "ซีพียูอินเทล เพนเทียมโฟร์ 750 เมกะเฮิร์ตซ์",
-                                stkdes2 = "Cpu Intel Pentium 4 750 MHz.",
-                                sellpr1 = 8700
-                            }
-                        });
+                            id = 1,
+                            stkcod = "01-INTL-CL600",
+                            stkdes = "ซีพียูอินเทล เซเลอรอน 600 เมกะเฮิร์ตซ์",
+                            stkdes2 = "Cpu Intel Celeron 600 MHz.",
+                            sellpr1 = 6500,
+                        },
+                        new Stmas
+                        {
+                            id = 2,
+                            stkcod = "01-INTL-P4750",
+                            stkdes = "ซีพียูอินเทล เพนเทียมโฟร์ 750 เมกะเฮิร์ตซ์",
+                            stkdes2 = "Cpu Intel Pentium 4 750 MHz.",
+                            sellpr1 = 8700
+                        }
+                    });
+
+                    dbacc_context.Glacc.AddRange(new List<Glacc>
+                    {
+                        new Glacc
+                        {
+                            id = 1,
+                            accnum = "1000-00",
+                            accnam = "สินทรัพย์",
+                            accnam2 = "Assets",
+                            level = 1,
+                            parent = null,
+                            group = "1",
+                            acctyp = "1",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "0",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 2,
+                            accnum = "1100-00",
+                            accnam = "สินทรัพย์หมุนเวียน",
+                            accnam2 = "Current Assets",
+                            level = 2,
+                            parent = "1000-00",
+                            group = "1",
+                            acctyp = "1",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "0",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 3,
+                            accnum = "1110-00",
+                            accnam = "เงินสดและเงินฝากธนาคาร",
+                            accnam2 = "Cash on Hand and at Banks",
+                            level = 3,
+                            parent = "1100-00",
+                            group = "1",
+                            acctyp = "1",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "0",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 4,
+                            accnum = "1111-00",
+                            accnam = "เงินสด",
+                            accnam2 = "Cash",
+                            level = 4,
+                            parent = "1110-00",
+                            group = "1",
+                            acctyp = "0",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "0",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 5,
+                            accnum = "1130-00",
+                            accnam = "ลูกหนี้การค้าและตั๋วเงินรับ",
+                            accnam2 = "Accounts and Notes Receivable",
+                            level = 3,
+                            parent = "1100-00",
+                            group = "1",
+                            acctyp = "1",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "0",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 6,
+                            accnum = "1130-01",
+                            accnam = "ลูกหนี้การค้า",
+                            accnam2 = "Accounts Receivable - Trade",
+                            level = 4,
+                            parent = "1130-00",
+                            group = "1",
+                            acctyp = "0",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "0",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 7,
+                            accnum = "1130-02",
+                            accnam = "เช็ครับลงวันที่ล่วงหน้า",
+                            accnam2 = "Post-dated cheques Received",
+                            level = 4,
+                            parent = "1130-00",
+                            group = "1",
+                            acctyp = "0",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "0",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 8,
+                            accnum = "2000-00",
+                            accnam = "หนี้สิน",
+                            accnam2 = "Liabilities and Shareholders' Equity",
+                            level = 1,
+                            parent = null,
+                            group = "2",
+                            acctyp = "1",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "1",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 9,
+                            accnum = "2100-00",
+                            accnam = "หนี้สินหมุนเวียน",
+                            accnam2 = "Current Liabilities",
+                            level = 2,
+                            parent = "2000-00",
+                            group = "2",
+                            acctyp = "1",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "1",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 10,
+                            accnum = "2120-00",
+                            accnam = "เจ้าหนี้การค้าและตั๋วเงินจ่าย",
+                            accnam2 = "Accounts and Notes Payable",
+                            level = 3,
+                            parent = "2100-00",
+                            group = "2",
+                            acctyp = "1",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "1",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        },
+                        new Glacc
+                        {
+                            id = 11,
+                            accnum = "2120-01",
+                            accnam = "เจ้าหนี้การค้า",
+                            accnam2 = "Accounts Payable",
+                            level = 4,
+                            parent = "2120-00",
+                            group = "2",
+                            acctyp = "0",
+                            usedep = "N",
+                            usejob = "N",
+                            nature = "1",
+                            consol = "",
+                            status = "A",
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            chgby = null,
+                            chgdat = null
+                        }
+                    });
                     dbacc_context.SaveChanges();
                 }
                 return dbacc_context;

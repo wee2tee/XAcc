@@ -71,11 +71,12 @@ $.fn.extend({
             }
         }).done(function (data) {
             target_elem.html(data);
-            return target_elem.modal({
-                "show": true,
-                "backdrop": true,
-                "keyboard": false
-            });
+            $(target_elem).modal('show');
+            //return target_elem.modal({
+            //    "show": true,
+            //    "backdrop": true,
+            //    "keyboard": false
+            //});
         });
 
     },

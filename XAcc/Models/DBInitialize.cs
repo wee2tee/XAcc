@@ -27,7 +27,7 @@ namespace XAcc.Models
                         compnam = "สบายใจ จำกัด",
                         taxid = "1234567890123",
                         orgnum = "00000",
-                        server_name = "172.16.2.236",
+                        server_name = "172.16.1.44",
                         server_port = 50002,
                         mysql_uid = "root",
                         mysql_pwd = "12345",
