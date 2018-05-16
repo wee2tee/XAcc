@@ -30,14 +30,24 @@ namespace XAcc.Controllers
             if(!acc_group.HasValue)
             {
                 //return Content("Assets account");
-
-                return PartialView("_Index", this.dbacc_context.Glacc.Where(g => g.group == "1").ToGlaccVM());
+                var models = this.dbacc_context.Glacc.Where(g => g.group == "1" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context);
+                return PartialView("_Index", models);
             }
             else
             {
                 //return Content("Account type = " + acc_group.ToString());
-                return PartialView("_Index", this.dbacc_context.Glacc.Where(g => g.group == acc_group.ToString()).ToGlaccVM());
+                var models = this.dbacc_context.Glacc.Where(g => g.group == acc_group.ToString() && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context);
+                return PartialView("_Index", models);
             }
+        }
+
+        [Authorize]
+        public IActionResult Delete(int? form_action_id)
+        {
+            if (!form_action_id.HasValue)
+                return Json("Null id passing");
+
+            return Json(form_action_id);
         }
     }
 }

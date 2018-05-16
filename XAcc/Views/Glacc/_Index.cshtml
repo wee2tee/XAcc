@@ -1,29 +1,91 @@
-﻿
-@*
+﻿@*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
-<table class="ui celled striped table">
-    <thead>
-        <tr>
-            <th class="single line">Acc. Number</th>
-            <th class="single line">Acc. Name(Tha.)</th>
-            <th class="single line">Acc. Name(Eng.)</th>
-            <th class="single line">Acc. Group</th>
-            <th class="single line">Level</th>
-            <th class="single line">Parent</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var acc in (List<GlaccVM>)Model)
-        {
-            <tr>
-                <td class="collapsing indent-@acc.level"><i class="@(acc.Glacc.acctyp == "1" ? "folder icon" : "file alternate outline icon")"></i> @acc.accnum</td>
-                <td>@acc.accnam</td>
-                <td>@acc.accnam2</td>
-                <td>@acc.accgrp</td>
-                <td>@acc.level</td>
-                <td>@acc.parent</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        @*<table class="ui celled striped table" id="custom-glacc-table">
+            <thead>
+                <tr>
+                    <th class="single line">Acc. Number</th>
+                    <th class="single line">Acc. Name(Tha.)</th>
+                    <th class="single line">Acc. Name(Eng.)</th>
+                    <th class="single line">Level</th>
+                    <th class="single line">Parent</th>
+                    <th class="single line">#Manage</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var acc in (List<GlaccVM>)Model)
+                {
+                    <tr>
+                        <td class="collapsing indent-@acc.level"><i class="@(acc.Glacc.acctyp == "1" ? "folder icon" : "file outline icon")"></i> @acc.accnum</td>
+                        <td>@acc.accnam</td>
+                        <td>@acc.accnam2</td>
+                        <td>@acc.level</td>
+                        <td>@acc.parent</td>
+                        <td>
+                            <div class="ui buttons">
+                                <button class="ui blue basic button" onclick="">Edit</button>
+                                <button data-form-control="Glacc" data-form-action="Delete" data-form-action-id="@acc.Glacc.id" class="ui red basic button" onclick="$(this).showConfirmDialog('Confirm Delete', 'Remove account number @acc.accnum, Are you want to continue?', 'OK_CANCEL_CLOSE')">Delete</button>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>*@
+
+
+
+<div class="ui list">
+    <div class="item">
+        <i class="folder icon"></i>
+        <div class="content">
+            <div class="description">@(((GlaccVM)Model).accnum + "  " + ((GlaccVM)Model).accnam)</div>
+            <div class="list">
+                @foreach (var item1 in (List<GlaccVM>)((GlaccVM)Model).childacc)
+                {
+                    <div class="item">
+                        <i class="@(item1.Glacc.acctyp == "1" ? "folder icon" : "file outline icon")"></i> 
+                        <div class="content">
+                            <div class="description">@item1.accnum   @item1.accnam</div>
+                            <div class="list">
+                                @foreach (var item2 in (List<GlaccVM>)item1.childacc)
+                                {
+                                    <div class="item">
+                                        <i class="@(item2.Glacc.acctyp == "1" ? "folder icon" : "file outline icon")"></i>
+                                        <div class="content">
+                                            <div class="description">@item2.accnum   @item2.accnam</div>
+                                            <div class="list">
+                                                @foreach (var item3 in (List<GlaccVM>)item2.childacc)
+                                                {
+                                                    <div class="item">
+                                                        <i class="@(item3.Glacc.acctyp == "1" ? "folder icon" : "file outline icon")"></i>
+                                                        <div class="content">
+                                                            <div class="description">@item3.accnum   @item3.accnam</div>
+                                                            <div class="list">
+                                                                @foreach (var item4 in (List<GlaccVM>)item3.childacc)
+                                                                {
+                                                                    <div class="item">
+                                                                        <i class="@(item4.Glacc.acctyp == "1" ? "folder icon" : "file outline icon")"></i>
+                                                                        <div class="content">
+                                                                            <div class="description">@item4.accnum   @item4.accnam</div>
+                                                                            <div class="list">
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

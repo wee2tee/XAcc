@@ -34,29 +34,31 @@ namespace XAcc.Models
         }
         public int level { get { return this.Glacc.level; } }
         public string parent { get { return this.Glacc.parent; } }
+        public List<GlaccVM> childacc { get; set; }
     }
 
     public static class ViewModelHelper
     {
-        public static GlaccVM ToGlaccVM(this Glacc glacc)
+        public static GlaccVM ToGlaccVM(this Glacc glacc, DBAccContext dbacc_context)
         {
             if (glacc == null)
                 return null;
 
             GlaccVM g = new GlaccVM
             {
-                Glacc = glacc
+                Glacc = glacc,
+                childacc = dbacc_context.Glacc.Where(a => a.parent == glacc.accnum).ToGlaccVM(dbacc_context)
             };
 
             return g;
         }
 
-        public static List<GlaccVM> ToGlaccVM(this IEnumerable<Glacc> glacc)
+        public static List<GlaccVM> ToGlaccVM(this IEnumerable<Glacc> glacc, DBAccContext dbacc_context)
         {
             List<GlaccVM> g = new List<GlaccVM>();
             foreach (var a in glacc)
             {
-                g.Add(a.ToGlaccVM());
+                g.Add(a.ToGlaccVM(dbacc_context));
             }
 
             return g;

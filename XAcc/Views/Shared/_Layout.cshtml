@@ -92,6 +92,20 @@
             <div class="ui button">OK</div>
         </div>*@
     </div>
+    <div class="ui modal" id="confirm-dialog">
+        <div class="header" id="confirm-header">Message</div>
+        <div class="scrolling content">
+            <p id="confirm-message"></p>
+        </div>
+        <div class="actions">
+            <form method="post" id="confirm-dialog-form" style="display:inline;">
+                <button type="submit" class="ui button" id="confirm-btn-ok">OK</button>
+                <input type="hidden" name="form_action_id" />
+            </form>
+            <button class="ui button" id="confirm-btn-cancel" onclick="clearConfirmDialog()">Cancel</button>
+            <button class="ui button" id="confirm-btn-close" onclick="clearConfirmDialog()">Close</button>
+        </div>
+    </div>
 
 
     <environment include="Development">

@@ -6,6 +6,12 @@ var confirmLogout = function () {
     }
 }
 
+var clearConfirmDialog = function () {
+    $('#confirm-header').html('');
+    $('#confirm-message').html('');
+    $('#confirm-dialog').modal('hide');
+}
+
 $(document).ready(function () {
     
     //$(".scrollpane").addSlimScroll();
@@ -15,30 +21,6 @@ $(document).ready(function () {
     $('.ui.icon.button').popup();
     $('#glacc-table .item').tab({
         cache: false,
-        //apiSettings: {
-        //    loadingDuration: 200,
-        //    mockResponse: function (settings) {
-        //        console.log(settings);
-
-        //        //var url = settings.url;
-        //        //$.ajax({
-        //        //    url: url,
-        //        //    type: "GET",
-        //        //}).done(function (data) {
-        //        //    return data;
-        //        //    console.log(data);
-        //        //});
-
-        //        var response = {
-        //            first: 'Ajax 1st tab',
-        //            second: 'Ajax 2nd tab',
-        //            third: 'Ajax 3rd tab'
-        //        };
-        //        console.log(settings);
-        //        return response[settings.urlData.tab];
-
-        //    }
-        //},
         context: 'parent',
         auto: true,
         path: '/Glacc/',
@@ -47,6 +29,39 @@ $(document).ready(function () {
 });
 
 $.fn.extend({
+    showConfirmDialog: function (caption, msg, buttons) {
+        if (buttons.toLowerCase().indexOf('ok') > -1) {
+            $('#confirm-btn-ok').show();
+        }
+        else {
+            $('#confirm-btn-ok').hide();
+        }
+
+        if (buttons.toLowerCase().indexOf('cancel') > -1) {
+            $('#confirm-btn-cancel').show();
+        }
+        else {
+            $('#confirm-btn-cancel').hide();
+        }
+
+        if (buttons.toLowerCase().indexOf('close') > -1) {
+            $('#confirm-btn-close').show();
+        }
+        else {
+            $('#confirm-btn-cancel').hide();
+        }
+
+        var form_control = $(this).attr("data-form-control");
+        var form_action = $(this).attr("data-form-action");
+        var data_id = $(this).attr("data-form-action-id");
+        $("#confirm-dialog-form").attr({ action: "/" + form_control + "/" + form_action });
+        $("#confirm-dialog-form [name='form_action_id']").val(data_id);
+
+        $("#confirm-header").html(caption);
+        $("#confirm-message").html(msg);
+        $("#confirm-dialog").modal('show');
+    },
+
     getDataList: function (sernum, phrase, username, pass) {
         var target_elem = $(this);
         var post_data = new Object();

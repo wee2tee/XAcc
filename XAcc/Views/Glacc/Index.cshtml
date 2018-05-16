@@ -4,13 +4,12 @@
 }
 
 <h2>Glacc</h2>
-@*<div class="ui top attached tabular menu">*@
 <div class="ui pointing secondary menu" id="glacc-table">
-    <a class="item active" data-tab="GetAcc?acc_group=1" id="glacc1">Assets</a>
-    <a class="item" data-tab="GetAcc?acc_group=2">Liabilities</a>
-    <a class="item" data-tab="GetAcc?acc_group=3">Shareholder's Equity</a>
-    <a class="item" data-tab="GetAcc?acc_group=4">Income</a>
-    <a class="item" data-tab="GetAcc?acc_group=5">Expenses</a>
+    <a class="item active" data-tab="GetAcc?acc_group=1" id="Assets">Assets</a>
+    <a class="item" data-tab="GetAcc?acc_group=2" id="Liabilities">Liabilities</a>
+    <a class="item" data-tab="GetAcc?acc_group=3" id="Equity">Shareholder's Equity</a>
+    <a class="item" data-tab="GetAcc?acc_group=4" id="Income">Income</a>
+    <a class="item" data-tab="GetAcc?acc_group=5" id="Expense">Expenses</a>
 </div>
 <div class="ui tab segment active active" data-tab="GetAcc?acc_group=1">
     First
@@ -28,10 +27,11 @@
     Fifth
 </div>
 
+
 @section Scripts{
     <script>
         $(document).ready(function () {
-            $("#glacc1").click();
+            $("#Assets").click();
         })
     </script>
 }
