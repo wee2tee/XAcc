@@ -19,7 +19,29 @@ namespace XAcc.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            this.PrepareDbContext();
+
+            //if(!acc_group.HasValue)
+            //{
+            //    var models = this.dbacc_context.Glacc.Where(g => g.group == "1" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context);
+            //    return PartialView("_Index", models);
+            //}
+            //else
+            //{
+            //    var models = this.dbacc_context.Glacc.Where(g => g.group == acc_group.ToString() && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context);
+            //    return PartialView("_Index", models);
+            //}
+
+            List<GlaccVM> acc = new List<GlaccVM>()
+            {
+                this.dbacc_context.Glacc.Where(g => g.group == "1" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
+                this.dbacc_context.Glacc.Where(g => g.group == "2" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
+                this.dbacc_context.Glacc.Where(g => g.group == "3" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
+                this.dbacc_context.Glacc.Where(g => g.group == "4" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
+                this.dbacc_context.Glacc.Where(g => g.group == "5" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context)
+            };
+
+            return View("Index", acc.Where(a => a != null).ToList());
         }
 
         [Authorize]
@@ -27,18 +49,27 @@ namespace XAcc.Controllers
         {
             this.PrepareDbContext();
 
-            if(!acc_group.HasValue)
+            //if(!acc_group.HasValue)
+            //{
+            //    var models = this.dbacc_context.Glacc.Where(g => g.group == "1" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context);
+            //    return PartialView("_Index", models);
+            //}
+            //else
+            //{
+            //    var models = this.dbacc_context.Glacc.Where(g => g.group == acc_group.ToString() && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context);
+            //    return PartialView("_Index", models);
+            //}
+           
+            List<GlaccVM> acc = new List<GlaccVM>()
             {
-                //return Content("Assets account");
-                var models = this.dbacc_context.Glacc.Where(g => g.group == "1" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context);
-                return PartialView("_Index", models);
-            }
-            else
-            {
-                //return Content("Account type = " + acc_group.ToString());
-                var models = this.dbacc_context.Glacc.Where(g => g.group == acc_group.ToString() && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context);
-                return PartialView("_Index", models);
-            }
+                this.dbacc_context.Glacc.Where(g => g.group == "1" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
+                this.dbacc_context.Glacc.Where(g => g.group == "2" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
+                this.dbacc_context.Glacc.Where(g => g.group == "3" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
+                this.dbacc_context.Glacc.Where(g => g.group == "4" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
+                this.dbacc_context.Glacc.Where(g => g.group == "5" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context)
+            };
+
+            return PartialView("_Index", acc.Where(a => a != null).ToList());
         }
 
         [Authorize]

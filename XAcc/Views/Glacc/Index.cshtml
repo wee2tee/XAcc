@@ -4,7 +4,7 @@
 }
 
 <h2>Glacc</h2>
-<div class="ui pointing secondary menu" id="glacc-table">
+@*<div class="ui pointing secondary menu" id="glacc-table">
     <a class="item active" data-tab="GetAcc?acc_group=1" id="Assets">Assets</a>
     <a class="item" data-tab="GetAcc?acc_group=2" id="Liabilities">Liabilities</a>
     <a class="item" data-tab="GetAcc?acc_group=3" id="Equity">Shareholder's Equity</a>
@@ -33,5 +33,214 @@
         $(document).ready(function () {
             $("#Assets").click();
         })
+    </script>
+}*@
+
+<div class="ui two column stackable grid" id="xx">
+    <div class="ten wide column" id="glacc-chart-panel">
+        <div class="scrollable-box-wrapper">
+            <div class="scrollable-box">
+                @foreach (var acc in (List<GlaccVM>)Model)
+                {
+                    <ul>
+                        <li>@acc.accnum @acc.accnam</li>
+                    </ul>
+                }
+            </div>
+        </div>
+        
+    </div>
+    <div class="six wide column" id="glacc-form-panel">
+        <form class="ui form">
+            <h4 class="ui dividing header">Add/Edit account</h4>
+            <div class="field">
+                <label>Account Number</label>
+                    <div class="eight wide field">
+                        <input type="text" name="glacc[accnum]" placeholder="Account Number">
+                    </div>
+            </div>
+            <div class="field">
+                <label>Account Name</label>
+                <div class="sixteen wide field">
+                    <input type="text" name="glacc[accnam]" placeholder="Account Name (Th.)">
+                </div>
+                <div class="sixteen wide field">
+                    <input type="text" name="glacc[accnam2]" placeholder="Account Name (En.)">
+                </div>
+            </div>
+            <div class="field">
+                <div class="fields">
+                    <div class="thirteen wide field">
+                        <label>Parent Account</label>
+                        <div class="field">
+                            <select class="ui fluid dropdown" name="glacc[parent]">
+                                <option value=""></option>
+                                <option value="AL">Alabama</option>
+                                <option value="AK">Alaska</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="three wide field">
+                        <label>Level</label>
+                        <div class="field">
+                            <input type="text" name="glacc[level]" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="fields">
+                    <div class="eight wide field">
+                        <label>Group</label>
+                        <div class="field">
+                            <select class="ui fluid dropdown" name="glacc[group]">
+                                <option value="1">1 - Assets</option>
+                                <option value="2">2 - Liability</option>
+                                <option value="3">3 - Equity</option>
+                                <option value="4">4 - Revenue</option>
+                                <option value="5">5 - Expense</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="eight wide field">
+                        <label>Type</label>
+                        <div class="field">
+                            <select class="ui fluid dropdown" name="glacc[acctyp]">
+                                <option value="0">0 - Posting</option>
+                                <option value="1">1 - Summary</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="field">
+                <div class="fields">
+                    <div class="eight wide field">
+                        <label>Use Dept.</label>
+                        <div class="field">
+                            <select class="ui fluid dropdown" name="glacc[usedep]">
+                                <option value="N">N - No</option>
+                                <option value="Y">Y - Yes</option>
+                                <option value="M">M - Must specify dept.</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="ui button green" tabindex="0"><i class="check circle icon"></i>Submit</button>
+            <button type="button" class="ui button grey" tabindex="1"><i class="times circle icon"></i>Cancel</button>
+        </form>
+    </div>
+</div>
+
+
+@*<div class="ui segment" id="example1">
+    <div class="ui sticky" style="float: right; background-color: #ffffff; padding: 10px;">
+        <form class="ui form">
+            <h4 class="ui dividing header">Add/Edit account</h4>
+            <div class="field">
+                <label>Account Number</label>
+                <div class="eight wide field">
+                    <input type="text" name="glacc[accnum]" placeholder="Account Number">
+                </div>
+            </div>
+            <div class="field">
+                <label>Account Name</label>
+                <div class="sixteen wide field">
+                    <input type="text" name="glacc[accnam]" placeholder="Account Name (Th.)">
+                </div>
+                <div class="sixteen wide field">
+                    <input type="text" name="glacc[accnam2]" placeholder="Account Name (En.)">
+                </div>
+            </div>
+            <div class="field">
+                <div class="fields">
+                    <div class="thirteen wide field">
+                        <label>Parent Account</label>
+                        <div class="field">
+                            <select class="ui fluid dropdown" name="glacc[parent]">
+                                <option value=""></option>
+                                <option value="AL">Alabama</option>
+                                <option value="AK">Alaska</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="three wide field">
+                        <label>Level</label>
+                        <div class="field">
+                            <input type="text" name="glacc[level]" readonly="readonly" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="field">
+                <div class="fields">
+                    <div class="eight wide field">
+                        <label>Group</label>
+                        <div class="field">
+                            <select class="ui fluid dropdown" name="glacc[group]">
+                                <option value="1">1 - Assets</option>
+                                <option value="2">2 - Liability</option>
+                                <option value="3">3 - Equity</option>
+                                <option value="4">4 - Revenue</option>
+                                <option value="5">5 - Expense</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="eight wide field">
+                        <label>Type</label>
+                        <div class="field">
+                            <select class="ui fluid dropdown" name="glacc[acctyp]">
+                                <option value="0">0 - Posting</option>
+                                <option value="1">1 - Summary</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="field">
+                <div class="fields">
+                    <div class="eight wide field">
+                        <label>Use Dept.</label>
+                        <div class="field">
+                            <select class="ui fluid dropdown" name="glacc[usedep]">
+                                <option value="N">N - No</option>
+                                <option value="Y">Y - Yes</option>
+                                <option value="M">M - Must specify dept.</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="ui button green" tabindex="0"><i class="check circle icon"></i>Submit</button>
+            <button type="button" class="ui button grey" tabindex="1"><i class="times circle icon"></i>Cancel</button>
+        </form>
+    </div>
+    <div class="ten wide column">
+        @foreach (var acc in (List<GlaccVM>)Model)
+        {
+            <ul>
+                <li>@acc.accnum @acc.accnam</li>
+                @for (int i = 0; i < 50; i++)
+                {
+                    <li>@i</li>
+                }
+            </ul>
+        }
+    </div>
+    
+
+</div>*@
+
+@section Scripts{ 
+    <script>
+        $(".ui.sticky").sticky({
+            context: '#example1'
+
+        });
     </script>
 }
