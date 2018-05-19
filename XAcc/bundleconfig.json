@@ -14,5 +14,11 @@
       "enabled": true,
       "renameLocals": true
     }
+  },
+  {
+    "outputFileName": "wwwroot/js/jstree.min.js",
+    "inputFiles": [
+      "wwwroot/js/jstree.js"
+    ]
   }
 ]

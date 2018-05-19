@@ -40,15 +40,108 @@
     <div class="ten wide column" id="glacc-chart-panel">
         <div class="scrollable-box-wrapper">
             <div class="scrollable-box">
-                @foreach (var acc in (List<GlaccVM>)Model)
+                <p style="padding: 10px 10px 5px; margin-bottom: 0;">Account Charts</p>
+                <div id="glacc-chart">
+                    @*@foreach (var acc in (List<GlaccVM>)Model)
+        {
+            <ul>
+                <i class="jstree-icon jstree-ocl"></i>
+                <li><a href="#">@acc.accnum @acc.accnam</a></li>
+                @if(acc.childacc.Count > 0)
                 {
                     <ul>
-                        <li>@acc.accnum @acc.accnam</li>
+                        @foreach(var acc2 in (List<GlaccVM>)acc.childacc)
+                        {
+                            <i class="jstree-icon jstree-ocl"></i>
+                            <li><a href="#">@acc2.accnum @acc2.accnam</a></li>
+
+                        }
                     </ul>
+
                 }
+            </ul>
+        }*@
+                    @foreach (var acc1 in (List<GlaccVM>)Model)
+                    {
+                        <ul class="jstree-container-ul jstree-children" role="group">
+                            <li role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="j4_1_anchor" aria-expanded="true" id="@acc1.accgrp-j4_1" class="jstree-node  jstree-last jstree-closed">
+                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                <a class="jstree-anchor" href="#" tabindex="-1" id="@acc1.accgrp-j4_1_anchor">
+                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc1.accnum @acc1.accnam
+                                </a>
+                                @if(acc1.childacc.Count > 0)
+                                {
+                                    foreach (var acc2 in (List<GlaccVM>)acc1.childacc)
+                                    {
+                                        <ul role="group" class="jstree-children" style="">
+                                            <li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j4_2_anchor" id="@acc2.accgrp-j4_2" class="jstree-node  jstree-leaf">
+                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                <a class="jstree-anchor" href="#" tabindex="-1" id="@acc2.accgrp-j4_2_anchor">
+                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc2.accnum @acc2.accnam
+                                                </a>
+                                                @if(acc2.childacc.Count > 0)
+                                                {
+                                                    foreach (var acc3 in (List<GlaccVM>)acc2.childacc)
+                                                    {
+                                                        <ul role="group" class="jstree-children" style="">
+                                                            <li role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j4_3_anchor" id="@acc3.accgrp-j4_3" class="jstree-node  jstree-leaf">
+                                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                                <a class="jstree-anchor" href="#" tabindex="-1" id="@acc3.accgrp-j4_3_anchor">
+                                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc3.accnum @acc3.accnam
+                                                                </a>
+                                                                @if(acc3.childacc.Count > 0)
+                                                                {
+                                                                    foreach (var acc4 in (List<GlaccVM>)acc3.childacc)
+                                                                    {
+
+                                                                    }
+
+                                                                }
+                                                            </li>
+                                                        </ul>
+                                                    }
+
+                                                }
+                                            </li>
+                                        </ul>
+                                    }
+                                    
+                                }
+                            </li>
+                        </ul>
+                    }
+                    @*<ul class="jstree-container-ul jstree-children" role="group">
+                        <li role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="j4_1_anchor" aria-expanded="true" id="j4_1" class="jstree-node  jstree-last jstree-closed">
+                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                            <a class="jstree-anchor" href="#" tabindex="-1" id="j4_1_anchor">
+                                <i class="jstree-icon jstree-themeicon" role="presentation"></i>Root node 1
+                            </a>
+                            <ul role="group" class="jstree-children" style="">
+                                <li role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j4_2_anchor" id="j4_2" class="jstree-node  jstree-leaf">
+                                    <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                    <a class="jstree-anchor" href="#" tabindex="-1" id="j4_2_anchor">
+                                        <i class="jstree-icon jstree-themeicon" role="presentation"></i>Child node 1
+                                    </a>
+                                </li>
+                                <li role="treeitem" aria-selected="true" aria-level="2" aria-labelledby="j4_3_anchor" id="j4_3" class="jstree-node  jstree-leaf jstree-last">
+                                    <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                    <a class="jstree-anchor" href="#" tabindex="-1" id="j4_3_anchor">
+                                        <i class="jstree-icon jstree-themeicon" role="presentation"></i>Child node 2
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>*@
+                    
+
+
+
+
+                </div>
             </div>
         </div>
-        
+
+
     </div>
     <div class="six wide column" id="glacc-form-panel">
         <form class="ui form">
@@ -238,6 +331,49 @@
 
 @section Scripts{ 
     <script>
+        $(document).ready(function () {
+            $('#glacc-chart').jstree({
+                //"core": {
+                //    "animation": 0,
+                //    "check_callback": true,
+                //    "themes": { "stripes": true },
+                //    'data': {
+                //        'url': function (node) {
+                //            return node.id === '#' ?
+                //                'ajax_demo_roots.json' : 'ajax_demo_children.json';
+                //        },
+                //        'data': function (node) {
+                //            return { 'id': node.id };
+                //        }
+                //    }
+                //},
+                //"types": {
+                //    "#": {
+                //        "max_children": 1,
+                //        "max_depth": 4,
+                //        "valid_children": ["root"]
+                //    },
+                //    "root": {
+                //        "icon": "/static/3.3.5/assets/images/tree_icon.png",
+                //        "valid_children": ["default"]
+                //    },
+                //    "default": {
+                //        "valid_children": ["default", "file"]
+                //    },
+                //    "file": {
+                //        "icon": "glyphicon glyphicon-file",
+                //        "valid_children": []
+                //    }
+                //},
+                //"plugins": [
+                //    "contextmenu", "dnd", "search",
+                //    "state", "types", "wholerow"
+                //]
+            });
+
+        });
+
+
         $(".ui.sticky").sticky({
             context: '#example1'
 

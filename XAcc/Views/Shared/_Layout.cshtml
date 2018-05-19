@@ -8,8 +8,9 @@
     <environment include="Development">
         @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">*@
-        <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/lib/semantic-ui/dist/semantic.css" />
+        <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/semantic-ui/dist/semantic.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/jstree/themes/default/style.css" asp-append-version="true" />
     </environment>
     <environment exclude="Development">
         @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -18,6 +19,7 @@
         <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">*@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/semantic-ui/dist/semantic.min.css" asp-append-version="true" />
+        <link rel="stylesheet" href="~/lib/jstree/themes/default/style.min.css" asp-append-version="true" />
     </environment>
 </head>
 <body>
@@ -114,6 +116,7 @@
         @*<script src="~/js/jquery.slimscroll.js" asp-append-version="true"></script>*@
         <script src="~/lib/semantic-ui/dist/semantic.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/lib/jstree/jstree.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -131,6 +134,7 @@
             <script src="~/js/jquery.slimscroll.min.js" asp-append-version="true"></script>*@
         <script src="~/lib/semantic-ui/dist/semantic.min.js" asp-append-version="true"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
+        <script src="~/lib/jstree/jstree.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)
