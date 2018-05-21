@@ -196,6 +196,21 @@ footer.xstyle {
     border-radius: 3px;
     min-height: 250px;
 }
+.title-text {
+    padding: 15px;
+    margin-bottom: 0;
+}
+.layer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+input[type='text']:focus {
+    background-color: rgb(233, 248, 255) !important;
+}
 
 @media only screen and (max-width: 767px){
     .scrollable-box-wrapper,

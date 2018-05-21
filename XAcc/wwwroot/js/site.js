@@ -12,6 +12,27 @@ var clearConfirmDialog = function () {
     $('#confirm-dialog').modal('hide');
 }
 
+function preventEnterSubmit(e) {
+    if (e.which == 13) {
+        var $targ = $(e.target);
+
+        if (!$targ.is("textarea") && !$targ.is(":button,:submit")) {
+            var focusNext = false;
+            $(this).find(":input:visible:not([disabled],[readonly]), a").each(function () {
+                if (this === e.target) {
+                    focusNext = true;
+                }
+                else if (focusNext) {
+                    $(this).focus();
+                    return false;
+                }
+            });
+
+            return false;
+        }
+    }
+}
+
 $(document).ready(function () {
     
     //$(".scrollpane").addSlimScroll();
