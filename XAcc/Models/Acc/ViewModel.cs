@@ -5,6 +5,13 @@ using System.Threading.Tasks;
 
 namespace XAcc.Models
 {
+    public class ViewMessage
+    {
+        public string key { get; set; }
+        public string value { get; set; }
+        public int int1 { get; set; }
+    }
+
     public class GlaccVM
     {
         public Glacc Glacc { get; set; }

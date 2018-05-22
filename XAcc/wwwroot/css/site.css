@@ -211,6 +211,20 @@ footer.xstyle {
 input[type='text']:focus {
     background-color: rgb(233, 248, 255) !important;
 }
+.popup.exclaimation {
+    color: red !important;
+}
+.popup {
+    display: none !important;
+}
+.has-error .popup,
+.has-error .error.message {
+    display: inline-block !important;
+}
+.ui.error.message {
+    font-size: 0.8em;
+    padding: 8px 10px;
+}
 
 @media only screen and (max-width: 767px){
     .scrollable-box-wrapper,

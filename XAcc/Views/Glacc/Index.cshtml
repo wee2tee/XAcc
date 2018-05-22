@@ -1,6 +1,7 @@
 ﻿
 @{
     ViewData["Title"] = "Chart of Accounts";
+    Glacc selected_item = ViewBag.SelectedItem;
 }
 
 <h2 class="title-text">@ViewData["Title"]</h2>
@@ -89,14 +90,12 @@
                                                                     <ul role="group" class="jstree-children" style="">
                                                                         @foreach (var acc4 in (List<GlaccVM>)acc3.childacc)
                                                                         {
-                                                                            <li role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="j4_4_anchor" id="@acc4.accgrp-j4_4_@acc4.Glacc.id" class="jstree-node jstree-leaf jstree-last" aria-id="@acc4.Glacc.id">
+                                                                            <li role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="j4_4_anchor" id="@acc4.accgrp-j4_4_@acc4.Glacc.id" class="jstree-node jstree-leaf" aria-id="@acc4.Glacc.id">
                                                                                 <i class="jstree-icon jstree-ocl" role="presentation"></i>
                                                                                 <a class="jstree-anchor" href="#" tabindex="-1" id="@acc4.accgrp-j4_4_@(acc4.Glacc.id)_anchor">
                                                                                     <i class="jstree-icon jstree-file" role="presentation"></i>**@acc4.accnum @acc4.accnam
                                                                                 </a>
                                                                             </li>
-
-
                                                                         }
                                                                     </ul>
                                                                 }
@@ -118,22 +117,22 @@
 
     </div>
     <div class="six wide column" id="glacc-form-panel">
-        <form class="ui form" method="post" asp-controller="Glacc" asp-action="AddEdit" onsubmit="" id="glacc-form">
+        <form class="ui form has-error" method="post" asp-controller="Glacc" asp-action="AddEdit" onsubmit="" id="glacc-form">
             <h4 class="ui dividing header">Add/Edit Account</h4>
-            <input type="hidden" name="glacc[id]" value="-1" />
+            <input type="hidden" name="id" value="-1" />
             <div class="field">
                 <label>Account Number</label>
                 <div class="eight wide field">
-                    <input type="text" name="glacc[accnum]" placeholder="Account Number" disabled="disabled" />
+                    <input type="text" name="accnum" placeholder="Account Number" disabled="disabled" onblur="$(this).checkDuplicate()" />
                 </div>
             </div>
             <div class="field">
                 <label>Account Name</label>
                 <div class="sixteen wide field">
-                    <input type="text" name="glacc[accnam]" placeholder="Account Name (Th.)" disabled="disabled" />
+                    <input type="text" name="accnam" placeholder="Account Name (Th.)" disabled="disabled" />
                 </div>
                 <div class="sixteen wide field">
-                    <input type="text" name="glacc[accnam2]" placeholder="Account Name (En.)" disabled="disabled" />
+                    <input type="text" name="accnam2" placeholder="Account Name (En.)" disabled="disabled" />
                 </div>
             </div>
             <div class="field">
@@ -146,13 +145,20 @@
                                 <option value="AL">Alabama</option>
                                 <option value="AK">Alaska</option>
                             </select>*@
-                            <input type="text" name="glacc[parent]" placeholder="Parent Account" disabled="disabled" />
+                            @*<input type="text" name="parent" placeholder="Parent Account" disabled="disabled" />*@
+                            <select class="ui search dropdown" name="parent" disabled="disabled" onchange="$(this).setDependValue()">
+                                <option value="" aria-acc-level="0" aria-acc-group="1"></option>
+                                @foreach (var acc in (List<Glacc>)ViewBag.summary_acc)
+                                {
+                                    <option value="@acc.accnum" aria-acc-level="@acc.level" aria-acc-group="@acc.group">@acc.accnum @acc.accnam</option>
+                                }
+                            </select>
                         </div>
                     </div>
                     <div class="three wide field">
                         <label>Level</label>
                         <div class="field">
-                            <input type="text" name="glacc[level]" disabled="disabled" />
+                            <input type="text" name="level" readonly="readonly" />
                         </div>
                     </div>
                 </div>
@@ -162,7 +168,7 @@
                     <div class="eight wide field">
                         <label>Group</label>
                         <div class="field">
-                            <select class="ui fluid dropdown" name="glacc[group]" disabled="disabled">
+                            <select class="ui fluid dropdown" name="group" disabled="disabled">
                                 <option value="1">1 - Assets</option>
                                 <option value="2">2 - Liability</option>
                                 <option value="3">3 - Equity</option>
@@ -174,7 +180,7 @@
                     <div class="eight wide field">
                         <label>Type</label>
                         <div class="field">
-                            <select class="ui fluid dropdown" name="glacc[acctyp]" disabled="disabled">
+                            <select class="ui fluid dropdown" name="acctyp" disabled="disabled">
                                 <option value="0">0 - Posting</option>
                                 <option value="1">1 - Summary</option>
                             </select>
@@ -188,7 +194,7 @@
                     <div class="eight wide field">
                         <label>Use Dept.</label>
                         <div class="field">
-                            <select class="ui fluid dropdown" name="glacc[usedep]" disabled="disabled">
+                            <select class="ui fluid dropdown" name="usedep" disabled="disabled">
                                 <option value="N">N - No</option>
                                 <option value="Y">Y - Yes</option>
                                 <option value="M">M - Must specify dept.</option>
@@ -197,6 +203,16 @@
                     </div>
                 </div>
             </div>
+
+            @if (ViewBag.message != null)
+            {
+                <div class="field">
+                    <div class="ui error message">
+                        <div class="header">Error Description</div>
+                        <p>You can only sign up for an account once with a given e-mail address.</p>
+                    </div>
+                </div>
+            }
 
             <button type="submit" class="ui button green" tabindex="0" disabled="disabled" id="btn-submit"><i class="check circle icon"></i>Submit</button>
             <button type="button" class="ui button grey" tabindex="1" onclick="$(this).clearForm()" disabled="disabled" id="btn-cancel"><i class="times circle icon"></i>Cancel</button>
@@ -256,15 +272,15 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json'
                 }).done(function (acc) {
-                    $('#glacc-form [name="glacc[id]"]').val(acc.id);
-                    $('#glacc-form [name="glacc[accnum]"]').val(acc.accnum);
-                    $('#glacc-form [name="glacc[accnam]"]').val(acc.accnam);
-                    $('#glacc-form [name="glacc[accnam2]"]').val(acc.accnam2);
-                    $('#glacc-form [name="glacc[parent]"]').val(acc.parent);
-                    $('#glacc-form [name="glacc[level]"]').val(acc.level);
-                    $('#glacc-form [name="glacc[group]"]').val(acc.group);
-                    $('#glacc-form [name="glacc[acctyp]"]').val(acc.acctyp);
-                    $('#glacc-form [name="glacc[usedep]"]').val(acc.usedep);
+                    $('#glacc-form [name="id"]').val(acc.id);
+                    $('#glacc-form [name="accnum"]').val(acc.accnum);
+                    $('#glacc-form [name="accnam"]').val(acc.accnam);
+                    $('#glacc-form [name="accnam2"]').val(acc.accnam2);
+                    $('#glacc-form [name="parent"]').val(acc.parent);
+                    $('#glacc-form [name="level"]').val(acc.level);
+                    $('#glacc-form [name="group"]').val(acc.group);
+                    $('#glacc-form [name="acctyp"]').val(acc.acctyp);
+                    $('#glacc-form [name="usedep"]').val(acc.usedep);
                 });
 
             });
@@ -282,14 +298,14 @@
                     return;
 
                 $('#readonly-layer').fadeIn(100);
-                $('#glacc-form [name="glacc[id]"]').val("-1");
-                $('#glacc-form [name="glacc[accnum]"]').removeAttr('disabled').focus();
-                $('#glacc-form [name="glacc[accnam]"]').removeAttr('disabled');
-                $('#glacc-form [name="glacc[accnam2]"]').removeAttr('disabled');
-                $('#glacc-form [name="glacc[parent]"]').removeAttr('disabled');
-                $('#glacc-form [name="glacc[group]"]').removeAttr('disabled');
-                $('#glacc-form [name="glacc[acctyp]"]').removeAttr('disabled');
-                $('#glacc-form [name="glacc[usedep]"]').removeAttr('disabled');
+                $('#glacc-form [name="id"]').val("-1");
+                $('#glacc-form [name="accnum"]').removeAttr('disabled').focus();
+                $('#glacc-form [name="accnam"]').removeAttr('disabled');
+                $('#glacc-form [name="accnam2"]').removeAttr('disabled');
+                $('#glacc-form [name="parent"]').removeAttr('disabled');
+                $('#glacc-form [name="group"]').removeAttr('disabled');
+                $('#glacc-form [name="acctyp"]').removeAttr('disabled');
+                $('#glacc-form [name="usedep"]').removeAttr('disabled');
                 $('#glacc-form #btn-submit').removeAttr('disabled');
                 $('#glacc-form #btn-cancel').removeAttr('disabled');
                 form_state = 'A'
@@ -297,16 +313,16 @@
             },
 
             editForm: function () {
-                if (form_state !== 'R' || $('#glacc-form [name="glacc[accnum]"]').val().trim().length == 0)
+                if (form_state !== 'R' || $('#glacc-form [name="accnum"]').val().trim().length == 0)
                     return;
 
                 $('#readonly-layer').fadeIn(100);
-                $('#glacc-form [name="glacc[accnam]"]').removeAttr('disabled').focus();
-                $('#glacc-form [name="glacc[accnam2]"]').removeAttr('disabled');
-                $('#glacc-form [name="glacc[parent]"]').removeAttr('disabled');
-                $('#glacc-form [name="glacc[group]"]').removeAttr('disabled');
-                $('#glacc-form [name="glacc[acctyp]"]').removeAttr('disabled');
-                $('#glacc-form [name="glacc[usedep]"]').removeAttr('disabled');
+                $('#glacc-form [name="accnam"]').removeAttr('disabled').focus();
+                $('#glacc-form [name="accnam2"]').removeAttr('disabled');
+                $('#glacc-form [name="parent"]').removeAttr('disabled');
+                $('#glacc-form [name="group"]').removeAttr('disabled');
+                $('#glacc-form [name="acctyp"]').removeAttr('disabled');
+                $('#glacc-form [name="usedep"]').removeAttr('disabled');
                 $('#glacc-form #btn-submit').removeAttr('disabled');
                 $('#glacc-form #btn-cancel').removeAttr('disabled');
                 form_state = 'E'
@@ -315,19 +331,47 @@
 
             clearForm: function () {
                 $('#readonly-layer').fadeOut(100);
-                $('#glacc-form [name="glacc[accnum]"]').attr({ 'disabled': 'disabled' });
-                $('#glacc-form [name="glacc[accnam]"]').attr({ 'disabled': 'disabled' });
-                $('#glacc-form [name="glacc[accnam2]"]').attr({ 'disabled': 'disabled' });
-                $('#glacc-form [name="glacc[parent]"]').attr({ 'disabled': 'disabled' });
-                $('#glacc-form [name="glacc[group]"]').attr({ 'disabled': 'disabled' });
-                $('#glacc-form [name="glacc[acctyp]"]').attr({ 'disabled': 'disabled' });
-                $('#glacc-form [name="glacc[usedep]"]').attr({ 'disabled': 'disabled' });
+                $('#glacc-form [name="accnum"]').attr({ 'disabled': 'disabled' });
+                $('#glacc-form [name="accnam"]').attr({ 'disabled': 'disabled' });
+                $('#glacc-form [name="accnam2"]').attr({ 'disabled': 'disabled' });
+                $('#glacc-form [name="parent"]').attr({ 'disabled': 'disabled' });
+                $('#glacc-form [name="group"]').attr({ 'disabled': 'disabled' });
+                $('#glacc-form [name="acctyp"]').attr({ 'disabled': 'disabled' });
+                $('#glacc-form [name="usedep"]').attr({ 'disabled': 'disabled' });
                 $('#glacc-form #btn-submit').attr({ 'disabled': 'disabled' });
                 $('#glacc-form #btn-cancel').attr({ 'disabled': 'disabled' });
                 form_state = 'R'
                 console.log(form_state);
             },
 
+            checkDuplicate: function () {
+                var target_elem = $(this);
+                if ($(this).val().trim().length === 0)
+                    return;
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Glacc/IsDuplicateAccnum",
+                    data: { accnum: $(this).val().trim() },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json'
+                }).done(function (result) {
+                    if (result === true) {
+                        $(target_elem).css({ 'color': 'red' });
+                    }
+                    else {
+                        $(target_elem).css({ 'color': 'black' });
+                    }
+                });
+
+            },
+
+            setDependValue: function () {
+                var level = parseInt($(this).find('option:selected').attr("aria-acc-level")) + 1;
+                var group = $(this).find('option:selected').attr("aria-acc-group");
+                $('#glacc-form [name="level"]').val(level);
+                $('#glacc-form [name="group"]').val(group);
+            }
         });
     </script>
 }

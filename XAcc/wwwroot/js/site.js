@@ -36,7 +36,9 @@ function preventEnterSubmit(e) {
 $(document).ready(function () {
     
     //$(".scrollpane").addSlimScroll();
-
+    $('.popup').popup({
+        on: 'click'
+    });
     $('.ui.accordion').accordion('refresh');
     $('.ui.sidebar').sidebar('toggle');
     $('.ui.icon.button').popup();
