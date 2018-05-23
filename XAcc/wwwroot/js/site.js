@@ -34,7 +34,11 @@ function preventEnterSubmit(e) {
 }
 
 $(document).ready(function () {
-    
+    $('input').keypress(function (event) {
+        if (event.keyCode === 10 || event.keyCode === 13)
+            event.preventDefault();
+    });
+
     //$(".scrollpane").addSlimScroll();
     $('.popup').popup({
         on: 'click'

@@ -15,7 +15,6 @@ namespace XAcc.Models
 {
     public static class Helper
     {
-
         public static string GetIdentityClaimValue(this ControllerExtend controller, string claimtype)
         {
             if (controller.User.Identity.IsAuthenticated)

@@ -5,11 +5,38 @@ using System.Threading.Tasks;
 
 namespace XAcc.Models
 {
-    public class ViewMessage
+    //public class ViewMessage
+    //{
+    //    public string key { get; set; }
+    //    public string value { get; set; }
+    //    public int int1 { get; set; }
+    //}
+
+    public class AddEditResult
     {
-        public string key { get; set; }
-        public string value { get; set; }
-        public int int1 { get; set; }
+        public bool result { get; set; }
+        public string message { get; set; }
+    }
+
+    public class GlaccJson
+    {
+        public string id { get; set; }
+        public string parent { get; set; }
+        public string text { get; set; }
+        public string icon { get; set; }
+        public GlaccJsonState state { get; set; }
+        //public List<GlaccJson> children { get; set; }
+        //public List<KeyValuePair<string,string>> li_attr { get; set; }
+        //public List<KeyValuePair<string, string>> a_attr { get; set; }
+        public List<List<string>> a_attr { get; set; }
+        public List<List<string>> li_attr { get; set; }
+    }
+
+    public class GlaccJsonState
+    {
+        public bool opened { get; set; }
+        public bool disabled { get; set; }
+        public bool selected { get; set; }
     }
 
     public class GlaccVM

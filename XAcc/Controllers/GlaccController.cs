@@ -1,11 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using XAcc.Models;
 
 namespace XAcc.Controllers
@@ -18,7 +17,7 @@ namespace XAcc.Controllers
             this.dbmain_context = dbmain_context;
         }
 
-        public IActionResult Index(int? id)
+        public IActionResult Index()
         {
             this.PrepareDbContext();
 
@@ -32,13 +31,41 @@ namespace XAcc.Controllers
                 this.dbacc_context.Glacc.Where(g => g.group == "4" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
                 this.dbacc_context.Glacc.Where(g => g.group == "5" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context)
             };
-
-            if (id.HasValue)
+            
+            if(TempData["selected_id"] != null)
             {
-                ViewBag.SelectedItem = this.dbacc_context.Glacc.Find(id);
+                ViewBag.SelectedItem = this.dbacc_context.Glacc.Where(g => g.id == (int)TempData["selected_id"]).FirstOrDefault();
             }
 
             return View("Index", acc.Where(a => a != null).ToList());
+        }
+
+        [HttpGet, Authorize]
+        public IActionResult GetGlaccJson(int? selected_id)
+        {
+            this.PrepareDbContext();
+
+            var accs = this.dbacc_context.Glacc.OrderBy(g => g.accnum).ToList();
+
+            List<GlaccJson> json_data = new List<GlaccJson>();
+            foreach (Glacc acc in accs)
+            {
+                json_data.Add(new GlaccJson
+                {
+                    id = acc.id.ToString(),
+                    parent = acc.parent != null && acc.parent.Trim().Length > 0 ? accs.Where(g => g.accnum.Trim() == acc.parent).FirstOrDefault().id.ToString() : "#",
+                    text = acc.accnum + " " + acc.accnam,
+                    state = new GlaccJsonState { disabled = false, opened = false, selected = (selected_id.HasValue && acc.id == selected_id ? true : false) },
+                    icon = acc.acctyp == "0" ? "jstree-file" : "",
+                    //a_attr = new List<KeyValuePair<string, string>> {  new KeyValuePair<string, string>("style", "color: red")},
+                    //li_attr = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("style", "font-weight: bold")}
+                    //a_attr = new List<List<string>> { new List<string> { "style", "color: red" } },
+                    //li_attr = new List<List<string>> { new List<string> { "aria", "font-weight: bold" } }
+
+                });
+            }
+
+            return Json(json_data);
         }
 
         [HttpGet, Authorize]
@@ -92,6 +119,8 @@ namespace XAcc.Controllers
 
                 this.dbacc_context.Glacc.Add(acc);
                 this.dbacc_context.SaveChanges();
+                TempData["selected_id"] = acc.id;
+
                 return RedirectToAction("Index");
             }
             else // update
@@ -117,13 +146,65 @@ namespace XAcc.Controllers
                 acc_to_update.chgdat = DateTime.Now;
 
                 this.dbacc_context.SaveChanges();
+                TempData["selected_id"] = acc_to_update.id;
+                
                 return RedirectToAction("Index");
             }
+        }
 
-            //ViewBag.message = new List<ViewMessage>()
-            //{
+        [HttpPost, Authorize]
+        public IActionResult AddEditAsync([FromHeader] Glacc acc)
+        {
+            if (acc == null)
+                return Json(new AddEditResult { result = false, message = "Null value is passed." });
 
-            //};
+            this.PrepareDbContext();
+
+            if (acc.id == -1) // insert
+            {
+                acc.id = 0;
+                acc.nature = acc.group == "1" || acc.group == "5" ? "0" : "1";
+                acc.status = "A";
+                acc.usejob = "N";
+                acc.consol = string.Empty;
+                acc.creby = this.GetIdentityClaimValue(ClaimTypes.Name);
+                acc.credat = DateTime.Now;
+                acc.chgby = null;
+                acc.chgdat = null;
+
+                this.dbacc_context.Glacc.Add(acc);
+                this.dbacc_context.SaveChanges();
+                //TempData["selected_id"] = acc.id;
+
+                return Json(new AddEditResult { result = true, message = "Success" }); //RedirectToAction("Index");
+            }
+            else // update
+            {
+                var acc_to_update = this.dbacc_context.Glacc.Find(acc.id);
+
+                if (acc_to_update == null)
+                {
+                    return Json("Not Found!");
+                }
+                acc_to_update.accnam = acc.accnam;
+                acc_to_update.accnam2 = acc.accnam2;
+                acc_to_update.acctyp = acc.acctyp;
+                acc_to_update.group = acc.group;
+                acc_to_update.level = acc.level;
+                acc_to_update.parent = acc.parent;
+                acc_to_update.usedep = acc.usedep;
+                acc_to_update.nature = acc.group == "1" || acc.group == "5" ? "0" : "1";
+                acc_to_update.status = "A";
+                acc_to_update.usejob = "N";
+                acc_to_update.consol = string.Empty;
+                acc_to_update.chgby = this.GetIdentityClaimValue(ClaimTypes.Name);
+                acc_to_update.chgdat = DateTime.Now;
+
+                this.dbacc_context.SaveChanges();
+                //TempData["selected_id"] = acc_to_update.id;
+
+                return Json(new AddEditResult { result = true, message = "Success" }); //RedirectToAction("Index");
+            }
         }
 
         [Authorize]
