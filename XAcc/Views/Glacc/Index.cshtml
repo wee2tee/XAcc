@@ -51,6 +51,10 @@
         <i class="delete icon red"></i>
         Delete
     </a>
+    <a class="item" onclick="$('#glacc-chart').jstree(true).refresh()" id="btn-reload">
+        <i class="refresh icon red"></i>
+        Reload
+    </a>
 </div>
 <div class="ui two column stackable grid">
     <div class="ten wide column" id="glacc-chart-panel">
@@ -149,11 +153,7 @@
                                 </select>*@
                             @*<input type="text" name="parent" placeholder="Parent Account" disabled="disabled" />*@
                             <select class="ui search dropdown" name="parent" disabled="disabled" onchange="$(this).setDependValue()">
-                                <option value="" aria-acc-level="0" aria-acc-group="1"></option>
-                                @foreach (var acc in (List<Glacc>)ViewBag.summary_acc)
-                                {
-                                    <option value="@acc.accnum" aria-acc-level="@acc.level" aria-acc-group="@acc.group">@acc.accnum @acc.accnam</option>
-                                }
+                                
                             </select>
                         </div>
                     </div>
@@ -228,6 +228,7 @@
 
         $(document).ready(function () {
             $('#glacc-chart').loadAccChart();
+            $('[name="parent"]').loadSelectionParent();
 
             $('#glacc-chart').on('changed.jstree', function (e, data) {
                 var id = $('#' + data.selected).attr('id');
@@ -251,17 +252,26 @@
 
             });
 
+            $('#glacc-chart').on('deselect_all.jstree', function (e, data) {
+                console.log("deselect all");
 
+            });
+
+            $('#glacc-chart').on('refresh.jstree', function (e, data) {
+                var selected_id = $('#glacc-chart').jstree(true).get_selected(false);
+                $('#glacc-chart').jstree(true)._open_to(selected_id);
+            });
         });
 
         $.fn.extend({
-            loadAccChart: function (selected_id) {
+            loadAccChart: function () {
+                $(this).html('');
+
                 $(this).jstree({
                     "core": {
                         "data": {
                             "url": "/Glacc/GetGlaccJson",
                             "dataType": "json",
-                            "data": { selected_id: selected_id }
                         },
                         "multiple": false,
                     }
@@ -288,7 +298,10 @@
             },
 
             editForm: function () {
-                if (form_state !== 'R' || $('#glacc-form [name="accnum"]').val().trim().length == 0)
+                if (form_state !== 'R'/* || $('#glacc-form [name="accnum"]').val().trim().length == 0*/)
+                    return;
+
+                if ($('#glacc-chart').jstree(true).get_selected(false).length == 0)
                     return;
 
                 $('#readonly-layer').fadeIn(100);
@@ -341,6 +354,22 @@
 
             },
 
+            loadSelectionParent: function () {
+                $.ajax({
+                    type: "GET",
+                    url: "/Glacc/GetGlacc",
+                    data: { acctyp: '1' },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json'
+                }).done(function (result) {
+                    $('[name="parent"]').html('');
+                    $('[name="parent"]').append($('<option></option>').attr({ 'aria-acc-group': '1', 'aria-acc-level': '0', 'value': '' }).text(''));
+                    $.each(result, function (key, value) {
+                        $('[name="parent"]').append($('<option></option>').attr({ 'aria-acc-group': value.group, 'aria-acc-level': value.level, 'value': value.accnum }).text(value.accnum + ' ' + value.accnam));
+                    });
+                });
+            },
+
             setDependValue: function () {
                 var level = parseInt($(this).find('option:selected').attr("aria-acc-level")) + 1;
                 var group = $(this).find('option:selected').attr("aria-acc-group");
@@ -349,10 +378,21 @@
             },
 
             submitForm: function () {
+                var data = new Object();
+                data.id = $("#glacc-form [name='id']").val();
+                data.accnum = $("#glacc-form [name='accnum']").val();
+                data.accnam = $("#glacc-form [name='accnam']").val();
+                data.accnam2 = $("#glacc-form [name='accnam2']").val();
+                data.parent = $("#glacc-form [name='parent']").val();
+                data.level = $("#glacc-form [name='level']").val();
+                data.group = $("#glacc-form [name='group']").val();
+                data.acctyp = $("#glacc-form [name='acctyp']").val();
+                data.usedep = $("#glacc-form [name='usedep']").val();
+
                 $.ajax({
                     type: "POST",
                     url: "/Glacc/AddEditAsync",
-                    data: $('#glacc-form').serialize(),
+                    data: JSON.stringify(data),
                     dataType: 'json',
                     contentType: "application/json; charset=utf-8",
                     beforeSend: function (xhr) {
@@ -365,7 +405,10 @@
                         }
                     },
                     success: function (data) {
-                        console.log(data);
+                        if (data.result === true) {
+                            $(this).clearForm();
+                            $('#glacc-chart').jstree(true).refresh();
+                        }
                     }
                 })
 

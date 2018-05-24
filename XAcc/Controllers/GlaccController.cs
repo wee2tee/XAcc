@@ -41,11 +41,35 @@ namespace XAcc.Controllers
         }
 
         [HttpGet, Authorize]
-        public IActionResult GetGlaccJson(int? selected_id)
+        public IActionResult GetGlacc(string acctyp)
         {
             this.PrepareDbContext();
 
-            var accs = this.dbacc_context.Glacc.OrderBy(g => g.accnum).ToList();
+            if(acctyp != null)
+            {
+                return Json(this.dbacc_context.Glacc.Where(g => g.acctyp == acctyp).OrderBy(g => g.accnum).ToList());
+            }
+            else
+            {
+                return Json(this.dbacc_context.Glacc.OrderBy(g => g.accnum).ToList());
+            }
+        }
+
+        [HttpGet, Authorize]
+        public IActionResult GetGlaccJson(string acctyp)
+        {
+            this.PrepareDbContext();
+
+            List<Glacc> accs;
+
+            if(acctyp != null)
+            {
+                accs = this.dbacc_context.Glacc.Where(g => g.acctyp == acctyp).OrderBy(g => g.accnum).ToList();
+            }
+            else
+            {
+                accs = this.dbacc_context.Glacc.OrderBy(g => g.accnum).ToList();
+            }
 
             List<GlaccJson> json_data = new List<GlaccJson>();
             foreach (Glacc acc in accs)
@@ -55,7 +79,7 @@ namespace XAcc.Controllers
                     id = acc.id.ToString(),
                     parent = acc.parent != null && acc.parent.Trim().Length > 0 ? accs.Where(g => g.accnum.Trim() == acc.parent).FirstOrDefault().id.ToString() : "#",
                     text = acc.accnum + " " + acc.accnam,
-                    state = new GlaccJsonState { disabled = false, opened = false, selected = (selected_id.HasValue && acc.id == selected_id ? true : false) },
+                    state = new GlaccJsonState { disabled = false, opened = false, selected = false },
                     icon = acc.acctyp == "0" ? "jstree-file" : "",
                     //a_attr = new List<KeyValuePair<string, string>> {  new KeyValuePair<string, string>("style", "color: red")},
                     //li_attr = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("style", "font-weight: bold")}
@@ -153,7 +177,7 @@ namespace XAcc.Controllers
         }
 
         [HttpPost, Authorize]
-        public IActionResult AddEditAsync([FromHeader] Glacc acc)
+        public IActionResult AddEditAsync([FromBody] Glacc acc)
         {
             if (acc == null)
                 return Json(new AddEditResult { result = false, message = "Null value is passed." });
@@ -176,7 +200,7 @@ namespace XAcc.Controllers
                 this.dbacc_context.SaveChanges();
                 //TempData["selected_id"] = acc.id;
 
-                return Json(new AddEditResult { result = true, message = "Success" }); //RedirectToAction("Index");
+                return Json(new AddEditResult { result = true, message = acc.id.ToString() }); //RedirectToAction("Index");
             }
             else // update
             {
@@ -203,7 +227,7 @@ namespace XAcc.Controllers
                 this.dbacc_context.SaveChanges();
                 //TempData["selected_id"] = acc_to_update.id;
 
-                return Json(new AddEditResult { result = true, message = "Success" }); //RedirectToAction("Index");
+                return Json(new AddEditResult { result = true, message = acc_to_update.id.ToString() }); //RedirectToAction("Index");
             }
         }
 
