@@ -81,11 +81,8 @@ namespace XAcc.Controllers
                     text = acc.accnum + " " + acc.accnam,
                     state = new GlaccJsonState { disabled = false, opened = false, selected = false },
                     icon = acc.acctyp == "0" ? "jstree-file" : "",
-                    //a_attr = new List<KeyValuePair<string, string>> {  new KeyValuePair<string, string>("style", "color: red")},
-                    //li_attr = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("style", "font-weight: bold")}
-                    //a_attr = new List<List<string>> { new List<string> { "style", "color: red" } },
-                    //li_attr = new List<List<string>> { new List<string> { "aria", "font-weight: bold" } }
-
+                    //a_attr = new { style = "color : red !important; font-style: italic !important;" },
+                    li_attr = new { aria_accnum = acc.accnum , aria_accnam = acc.accnam }
                 });
             }
 
@@ -228,6 +225,38 @@ namespace XAcc.Controllers
                 //TempData["selected_id"] = acc_to_update.id;
 
                 return Json(new AddEditResult { result = true, message = acc_to_update.id.ToString() }); //RedirectToAction("Index");
+            }
+        }
+
+        [HttpGet, Authorize]
+        public IActionResult SearchAsync(string keyword, string search_by = "accnum")
+        {
+            if (keyword == null)
+                return Json("-1");
+
+            this.PrepareDbContext();
+
+            Glacc acc;
+            switch (search_by)
+            {
+                case "accnum":
+                    acc = this.dbacc_context.Glacc.Where(g => g.accnum.StartsWith(keyword)).FirstOrDefault();
+                    break;
+                case "accnam":
+                    acc = this.dbacc_context.Glacc.Where(g => g.accnam.StartsWith(keyword)).FirstOrDefault();
+                    break;
+                default:
+                    acc = this.dbacc_context.Glacc.Where(g => g.accnum.StartsWith(keyword)).FirstOrDefault();
+                    break;
+            }
+            
+            if(acc != null)
+            {
+                return Json(acc.id.ToString());
+            }
+            else
+            {
+                return Json("-1");
             }
         }
 

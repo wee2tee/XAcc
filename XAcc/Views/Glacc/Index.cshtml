@@ -38,6 +38,7 @@
             })
         </script>
     }*@
+
 <div class="ui inverted menu">
     <a class="item" onclick="$(this).addForm()" id="btn-add">
         <i class="add icon green"></i>
@@ -52,70 +53,105 @@
         Delete
     </a>
     <a class="item" onclick="$('#glacc-chart').jstree(true).refresh()" id="btn-reload">
-        <i class="refresh icon red"></i>
+        <i class="refresh icon blue"></i>
         Reload
     </a>
+    @*<div class="ui pointing dropdown link item">
+        <span class="text">Sort by Account No.</span>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+            <div class="item">Sort by Account No.</div>
+            <div class="item">Sort by Account Name</div>
+        </div>
+    </div>*@
+    <div class="item">
+        <div class="ui icon input">
+            <input data-search-by="accnum" type="text" placeholder="Search..." id="search-key">
+            <i class="search link icon" onclick="$('#search-key').search()"></i>
+        </div>
+    </div>
 </div>
+
 <div class="ui two column stackable grid">
     <div class="ten wide column" id="glacc-chart-panel">
         <div class="scrollable-box-wrapper">
-            <div class="scrollable-box">
+            <div style="padding: 5px;">
+                <div class="ui selection dropdown" style="float: right;">
+                    <input type="hidden" name="sort-by">
+                    <i class="dropdown icon"></i>
+                    <div class="default text">Sort by Account Number</div>
+                    <div class="menu">
+                        <div class="item active selected" data-value="accnum">Sort by Account Number</div>
+                        <div class="item" data-value="accnam">Sort by Account Name</div>
+                    </div>
+                </div>
+                @*<div class="ui compact selection dropdown">
+                    <i class="dropdown icon"></i>
+                    <div class="text">Sort by Account Number</div>
+                    <div class="menu">
+                        <div class="item active selected" data-value="accnum">Sort by Account Number</div>
+                        <div class="item" data-value="accnam">Sort by Account Name</div>
+                    </div>
+                </div>*@
+            </div>
+
+            <div class="scrollable-box" style="top: 48px;">
                 <div class="layer" id="readonly-layer" style="display: none;"></div>
                 <p style="padding: 10px 10px 5px; margin-bottom: 0;">Chart of Accounts</p>
                 <div id="glacc-chart">
                     @*@foreach (var acc1 in (List<GlaccVM>)Model)
-                    {
-                        <ul class="jstree-container-ul jstree-children" role="group">
-                            <li aria-id="@acc1.Glacc.id" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="j4_1_anchor" aria-expanded="true" id="@acc1.accgrp-j4_1_@acc1.Glacc.id" class="jstree-node jstree-closed">
-                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                <a class="jstree-anchor @(acc1.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc1.accgrp-j4_1_@(acc1.Glacc.id)_anchor">
-                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc1.accnum @acc1.accnam
-                                </a>
-                                @if (acc1.childacc.Count > 0)
-                                {
-                                    <ul role="group" class="jstree-children" style="">
-                                        @foreach (var acc2 in (List<GlaccVM>)acc1.childacc)
-                                        {
-                                            <li aria-id="@acc2.Glacc.id" role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j4_2_anchor" id="@acc2.accgrp-j4_2_@acc2.Glacc.id" class="jstree-node jstree-closed">
-                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                <a class="jstree-anchor @(acc2.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc2.accgrp-j4_2_@(acc2.Glacc.id)_anchor">
-                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc2.accnum @acc2.accnam
-                                                </a>
-                                                @if (acc2.childacc.Count > 0)
-                                                {
-                                                    <ul role="group" class="jstree-children" style="">
-                                                        @foreach (var acc3 in (List<GlaccVM>)acc2.childacc)
-                                                        {
-                                                            <li aria-id="@acc3.Glacc.id" role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j4_3_anchor" id="@acc3.accgrp-j4_3_@acc3.Glacc.id" class="jstree-node jstree-closed">
-                                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                <a class="jstree-anchor @(acc3.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc3.accgrp-j4_3_@(acc3.Glacc.id)_anchor">
-                                                                    <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc3.accnum @acc3.accnam
-                                                                </a>
-                                                                @if (acc3.childacc.Count > 0)
-                                                                {
-                                                                    <ul role="group" class="jstree-children" style="">
-                                                                        @foreach (var acc4 in (List<GlaccVM>)acc3.childacc)
-                                                                        {
-                                                                            <li aria-id="@acc4.Glacc.id" role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="j4_4_anchor" id="@acc4.accgrp-j4_4_@acc4.Glacc.id" class="jstree-node jstree-leaf" data-jstree="{'type':'file'}">
-                                                                                <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                                <a class="jstree-anchor @(acc4.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc4.accgrp-j4_4_@(acc4.Glacc.id)_anchor">
-                                                                                    <i class="jstree-icon jstree-file" role="presentation"></i>@acc4.accnum @acc4.accnam
-                                                                                </a>
-                                                                            </li>
-                                                                        }
-                                                                    </ul>
-                                                                }
-                                                            </li>
-                                                        }
-                                                    </ul>
-                                                }
-                                            </li>
-                                        }
-                                    </ul>
-                                }
-                            </li>
-                        </ul>
-                    }*@
+                {
+                    <ul class="jstree-container-ul jstree-children" role="group">
+                        <li aria-id="@acc1.Glacc.id" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="j4_1_anchor" aria-expanded="true" id="@acc1.accgrp-j4_1_@acc1.Glacc.id" class="jstree-node jstree-closed">
+                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                            <a class="jstree-anchor @(acc1.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc1.accgrp-j4_1_@(acc1.Glacc.id)_anchor">
+                                <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc1.accnum @acc1.accnam
+                            </a>
+                            @if (acc1.childacc.Count > 0)
+                            {
+                                <ul role="group" class="jstree-children" style="">
+                                    @foreach (var acc2 in (List<GlaccVM>)acc1.childacc)
+                                    {
+                                        <li aria-id="@acc2.Glacc.id" role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j4_2_anchor" id="@acc2.accgrp-j4_2_@acc2.Glacc.id" class="jstree-node jstree-closed">
+                                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                            <a class="jstree-anchor @(acc2.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc2.accgrp-j4_2_@(acc2.Glacc.id)_anchor">
+                                                <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc2.accnum @acc2.accnam
+                                            </a>
+                                            @if (acc2.childacc.Count > 0)
+                                            {
+                                                <ul role="group" class="jstree-children" style="">
+                                                    @foreach (var acc3 in (List<GlaccVM>)acc2.childacc)
+                                                    {
+                                                        <li aria-id="@acc3.Glacc.id" role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j4_3_anchor" id="@acc3.accgrp-j4_3_@acc3.Glacc.id" class="jstree-node jstree-closed">
+                                                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                            <a class="jstree-anchor @(acc3.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc3.accgrp-j4_3_@(acc3.Glacc.id)_anchor">
+                                                                <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc3.accnum @acc3.accnam
+                                                            </a>
+                                                            @if (acc3.childacc.Count > 0)
+                                                            {
+                                                                <ul role="group" class="jstree-children" style="">
+                                                                    @foreach (var acc4 in (List<GlaccVM>)acc3.childacc)
+                                                                    {
+                                                                        <li aria-id="@acc4.Glacc.id" role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="j4_4_anchor" id="@acc4.accgrp-j4_4_@acc4.Glacc.id" class="jstree-node jstree-leaf" data-jstree="{'type':'file'}">
+                                                                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
+                                                                            <a class="jstree-anchor @(acc4.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc4.accgrp-j4_4_@(acc4.Glacc.id)_anchor">
+                                                                                <i class="jstree-icon jstree-file" role="presentation"></i>@acc4.accnum @acc4.accnam
+                                                                            </a>
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            }
+                                                        </li>
+                                                    }
+                                                </ul>
+                                            }
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    </ul>
+                }*@
                 </div>
             </div>
         </div>
@@ -217,7 +253,7 @@
             }
 
             <button type="button" class="ui button green" tabindex="0" disabled="disabled" id="btn-submit" onclick="$(this).submitForm()"><i class="check circle icon"></i>Submit</button>
-            <button type="button" class="ui button grey" tabindex="1" disabled="disabled" id="btn-cancel" onclick="$(this).clearForm()"><i class="times circle icon"></i>Cancel</button>
+            <button type="button" class="ui button red" tabindex="1" disabled="disabled" id="btn-cancel" onclick="$(this).clearForm()"><i class="times circle icon"></i>Cancel</button>
         </form>
     </div>
 </div>
@@ -274,7 +310,8 @@
                             "dataType": "json",
                         },
                         "multiple": false,
-                    }
+                    },
+                    //"plugins": ["wholerow"]
                 });
             },
 
@@ -298,7 +335,7 @@
             },
 
             editForm: function () {
-                if (form_state !== 'R'/* || $('#glacc-form [name="accnum"]').val().trim().length == 0*/)
+                if (form_state !== 'R')
                     return;
 
                 if ($('#glacc-chart').jstree(true).get_selected(false).length == 0)
@@ -411,7 +448,27 @@
                         }
                     }
                 })
+            },
 
+            search: function () {
+                var keyword = $(this).val().trim();
+                var search_by = $(this).attr('data-search-by');
+                if (keyword.length == 0)
+                    return;
+
+                $.ajax({
+                    url: "/Glacc/SearchAsync",
+                    method: "GET",
+                    data: { keyword: keyword, search_by: search_by },
+                    success: function (id) {
+                        console.log(id);
+                        if (id > -1) {
+                            $('#glacc-chart').jstree(true).deselect_all(false);
+                            $('#glacc-chart').jstree(true).select_node(id, false, false);
+                            $('#glacc-chart').jstree(true)._open_to(id);
+                        }
+                    }
+                });
             }
         });
     </script>

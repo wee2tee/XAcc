@@ -28,8 +28,8 @@ namespace XAcc.Models
         //public List<GlaccJson> children { get; set; }
         //public List<KeyValuePair<string,string>> li_attr { get; set; }
         //public List<KeyValuePair<string, string>> a_attr { get; set; }
-        public List<List<string>> a_attr { get; set; }
-        public List<List<string>> li_attr { get; set; }
+        public object a_attr { get; set; }
+        public object li_attr { get; set; }
     }
 
     public class GlaccJsonState
