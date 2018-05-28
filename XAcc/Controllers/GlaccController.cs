@@ -22,8 +22,9 @@ namespace XAcc.Controllers
             this.PrepareDbContext();
 
             ViewBag.summary_acc = this.dbacc_context.Glacc.Where(a => a.acctyp == "1").ToList();
+            ViewBag.sort_by = HttpContext.Request.Query["sort_by"].FirstOrDefault() != null ? HttpContext.Request.Query["sort_by"].First().ToString() : "accnum";
 
-            List<GlaccVM> acc = new List<GlaccVM>()
+            List <GlaccVM> acc = new List<GlaccVM>()
             {
                 this.dbacc_context.Glacc.Where(g => g.group == "1" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
                 this.dbacc_context.Glacc.Where(g => g.group == "2" && g.level == 1).FirstOrDefault()?.ToGlaccVM(this.dbacc_context),
@@ -56,19 +57,41 @@ namespace XAcc.Controllers
         }
 
         [HttpGet, Authorize]
-        public IActionResult GetGlaccJson(string acctyp)
+        public IActionResult GetGlaccJson(string sort_by = "accnum", string acctyp = "*")
         {
             this.PrepareDbContext();
 
             List<Glacc> accs;
 
-            if(acctyp != null)
+            if(acctyp == "*")
             {
-                accs = this.dbacc_context.Glacc.Where(g => g.acctyp == acctyp).OrderBy(g => g.accnum).ToList();
+                switch (sort_by)
+                {
+                    case "accnum":
+                        accs = this.dbacc_context.Glacc.OrderBy(g => g.accnum).ToList();
+                        break;
+                    case "accnam":
+                        accs = this.dbacc_context.Glacc.OrderBy(g => g.accnam).ToList();
+                        break;
+                    default:
+                        accs = this.dbacc_context.Glacc.OrderBy(g => g.accnum).ToList();
+                        break;
+                }
             }
             else
             {
-                accs = this.dbacc_context.Glacc.OrderBy(g => g.accnum).ToList();
+                switch (sort_by)
+                {
+                    case "accnum":
+                        accs = this.dbacc_context.Glacc.Where(g => g.acctyp == acctyp).OrderBy(g => g.accnum).ToList();
+                        break;
+                    case "accnam":
+                        accs = this.dbacc_context.Glacc.Where(g => g.acctyp == acctyp).OrderBy(g => g.accnam).ToList();
+                        break;
+                    default:
+                        accs = this.dbacc_context.Glacc.Where(g => g.acctyp == acctyp).OrderBy(g => g.accnum).ToList();
+                        break;
+                }
             }
 
             List<GlaccJson> json_data = new List<GlaccJson>();
@@ -77,7 +100,7 @@ namespace XAcc.Controllers
                 json_data.Add(new GlaccJson
                 {
                     id = acc.id.ToString(),
-                    parent = acc.parent != null && acc.parent.Trim().Length > 0 ? accs.Where(g => g.accnum.Trim() == acc.parent).FirstOrDefault().id.ToString() : "#",
+                    parent = sort_by == "accnam" ? "#" : (acc.parent != null && acc.parent.Trim().Length > 0 ? accs.Where(g => g.accnum.Trim() == acc.parent).FirstOrDefault().id.ToString() : "#"),
                     text = acc.accnum + " " + acc.accnam,
                     state = new GlaccJsonState { disabled = false, opened = false, selected = false },
                     icon = acc.acctyp == "0" ? "jstree-file" : "",
@@ -183,6 +206,9 @@ namespace XAcc.Controllers
 
             if (acc.id == -1) // insert
             {
+                if (this.dbacc_context.Glacc.Where(g => g.accnum.Trim() == acc.accnum.Trim()).ToList().Count > 0)
+                    return Json(new AddEditResult { result = false, message = "Account number " + acc.accnum + " already exists." });
+
                 acc.id = 0;
                 acc.nature = acc.group == "1" || acc.group == "5" ? "0" : "1";
                 acc.status = "A";
@@ -195,9 +221,8 @@ namespace XAcc.Controllers
 
                 this.dbacc_context.Glacc.Add(acc);
                 this.dbacc_context.SaveChanges();
-                //TempData["selected_id"] = acc.id;
 
-                return Json(new AddEditResult { result = true, message = acc.id.ToString() }); //RedirectToAction("Index");
+                return Json(new AddEditResult { result = true, message = acc.id.ToString() });
             }
             else // update
             {
@@ -222,9 +247,8 @@ namespace XAcc.Controllers
                 acc_to_update.chgdat = DateTime.Now;
 
                 this.dbacc_context.SaveChanges();
-                //TempData["selected_id"] = acc_to_update.id;
 
-                return Json(new AddEditResult { result = true, message = acc_to_update.id.ToString() }); //RedirectToAction("Index");
+                return Json(new AddEditResult { result = true, message = acc_to_update.id.ToString() });
             }
         }
 
@@ -240,13 +264,13 @@ namespace XAcc.Controllers
             switch (search_by)
             {
                 case "accnum":
-                    acc = this.dbacc_context.Glacc.Where(g => g.accnum.StartsWith(keyword)).FirstOrDefault();
+                    acc = this.dbacc_context.Glacc.Where(g => g.accnum.StartsWith(keyword)).OrderBy(g => g.accnum).FirstOrDefault();
                     break;
                 case "accnam":
-                    acc = this.dbacc_context.Glacc.Where(g => g.accnam.StartsWith(keyword)).FirstOrDefault();
+                    acc = this.dbacc_context.Glacc.Where(g => g.accnam.StartsWith(keyword)).OrderBy(g => g.accnam).FirstOrDefault();
                     break;
                 default:
-                    acc = this.dbacc_context.Glacc.Where(g => g.accnum.StartsWith(keyword)).FirstOrDefault();
+                    acc = this.dbacc_context.Glacc.Where(g => g.accnum.StartsWith(keyword)).OrderBy(g => g.accnum).FirstOrDefault();
                     break;
             }
             
@@ -260,13 +284,24 @@ namespace XAcc.Controllers
             }
         }
 
-        [Authorize]
-        public IActionResult Delete(int? form_action_id)
+        [HttpPost, Authorize]
+        public IActionResult DeleteAsync([FromBody] Glacc acc)
         {
-            if (!form_action_id.HasValue)
-                return Json("Null id passing");
+            //if (!id.HasValue)
+            //    return Json(new AddEditResult { result = false, message = "Null id passing." });
 
-            return Json(form_action_id);
+            this.PrepareDbContext();
+            var glacc_to_remove = this.dbacc_context.Glacc.Find(acc.id);
+
+            if (glacc_to_remove == null)
+                return Json(new AddEditResult { result = false, message = "Account number not found." });
+
+            if (this.dbacc_context.Glacc.Where(g => g.parent != null && g.parent.Trim() == glacc_to_remove.accnum.Trim()).ToList().Count > 0)
+                return Json(new AddEditResult { result = false, message = "This account number has a child account, Please remove child account first." });
+
+            this.dbacc_context.Glacc.Remove(glacc_to_remove);
+            this.dbacc_context.SaveChanges();
+            return Json(new AddEditResult { result = true, message = "Success" });
         }
     }
 }

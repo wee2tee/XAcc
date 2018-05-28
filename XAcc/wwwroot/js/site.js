@@ -43,7 +43,8 @@ $(document).ready(function () {
     $('.popup').popup({
         on: 'click'
     });
-    $('.ui.dropdown').dropdown();
+    $('.ui.dropdown.modules').dropdown();
+    $('.ui.radio.checkbox').checkbox();
     $('.ui.accordion').accordion('refresh');
     $('.ui.sidebar').sidebar('toggle');
     $('.ui.icon.button').popup();

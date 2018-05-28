@@ -5,7 +5,6 @@
     var selected_id = selected_item != null ? selected_item.id : -1;
 }
 
-
 <h2 class="title-text">@ViewData["Title"]</h2>
 @*<div class="ui pointing secondary menu" id="glacc-table">
         <a class="item active" data-tab="GetAcc?acc_group=1" id="Assets">Assets</a>
@@ -52,107 +51,36 @@
         <i class="delete icon red"></i>
         Delete
     </a>
-    <a class="item" onclick="$('#glacc-chart').jstree(true).refresh()" id="btn-reload">
+    <a class="item" onclick="$('#glacc-chart').refreshAccChart()" id="btn-reload">
         <i class="refresh icon blue"></i>
         Reload
     </a>
-    @*<div class="ui pointing dropdown link item">
-        <span class="text">Sort by Account No.</span>
-        <i class="dropdown icon"></i>
-        <div class="menu">
-            <div class="item">Sort by Account No.</div>
-            <div class="item">Sort by Account Name</div>
-        </div>
-    </div>*@
     <div class="item">
         <div class="ui icon input">
-            <input data-search-by="accnum" type="text" placeholder="Search..." id="search-key">
-            <i class="search link icon" onclick="$('#search-key').search()"></i>
+            <input data-search-by="accnum" type="text" placeholder="Search..." id="search-key" onkeypress="$(this).enterPerformSearch(event)">
+            <i class="search link icon" onclick="$('#search-key').search()" id="btn-search"></i>
         </div>
     </div>
 </div>
-
+<div class="ui one column">
+    <div class="ui form">
+        <div class="inline fields">
+            <label>Sort by</label>
+            <div class="ui small buttons">
+                <a href="@(ViewBag.sort_by == "accnum" ? "#" : "/Glacc/Index?sort_by=accnum")" class="ui button @(ViewBag.sort_by == "accnum" ? "active blue" : "") sort-btn"><i class="@(ViewBag.sort_by == "accnum" ? "check icon" : "")"></i>Account Number</a>
+                <div class="or"></div>
+                <a href="@(ViewBag.sort_by == "accnam" ? "#" : "/Glacc/Index?sort_by=accnam")" class="ui button @(ViewBag.sort_by == "accnam" ? "active blue" : "") sort-btn"><i class="@(ViewBag.sort_by == "accnam" ? "check icon" : "")"></i>Account Name</a>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="ui two column stackable grid">
     <div class="ten wide column" id="glacc-chart-panel">
         <div class="scrollable-box-wrapper">
-            <div style="padding: 5px;">
-                <div class="ui selection dropdown" style="float: right;">
-                    <input type="hidden" name="sort-by">
-                    <i class="dropdown icon"></i>
-                    <div class="default text">Sort by Account Number</div>
-                    <div class="menu">
-                        <div class="item active selected" data-value="accnum">Sort by Account Number</div>
-                        <div class="item" data-value="accnam">Sort by Account Name</div>
-                    </div>
-                </div>
-                @*<div class="ui compact selection dropdown">
-                    <i class="dropdown icon"></i>
-                    <div class="text">Sort by Account Number</div>
-                    <div class="menu">
-                        <div class="item active selected" data-value="accnum">Sort by Account Number</div>
-                        <div class="item" data-value="accnam">Sort by Account Name</div>
-                    </div>
-                </div>*@
-            </div>
-
-            <div class="scrollable-box" style="top: 48px;">
+            <div class="scrollable-box">
                 <div class="layer" id="readonly-layer" style="display: none;"></div>
                 <p style="padding: 10px 10px 5px; margin-bottom: 0;">Chart of Accounts</p>
-                <div id="glacc-chart">
-                    @*@foreach (var acc1 in (List<GlaccVM>)Model)
-                {
-                    <ul class="jstree-container-ul jstree-children" role="group">
-                        <li aria-id="@acc1.Glacc.id" role="treeitem" aria-selected="false" aria-level="1" aria-labelledby="j4_1_anchor" aria-expanded="true" id="@acc1.accgrp-j4_1_@acc1.Glacc.id" class="jstree-node jstree-closed">
-                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                            <a class="jstree-anchor @(acc1.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc1.accgrp-j4_1_@(acc1.Glacc.id)_anchor">
-                                <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc1.accnum @acc1.accnam
-                            </a>
-                            @if (acc1.childacc.Count > 0)
-                            {
-                                <ul role="group" class="jstree-children" style="">
-                                    @foreach (var acc2 in (List<GlaccVM>)acc1.childacc)
-                                    {
-                                        <li aria-id="@acc2.Glacc.id" role="treeitem" aria-selected="false" aria-level="2" aria-labelledby="j4_2_anchor" id="@acc2.accgrp-j4_2_@acc2.Glacc.id" class="jstree-node jstree-closed">
-                                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                            <a class="jstree-anchor @(acc2.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc2.accgrp-j4_2_@(acc2.Glacc.id)_anchor">
-                                                <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc2.accnum @acc2.accnam
-                                            </a>
-                                            @if (acc2.childacc.Count > 0)
-                                            {
-                                                <ul role="group" class="jstree-children" style="">
-                                                    @foreach (var acc3 in (List<GlaccVM>)acc2.childacc)
-                                                    {
-                                                        <li aria-id="@acc3.Glacc.id" role="treeitem" aria-selected="false" aria-level="3" aria-labelledby="j4_3_anchor" id="@acc3.accgrp-j4_3_@acc3.Glacc.id" class="jstree-node jstree-closed">
-                                                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                            <a class="jstree-anchor @(acc3.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc3.accgrp-j4_3_@(acc3.Glacc.id)_anchor">
-                                                                <i class="jstree-icon jstree-themeicon" role="presentation"></i>@acc3.accnum @acc3.accnam
-                                                            </a>
-                                                            @if (acc3.childacc.Count > 0)
-                                                            {
-                                                                <ul role="group" class="jstree-children" style="">
-                                                                    @foreach (var acc4 in (List<GlaccVM>)acc3.childacc)
-                                                                    {
-                                                                        <li aria-id="@acc4.Glacc.id" role="treeitem" aria-selected="false" aria-level="4" aria-labelledby="j4_4_anchor" id="@acc4.accgrp-j4_4_@acc4.Glacc.id" class="jstree-node jstree-leaf" data-jstree="{'type':'file'}">
-                                                                            <i class="jstree-icon jstree-ocl" role="presentation"></i>
-                                                                            <a class="jstree-anchor @(acc4.Glacc.id == selected_id ? "jstree-clicked" : "")" href="#" tabindex="-1" id="@acc4.accgrp-j4_4_@(acc4.Glacc.id)_anchor">
-                                                                                <i class="jstree-icon jstree-file" role="presentation"></i>@acc4.accnum @acc4.accnam
-                                                                            </a>
-                                                                        </li>
-                                                                    }
-                                                                </ul>
-                                                            }
-                                                        </li>
-                                                    }
-                                                </ul>
-                                            }
-                                        </li>
-                                    }
-                                </ul>
-                            }
-                        </li>
-                    </ul>
-                }*@
-                </div>
+                <div id="glacc-chart"></div>
             </div>
         </div>
 
@@ -182,21 +110,13 @@
                     <div class="thirteen wide field">
                         <label>Parent Account</label>
                         <div class="field">
-                            @*<select class="ui fluid dropdown" name="glacc[parent]">
-                                    <option value=""></option>
-                                    <option value="AL">Alabama</option>
-                                    <option value="AK">Alaska</option>
-                                </select>*@
-                            @*<input type="text" name="parent" placeholder="Parent Account" disabled="disabled" />*@
-                            <select class="ui search dropdown" name="parent" disabled="disabled" onchange="$(this).setDependValue()">
-                                
-                            </select>
+                            <select class="ui search dropdown" name="parent" disabled="disabled" onchange="$(this).setDependValue()"></select>
                         </div>
                     </div>
                     <div class="three wide field">
                         <label>Level</label>
                         <div class="field">
-                            <input type="text" name="level" readonly="readonly" />
+                            <input type="text" name="level" readonly="readonly" value="" />
                         </div>
                     </div>
                 </div>
@@ -261,13 +181,17 @@
 @section Scripts{
     <script>
         var form_state = 'R';
+        var sort_by = '@ViewBag.sort_by';
+            var selected_id = -1;
 
         $(document).ready(function () {
             $('#glacc-chart').loadAccChart();
             $('[name="parent"]').loadSelectionParent();
 
             $('#glacc-chart').on('changed.jstree', function (e, data) {
+                console.log(data);
                 var id = $('#' + data.selected).attr('id');
+
                 $.ajax({
                     type: "GET",
                     url: "/Glacc/GetAcc",
@@ -275,6 +199,8 @@
                     contentType: "application/json; charset=utf-8",
                     dataType: 'json'
                 }).done(function (acc) {
+                    selected_id = id;
+                    $('#selected-id').val(id);
                     $('#glacc-form [name="id"]').val(acc.id);
                     $('#glacc-form [name="accnum"]').val(acc.accnum);
                     $('#glacc-form [name="accnam"]').val(acc.accnam);
@@ -289,13 +215,19 @@
             });
 
             $('#glacc-chart').on('deselect_all.jstree', function (e, data) {
-                console.log("deselect all");
+
 
             });
 
             $('#glacc-chart').on('refresh.jstree', function (e, data) {
-                var selected_id = $('#glacc-chart').jstree(true).get_selected(false);
-                $('#glacc-chart').jstree(true)._open_to(selected_id);
+                $('#glacc-chart').jstree(true).deselect_all(true);
+                $('#glacc-chart').jstree(true).select_node(selected_id, false);
+                $('#glacc-chart').jstree(true)._open_to($('#selected-id').val());
+            });
+
+            $('.sort-btn').on('click', function (event) {
+                if (form_state !== 'R')
+                    event.preventDefault();
             });
         });
 
@@ -308,11 +240,20 @@
                         "data": {
                             "url": "/Glacc/GetGlaccJson",
                             "dataType": "json",
+                            "data": { acctyp: '*', sort_by: sort_by }
                         },
                         "multiple": false,
                     },
                     //"plugins": ["wholerow"]
                 });
+            },
+
+            refreshAccChart: function () {
+                if (form_state !== 'R')
+                    return;
+
+                $('#glacc-chart').jstree(true).refresh();
+                $('[name="parent"]').loadSelectionParent();
             },
 
             addForm: function () {
@@ -330,6 +271,9 @@
                 $('#glacc-form [name="usedep"]').removeAttr('disabled');
                 $('#glacc-form #btn-submit').removeAttr('disabled');
                 $('#glacc-form #btn-cancel').removeAttr('disabled');
+                if ($('#glacc-chart').jstree(true).get_selected(false).length == 0)
+                    $('#glacc-form [name="level"]').val("1");
+
                 form_state = 'A'
                 console.log(form_state);
             },
@@ -356,7 +300,7 @@
 
             clearForm: function () {
                 $('#readonly-layer').fadeOut(100);
-                $('#glacc-form [name="accnum"]').attr({ 'disabled': 'disabled' });
+                $('#glacc-form [name="accnum"]').attr({ 'disabled': 'disabled' }).css({ 'color': '#000000' });
                 $('#glacc-form [name="accnam"]').attr({ 'disabled': 'disabled' });
                 $('#glacc-form [name="accnam2"]').attr({ 'disabled': 'disabled' });
                 $('#glacc-form [name="parent"]').attr({ 'disabled': 'disabled' });
@@ -366,6 +310,7 @@
                 $('#glacc-form #btn-submit').attr({ 'disabled': 'disabled' });
                 $('#glacc-form #btn-cancel').attr({ 'disabled': 'disabled' });
                 form_state = 'R'
+                $('#btn-reload').click();
                 console.log(form_state);
             },
 
@@ -443,16 +388,64 @@
                     },
                     success: function (data) {
                         if (data.result === true) {
-                            $(this).clearForm();
-                            $('#glacc-chart').jstree(true).refresh();
+                            selected_id = data.message;
+                            $('#btn-cancel').click();
+                        }
+                        else {
+                            alert(data.message);
                         }
                     }
-                })
+                });
+            },
+
+            deleteConfirm: function () {
+                if (form_state !== 'R')
+                    return;
+
+                var selected_acc = $('#glacc-chart').jstree(true).get_selected(true);
+
+                if (selected_acc.length == 0)
+                    return;
+
+                var id = parseInt(selected_acc[0].li_attr.id);
+                var accnum = selected_acc[0].li_attr.aria_accnum;
+
+                if (confirm('Delete account number ' + accnum + ', Are you want to continue?') === true) {
+                    $.ajax({
+                        url: "/Glacc/DeleteAsync",
+                        method: "POST",
+                        data: JSON.stringify({ id: id }),
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("XSRF-TOKEN",
+                                $('input:hidden[name="__RequestVerificationToken"]').val());
+                        },
+                        error: function (err) {
+                            if (err.status === 400) {
+                                alert("An error has occured.");
+                            }
+                        },
+                        success: function (data) {
+                            if (data.result === true) {
+                                $('#btn-reload').click();
+                            }
+                            else {
+                                alert(data.message);
+                            }
+                        }
+                    });
+                }
+            },
+
+            enterPerformSearch: function (event) {
+                if (event.keyCode === 13)
+                    $(this).parent().find('#btn-search').click();
             },
 
             search: function () {
                 var keyword = $(this).val().trim();
-                var search_by = $(this).attr('data-search-by');
+                var search_by = sort_by;
                 if (keyword.length == 0)
                     return;
 
@@ -461,15 +454,14 @@
                     method: "GET",
                     data: { keyword: keyword, search_by: search_by },
                     success: function (id) {
-                        console.log(id);
                         if (id > -1) {
-                            $('#glacc-chart').jstree(true).deselect_all(false);
+                            $('#glacc-chart').jstree(true).deselect_all(true);
                             $('#glacc-chart').jstree(true).select_node(id, false, false);
                             $('#glacc-chart').jstree(true)._open_to(id);
                         }
                     }
                 });
-            }
+            },
         });
     </script>
 }
