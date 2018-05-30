@@ -60,15 +60,18 @@ footer.xstyle {
     text-shadow: 1px 1px 1px #ffffff;
     z-index: 1005;
 }
-.sub-menu-display-panel {
+#nav-container .sub-menu-display-panel {
     position: fixed;
     top: 0px;
-    left: 0px;
-    bottom: 0px;
+    left: 200px;
+    bottom: 20px;
     right: 0px;
     z-index: 990 /*1000*/;
-    background-color: rgba(50, 50, 50, 0.8);
+    background-color: rgba(250, 250, 250, 0.9);
     display: none;
+}
+#nav-container.minimize .sub-menu-display-panel {
+    left: 40px;
 }
 .nav-sidebar {
     position: fixed;
@@ -83,7 +86,7 @@ footer.xstyle {
     overflow: auto;
     animation-duration: 4s;
 }
-.nav-sidebar.minimize {
+#nav-container.minimize .nav-sidebar {
     left: -160px;
 }
 .nav-sidebar-brand {
@@ -131,7 +134,7 @@ footer.xstyle {
     width: 200px;
     overflow: auto;
 }
-.nav-sidebar.minimize .nav-sidebar-menu {
+#nav-container.minimize .nav-sidebar-menu {
     left: -160px;
 }
 .nav-sidebar-menu ul {

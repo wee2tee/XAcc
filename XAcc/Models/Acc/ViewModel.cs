@@ -18,21 +18,18 @@ namespace XAcc.Models
         public string message { get; set; }
     }
 
-    public class GlaccJson
+    public class JstreeJson
     {
         public string id { get; set; }
         public string parent { get; set; }
         public string text { get; set; }
         public string icon { get; set; }
-        public GlaccJsonState state { get; set; }
-        //public List<GlaccJson> children { get; set; }
-        //public List<KeyValuePair<string,string>> li_attr { get; set; }
-        //public List<KeyValuePair<string, string>> a_attr { get; set; }
+        public JstreeJsonState state { get; set; }
         public object a_attr { get; set; }
         public object li_attr { get; set; }
     }
 
-    public class GlaccJsonState
+    public class JstreeJsonState
     {
         public bool opened { get; set; }
         public bool disabled { get; set; }
@@ -70,6 +67,12 @@ namespace XAcc.Models
         public string parent { get { return this.Glacc.parent; } }
         public List<GlaccVM> childacc { get; set; }
     }
+
+    public class MainMenu
+    {
+
+    }
+
 
     public static class ViewModelHelper
     {

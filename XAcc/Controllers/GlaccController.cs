@@ -94,15 +94,15 @@ namespace XAcc.Controllers
                 }
             }
 
-            List<GlaccJson> json_data = new List<GlaccJson>();
+            List<JstreeJson> json_data = new List<JstreeJson>();
             foreach (Glacc acc in accs)
             {
-                json_data.Add(new GlaccJson
+                json_data.Add(new JstreeJson
                 {
                     id = acc.id.ToString(),
                     parent = sort_by == "accnam" ? "#" : (acc.parent != null && acc.parent.Trim().Length > 0 ? accs.Where(g => g.accnum.Trim() == acc.parent).FirstOrDefault().id.ToString() : "#"),
                     text = acc.accnum + " " + acc.accnam,
-                    state = new GlaccJsonState { disabled = false, opened = false, selected = false },
+                    state = new JstreeJsonState { disabled = false, opened = false, selected = false },
                     icon = acc.acctyp == "0" ? "jstree-file" : "",
                     //a_attr = new { style = "color : red !important; font-style: italic !important;" },
                     li_attr = new { aria_accnum = acc.accnum , aria_accnam = acc.accnam }

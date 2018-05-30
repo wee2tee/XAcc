@@ -236,6 +236,27 @@ namespace XAcc.Controllers
             }
         }
 
+        [HttpGet, Authorize]
+        public IActionResult GetSubMenuDisplay(string modul_name)
+        {
+            this.PrepareDbContext();
+
+            List<JstreeJson> json = new List<JstreeJson>();
+            foreach (var item in this.dbsecure_context.Scmodul.Where(s => s.modul.StartsWith(modul_name)).OrderBy(s => s.modul).ToList())
+            {
+                json.Add(new JstreeJson
+                {
+                    id = item.modul,
+                    parent = item.parent_modul == null || item.parent_modul.Trim().Length == 0 ? "#" : item.parent_modul,
+                    state = new JstreeJsonState { disabled = false, opened = true, selected = false },
+                    text = item.desc_th,
+                    icon = "home icon"
+                });
+            }
+
+            return Json(json);
+        }
+
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody] LoginInfo login_info)
         {

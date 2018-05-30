@@ -113,6 +113,7 @@ namespace XAcc.Models
                 dbsecure_context.Database.ExecuteSqlCommand("Alter Database " + dbsecure_context.Database.GetDbConnection().Database + " DEFAULT CHARACTER SET='utf8' COLLATE='utf8_general_ci'");
                 dbsecure_context.Database.ExecuteSqlCommand("Alter Table " + dbsecure_context.Database.GetDbConnection().Database + ".Scuser CONVERT TO CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'");
                 dbsecure_context.Database.ExecuteSqlCommand("Alter Table " + dbsecure_context.Database.GetDbConnection().Database + ".Sccomp CONVERT TO CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'");
+                dbsecure_context.Database.ExecuteSqlCommand("Alter Table " + dbsecure_context.Database.GetDbConnection().Database + ".Scmodul CONVERT TO CHARACTER SET 'utf8' COLLATE 'utf8_general_ci'");
 
                 /* Initial data */
                 dbsecure_context.Scuser.AddRange(new List<Scuser>
@@ -139,7 +140,8 @@ namespace XAcc.Models
                             userattr = 0,
                             userpwd = "BIT9"
                         }
-                    });
+                    }
+                );
 
                 dbsecure_context.Sccomp.AddRange(new List<Sccomp>
                     {
@@ -161,7 +163,63 @@ namespace XAcc.Models
                             dbname = "dat",
                             credat = DateTime.Now
                         }
-                    });
+                    }
+                );
+
+                dbsecure_context.Scmodul.AddRange(new List<Scmodul>
+                {
+                    new Scmodul
+                    {
+                        modul = "Account",
+                        parent_modul = "",
+                        desc_th = "บัญชี",
+                        desc_en = "Account",
+                        doctyp = "",
+                        controller_name = "",
+                        action_name = ""
+                    },
+                    new Scmodul
+                    {
+                        modul = "Account|1",
+                        parent_modul = "Account",
+                        desc_th = "บันทึกรายการประจำวัน",
+                        desc_en = "Journal Entries",
+                        doctyp = "",
+                        controller_name = "",
+                        action_name = ""
+                    },
+                    new Scmodul
+                    {
+                        modul = "Account|2",
+                        parent_modul = "Account",
+                        desc_th = "ผังบัญชี",
+                        desc_en = "Chart of Accounts",
+                        doctyp = "",
+                        controller_name = "Glacc",
+                        action_name = "Index"
+                    },
+                    new Scmodul
+                    {
+                        modul = "Account|1|1",
+                        parent_modul = "Account|1",
+                        desc_th = "รายการที่ยังไม่ผ่านบัญชี",
+                        desc_en = "Unpost Transaction",
+                        doctyp = "",
+                        controller_name = "Gljnl",
+                        action_name = "IndexUnpost"
+                    },
+                    new Scmodul
+                    {
+                        modul = "Account|1|2",
+                        parent_modul = "Account|1",
+                        desc_th = "รายการที่ผ่านบัญชีแล้ว",
+                        desc_en = "Posted Transaction",
+                        doctyp = "",
+                        controller_name = "Gljnl",
+                        action_name = "IndexPosted"
+                    }
+                });
+
                 dbsecure_context.SaveChanges();
 
                 /* Create dat, test DB */

@@ -48,12 +48,45 @@ $(document).ready(function () {
     $('.ui.accordion').accordion('refresh');
     $('.ui.sidebar').sidebar('toggle');
     $('.ui.icon.button').popup();
-    $('#glacc-table .item').tab({
-        cache: false,
-        context: 'parent',
-        auto: true,
-        path: '/Glacc/',
+    //$('#glacc-table .item').tab({
+    //    cache: false,
+    //    context: 'parent',
+    //    auto: true,
+    //    path: '/Glacc/',
         
+    //});
+    $('.main-menu').on('click', function (event) {
+        event.preventDefault();
+        //$('.sub-menu-display-panel').html("<div class='scrollable-box-wrapper'><div class='scrollable-box'>test</div></div>").fadeIn(200);
+        var modul = $(this).attr('aria-module');
+        //$.ajax({
+        //    url: '/Home/GetSubMenuDisplay',
+        //    method: 'GET',
+        //    data: { modul_name: modul },
+        //    dataType: 'json',
+        //    success: function (data) {
+        //        console.log(data);
+        //        $('.sub-menu-display-panel').fadeIn(200);
+        //    }
+        //});
+
+
+
+        $('.sub-menu-display-panel').html('');
+
+        $('.sub-menu-display-panel').jstree({
+            "core": {
+                "data": {
+                    "url": "/Home/GetSubMenuDisplay",
+                    "method": "GET",
+                    "dataType": "json",
+                    "data": { modul_name: modul }
+                },
+                "multiple": false,
+            },
+            //"plugins": ["wholerow"]
+        });
+        $('.sub-menu-display-panel').fadeIn(200);
     });
 });
 
@@ -155,33 +188,33 @@ $.fn.extend({
     toggleShowSidebar: function (event) {
         var sidebar = $(this).parents(".nav-sidebar");
         var sidebar_menu = $(sidebar).find(".nav-sidebar-menu");
-        var sub_menu_display_panel = $(".sub-menu-display-panel");
+        //var sub_menu_display_panel = $(".sub-menu-display-panel");
 
         if ($(this).parents(".nav-sidebar").offset().left >= 0) {
             $(sidebar).animate({
                 left: "-=160"
             }, 200, function () {
-
+                $('#nav-container').addClass('minimize');
             });
             $(sidebar_menu).animate({
                 left: "-=160"
             }, 200, function () {
 
                 });
-            $(sub_menu_display_panel).fadeOut('fast');
+            //$(sub_menu_display_panel).fadeOut('fast');
         }
         else {
             $(sidebar).animate({
                 left: "+=160"
             }, 200, function () {
-
+                $('#nav-container').removeClass('minimize');
             });
             $(sidebar_menu).animate({
                 left: "+=160"
             }, 200, function () {
 
                 });
-            $(sub_menu_display_panel).fadeIn('fast');
+            //$(sub_menu_display_panel).fadeIn('fast');
         }
     },
     addSlimScroll: function (event) {
