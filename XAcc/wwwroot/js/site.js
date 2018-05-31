@@ -55,39 +55,38 @@ $(document).ready(function () {
     //    path: '/Glacc/',
         
     //});
-    $('.main-menu').on('click', function (event) {
-        event.preventDefault();
-        //$('.sub-menu-display-panel').html("<div class='scrollable-box-wrapper'><div class='scrollable-box'>test</div></div>").fadeIn(200);
-        var modul = $(this).attr('aria-module');
-        //$.ajax({
-        //    url: '/Home/GetSubMenuDisplay',
-        //    method: 'GET',
-        //    data: { modul_name: modul },
-        //    dataType: 'json',
-        //    success: function (data) {
-        //        console.log(data);
-        //        $('.sub-menu-display-panel').fadeIn(200);
-        //    }
-        //});
+    //$('.main-menu').on('click', function (event) {
+    //    event.preventDefault();
+    //    var modul = $(this).attr('aria-module');
 
+    //    $.ajax({
+    //        url: '/Home/GetSubMenuDisplay',
+    //        method: 'GET',
+    //        data: { modul_name: modul },
+    //        beforeSend: function () {
+    //            $('#sub-menu-display').html('');
+    //        },
+    //        success: function (data) {
+    //            $('#sub-menu-display').html(data);
+    //            $('.sub-menu-display-panel').fadeIn(200);
+    //        }
+    //    });
 
-
-        $('.sub-menu-display-panel').html('');
-
-        $('.sub-menu-display-panel').jstree({
-            "core": {
-                "data": {
-                    "url": "/Home/GetSubMenuDisplay",
-                    "method": "GET",
-                    "dataType": "json",
-                    "data": { modul_name: modul }
-                },
-                "multiple": false,
-            },
-            //"plugins": ["wholerow"]
-        });
-        $('.sub-menu-display-panel').fadeIn(200);
-    });
+    //    //$('#sub-menu-display').html('');
+    //    //$('#sub-menu-display').jstree({
+    //    //    "core": {
+    //    //        "data": {
+    //    //            "url": "/Home/GetSubMenuDisplay",
+    //    //            "method": "GET",
+    //    //            "dataType": "json",
+    //    //            "data": { modul_name: modul }
+    //    //        },
+    //    //        "multiple": false,
+    //    //    },
+    //    //    //"plugins": ["wholerow"]
+    //    //});
+    //    //$('.sub-menu-display-panel').fadeIn(200);
+    //});
 });
 
 $.fn.extend({
@@ -222,5 +221,26 @@ $.fn.extend({
         $(this.slimScroll({
             height: '"' + height + 'px"'
         }))
+    },
+
+    showSubMenu: function (event) {
+        var modul = $(this).attr('aria-module');
+
+        $.ajax({
+            url: '/Home/GetSubMenuDisplay',
+            method: 'GET',
+            data: { modul_name: modul },
+            success: function (data) {
+                $('.sub-menu-display-panel').fadeOut(300, function () {
+                    $('#sub-menu-display').html(data);
+                    $('.sub-menu-display-panel').fadeIn(300);
+                });
+            }
+        });
+    },
+
+    closeSubMenu: function (event) {
+        $(this).parent(".sub-menu-display-panel").fadeOut(200);
+        $(this).parent(".sub-menu-display-panel").find('#sub-menu-display').html('');
     }
 });

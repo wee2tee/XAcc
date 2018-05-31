@@ -67,11 +67,38 @@ footer.xstyle {
     bottom: 20px;
     right: 0px;
     z-index: 990 /*1000*/;
-    background-color: rgba(250, 250, 250, 0.9);
+    background-color: rgba(255, 255, 255, 0.9);
     display: none;
 }
 #nav-container.minimize .sub-menu-display-panel {
     left: 40px;
+}
+.sub-menu-display-panel #sub-menu-display {
+    position: absolute;
+    top: 60px;
+    left: 60px;
+    right: 60px;
+    bottom: 60px;
+    padding: 20px;
+    overflow: auto;
+    /*box-shadow: 0px 0px 5px rgba(233, 248, 255, 0.9);*/
+}
+.sub-menu > a,
+.sub-menu > p {
+    position: relative;
+    display: block;
+    padding: 20px;
+    /*border: 2px solid #999999;*/
+    margin-bottom: 5px !important;
+    font-size: 1.8em;
+    line-height: 25px;
+    background-color: #333333;
+    color: #ffffff;
+}
+.sub-menu > a:hover,
+.sub-menu > p:hover {
+    cursor: pointer;
+    color: #ede66c;
 }
 .nav-sidebar {
     position: fixed;
@@ -143,7 +170,8 @@ footer.xstyle {
     margin: 0;
     padding: 0;
 }
-.nav-sidebar-menu li > a {
+.nav-sidebar-menu li > a,
+.nav-sidebar-menu li > div {
     /*padding: 15px 10px;*/
     color: #333333;
     display: block;
@@ -151,9 +179,11 @@ footer.xstyle {
     line-height: 40px;
     border-bottom: 1px solid #efefef;
 }
-.nav-sidebar-menu li a:hover {
+.nav-sidebar-menu li a:hover,
+.nav-sidebar-menu li div:hover {
     text-decoration: none;
     background-color: #efefef;
+    cursor: pointer;
 }
 .nav-sidebar-menu i.icon {
     margin: 2px 10px 0 0;
@@ -227,6 +257,38 @@ input[type='text']:focus {
 .ui.error.message {
     font-size: 0.8em;
     padding: 8px 10px;
+}
+.wt-close {
+    background: none;
+    width: 50px;
+    height: 50px;
+    position: relative;
+}
+
+.wt-close:after {
+    content: '';
+    height: 50px;
+    border-left: 2px solid #999999;
+    position: absolute;
+    transform: rotate(45deg);
+    left: 24px;
+}
+
+.wt-close:before {
+    content: '';
+    height: 50px;
+    border-left: 2px solid #999999;
+    position: absolute;
+    transform: rotate(-45deg);
+    left: 24px;
+}
+.wt-close:hover:after,
+.wt-close:hover:before {
+    border-color: #333333 !important;
+}
+.sub-menu-display-panel .wt-close {
+    margin-right: 10px;
+    margin-top: 10px;
 }
 
 @media only screen and (max-width: 767px){

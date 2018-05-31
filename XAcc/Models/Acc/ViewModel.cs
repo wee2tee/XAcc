@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XAcc.Models.Secure;
 
 namespace XAcc.Models
 {
@@ -68,9 +69,10 @@ namespace XAcc.Models
         public List<GlaccVM> childacc { get; set; }
     }
 
-    public class MainMenu
+    public class ScmodulVM
     {
-
+        public Scmodul Scmodul { get; set; }
+        public bool hasChild { get; set; }
     }
 
 
@@ -99,6 +101,31 @@ namespace XAcc.Models
             }
 
             return g;
+        }
+
+        public static ScmodulVM ToScmodulVM(this Scmodul scmodul, DBSecureContext dbsecure_context)
+        {
+            if (scmodul == null)
+                return null;
+
+            ScmodulVM s = new ScmodulVM
+            {
+                Scmodul = scmodul,
+                hasChild = dbsecure_context.Scmodul.Where(sc => sc.parent_modul.Trim() == scmodul.modul.Trim()).Count() > 0 ? true : false
+            };
+
+            return s;
+        }
+
+        public static List<ScmodulVM> ToScmodulVM(this IEnumerable<Scmodul> scmodul, DBSecureContext dbsecure_context)
+        {
+            List<ScmodulVM> s = new List<ScmodulVM>();
+            foreach (var sc in scmodul)
+            {
+                s.Add(sc.ToScmodulVM(dbsecure_context));
+            }
+
+            return s;
         }
     }
 }
