@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Mailjet.Client;
+using Mailjet.Client.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using XAcc.Models;
 
 namespace XAcc.Controllers
@@ -302,6 +306,76 @@ namespace XAcc.Controllers
             this.dbacc_context.Glacc.Remove(glacc_to_remove);
             this.dbacc_context.SaveChanges();
             return Json(new AddEditResult { result = true, message = "Success" });
+        }
+
+        public async Task<IActionResult> SendMail()
+        {
+            await SendMailAsync();
+            return Json("OK");
+        }
+
+        public static async Task SendMailAsync()
+        {
+            MailjetClient client = new MailjetClient("MAILJET_API_KEY", "MAILJET_SECRET_KEY")
+            {
+                Version = ApiVersion.V3_1,
+            };
+            MailjetRequest request = new MailjetRequest
+            {
+                Resource = Send.Resource,
+            }
+               .Property(Send.Messages, new JArray {
+                    new JObject
+                    {
+                        {
+                            "From", new JObject
+                            {
+                                {"Email", "email@mailjet.com"},
+                                {"Name", "Label_In_Mailjet_Email"}
+                            }
+                        },
+                        {
+                            "To", new JArray
+                            {
+                                new JObject
+                                {
+                                    {"Email", "to_email@gmail.com"},
+                                    {"Name", "xxx"}
+                                },
+                                //new JObject
+                                //{
+                                //    {"Email", "weerawat.36@gmail.com" },
+                                //    {"Name", "WeeHot" }
+                                //}
+                            }
+                        },
+                        {
+                            "Subject",
+                            "Test sending email by MailJet ... ทดสอบส่งเมล์ด้วย MailJet"
+                        },
+                        {
+                            "TextPart",
+                            "ลองส่งอีเมล์ด้วย MailJet"
+                        },
+                        {
+                            "HTMLPart",
+                            "<h3>Hello World</h3><br />It'a amazing."
+                        }
+                    }
+                });
+            MailjetResponse response = await client.PostAsync(request);
+            if (response.IsSuccessStatusCode)
+            {
+                Console.WriteLine(string.Format("Total: {0}, Count: {1}\n", response.GetTotal(), response.GetCount()));
+                Console.WriteLine(response.GetData());
+            }
+            else
+            {
+                Console.WriteLine(string.Format("StatusCode: {0}\n", response.StatusCode));
+                Console.WriteLine(string.Format("ErrorInfo: {0}\n", response.GetErrorInfo()));
+                Console.WriteLine(response.GetData());
+                Console.WriteLine(string.Format("ErrorMessage: {0}\n", response.GetErrorMessage()));
+            }
         }
     }
 }
