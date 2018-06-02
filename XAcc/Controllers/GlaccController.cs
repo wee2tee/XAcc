@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using XAcc.Models;
 
@@ -310,13 +313,14 @@ namespace XAcc.Controllers
 
         public async Task<IActionResult> SendMail()
         {
-            await SendMailAsync();
+            await SendMailAsyncWithMailjet();
+            //await SendMailAsyncWithSendgrid();
             return Json("OK");
         }
 
-        public static async Task SendMailAsync()
+        public static async Task SendMailAsyncWithMailjet()
         {
-            MailjetClient client = new MailjetClient("MAILJET_API_KEY", "MAILJET_SECRET_KEY")
+            MailjetClient client = new MailjetClient("API_KEY_IN_MAILJET", "API_SECRET_IN_MAILJET")
             {
                 Version = ApiVersion.V3_1,
             };
@@ -330,8 +334,8 @@ namespace XAcc.Controllers
                         {
                             "From", new JObject
                             {
-                                {"Email", "email@mailjet.com"},
-                                {"Name", "Label_In_Mailjet_Email"}
+                                {"Email", "email_in_mailjet"},
+                                {"Name", "label_of_email_in_mailjet"}
                             }
                         },
                         {
@@ -339,13 +343,18 @@ namespace XAcc.Controllers
                             {
                                 new JObject
                                 {
-                                    {"Email", "to_email@gmail.com"},
-                                    {"Name", "xxx"}
+                                    {"Email", "test@gmail.com"},
+                                    {"Name", "Wee"}
                                 },
                                 //new JObject
                                 //{
-                                //    {"Email", "weerawat.36@gmail.com" },
+                                //    {"Email", "test@hotmail.com" },
                                 //    {"Name", "WeeHot" }
+                                //},
+                                //new JObject
+                                //{
+                                //    {"Email", "test.again@gmail.com" },
+                                //    {"Name", "Win" }
                                 //}
                             }
                         },
@@ -360,9 +369,21 @@ namespace XAcc.Controllers
                         {
                             "HTMLPart",
                             "<h3>Hello World</h3><br />It'a amazing."
+                        },
+                        {
+                            "Attachments", new JArray
+                            {
+                                new JObject
+                                {
+                                    {"ContentType", "text/plain" },
+                                    {"FileName", "file_test.txt" },
+                                    {"Base64Content", Convert.ToBase64String(Encoding.ASCII.GetBytes("Test content in text file")) }
+                                }
+                            }
                         }
                     }
                 });
+
             MailjetResponse response = await client.PostAsync(request);
             if (response.IsSuccessStatusCode)
             {
@@ -376,6 +397,41 @@ namespace XAcc.Controllers
                 Console.WriteLine(response.GetData());
                 Console.WriteLine(string.Format("ErrorMessage: {0}\n", response.GetErrorMessage()));
             }
+        }
+
+        static async Task SendMailAsyncWithSendgrid()
+        {
+            //var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
+            var client = new SendGridClient("Sendgrid_Api_Key");
+            var subject = "Test sending mail with SendGrid - ทดสอบ";
+            var plainTextContent = "ลองส่งเมล์ด้วย SendGrid";
+            var htmlContent = "<strong>It's so easy..</strong>";
+
+            var msg = new SendGridMessage(); 
+            msg.Personalizations = new List<Personalization>
+            {
+                new Personalization
+                {
+                    Tos = new List<EmailAddress>
+                    {
+                        new EmailAddress("test@gmail.com", "Wee")
+                    },
+                    Ccs = new List<EmailAddress>
+                    {
+                        new EmailAddress("test@hotmail.com", "WeeHot")
+                    },
+                    Bccs = new List<EmailAddress>
+                    {
+                        new EmailAddress("test.again@gmail.com", "Win")
+                    }
+                }
+            };
+            msg.From = new EmailAddress("from@gmail.com", "Sender");
+            msg.Subject = subject;
+            msg.PlainTextContent = plainTextContent;
+            msg.HtmlContent = htmlContent;
+            
+            var response = await client.SendEmailAsync(msg);
         }
     }
 }
