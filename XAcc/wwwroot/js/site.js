@@ -48,6 +48,7 @@ $(document).ready(function () {
     $('.ui.accordion').accordion('refresh');
     $('.ui.sidebar').sidebar('toggle');
     $('.ui.icon.button').popup();
+    $('#top-menu .item').tab();
     //$('#glacc-table .item').tab({
     //    cache: false,
     //    context: 'parent',
@@ -242,5 +243,29 @@ $.fn.extend({
     closeSubMenu: function (event) {
         $(this).parent(".sub-menu-display-panel").fadeOut(200);
         $(this).parent(".sub-menu-display-panel").find('#sub-menu-display').html('');
+    },
+
+    toggleShowTopMenu: function (event) {
+        var menu_panel = $(this).parents('#top-menu-panel');
+        var toggle_btn = $(this);
+
+        if (!($(menu_panel).hasClass('min'))/*$(menu_panel).offset().top >= 0*/) {
+            $(menu_panel).animate({
+                top: "-260px"
+            }, 300, function () {
+                $(menu_panel).addClass('min');
+                $(toggle_btn).html('<i class="fa fa-angle-down"></i>Show Menu');
+            });
+        }
+        else {
+            $(menu_panel).animate({
+                top: "0px"
+            }, 300, function () {
+                $(menu_panel).removeClass('min');
+                $(toggle_btn).html('<i class="fa fa-angle-up"></i>Hide Menu');
+            });
+        }
+        
     }
+
 });

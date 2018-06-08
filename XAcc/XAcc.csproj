@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\lib\font-awesome\" />
     <Folder Include="wwwroot\lib\semantic-ui\" />
   </ItemGroup>
 

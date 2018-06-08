@@ -20,5 +20,11 @@
     "inputFiles": [
       "wwwroot/js/jstree.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/font-awesome/fontawesome-all.min.js",
+    "inputFiles": [
+      "wwwroot/lib/font-awesome/fontawesome-all.js"
+    ]
   }
 ]

@@ -6,20 +6,16 @@
     <title>@ViewData["Title"] - XAcc</title>
 
     <environment include="Development">
-        @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">*@
         <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/semantic-ui/dist/semantic.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/jstree/themes/default/style.css" asp-append-version="true" />
+        @*<link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome-all.css" asp-append-version="true" />*@
     </environment>
     <environment exclude="Development">
-        @*<link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
-              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
-              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
-        <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">*@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/semantic-ui/dist/semantic.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/lib/jstree/themes/default/style.min.css" asp-append-version="true" />
+        @*<link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome-all.min.css" asp-append-version="true" />*@
     </environment>
 </head>
 <body>
@@ -36,38 +32,124 @@
 
     @if (User.Identity.IsAuthenticated)
     {
-    <div id="nav-container" class="nav-container minimize">
-        <nav class="nav-sidebar">
-            <div>
-                <div class="nav-sidebar-brand">
-                    <a asp-controller="Home" asp-action="Index"><h2>@@</h2></a>
+        <div id="top-menu-panel" class="top-menu-panel">
+            <div class="top-menu-content">
+                <div class="ui top attached tabular menu" id="top-menu">
+                    <a class="item active" data-tab="first">Purchase</a>
+                    <a class="item" data-tab="second">Sales</a>
+                    <a class="item" data-tab="third">Finance</a>
                 </div>
-                <div class="nav-sidebar-toggle-btn" onclick="$(this).toggleShowSidebar(event)">
-                    <i class="expand icon large"></i>
-                </div>
+                <div class="ui bottom attached tab segment active" data-tab="first">
+                    <div class="button-container">
+                        <div class="wt-button x2">
+                            <i class="fab fa-2x fa-amazon"></i>
+                            <p class="header">จ่ายเงินมัดจำ</p>
+                            <p class="description">จ่ายเงินสด/เช็ค/เงินโอน เพื่อมัดจำค่าสินค้า</p>
+                        </div>
+                        <div class="wt-button x2">
+                            <i class="fas fa-2x fa-dove"></i>
+                            <p class="header">ซื้อเงินสด</p>
+                            <p class="description">ซื้อสินค้า / บริการ โดยชำระด้วยเงินสด/เช็ค/เงินโอน ทันทีในวันที่ซื้อ</p>
+                        </div>
+                        <div class="wt-button x2">
+                            <i class="fas fa-2x fa-chess-rook"></i>
+                            <p class="header">ซื้อเงินเชื่อ</p>
+                            <p class="description">ซื้อสินค้า / บริการ โดยได้เครดิตจากผู้จำหน่าย</p>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <div class="wt-button x3">
+                            <i class="fas fa-2x fa-chess-rook"></i>
+                            <p class="header">ซื้อเงินเชื่อ</p>
+                            <p class="description">ซื้อสินค้า / บริการ โดยได้เครดิตจากผู้จำหน่าย</p>
+                        </div>
+                        <div class="wt-button x3">
+                            <i class="fas fa-2x fa-chess-rook"></i>
+                            <p class="header">ซื้อเงินเชื่อ</p>
+                            <p class="description">ซื้อสินค้า / บริการ โดยได้เครดิตจากผู้จำหน่าย</p>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <div class="wt-button x4">
+                            <i class="fas fa-2x fa-cart-arrow-down"></i>
+                            <p class="header">ใบสั่งซื้อ</p>
+                            <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
+                        </div>
+                        <div class="wt-button x2">
+                            <i class="fas fa-2x fa-cart-arrow-down"></i>
+                            <p class="header">ใบสั่งซื้อ</p>
+                            <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <div class="wt-button x5">
+                            <i class="fas fa-2x fa-cart-arrow-down"></i>
+                            <p class="header">ใบสั่งซื้อ</p>
+                            <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
+                        </div>
+                        <div class="wt-button x1">
+                            <p class="header">ใบสั่งซื้อ</p>
+                            <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <div class="wt-button x6">
+                            <i class="fas fa-2x fa-cart-arrow-down"></i>
+                            <p class="header">ใบสั่งซื้อ</p>
+                            <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
+                        </div>
+                    </div>
+                    <div class="button-container">
+                        <div class="wt-button x1"><p class="header">Deposit Payments</p></div>
+                        <div class="wt-button x1"><p class="header">Deposit Payments</p></div>
+                        <div class="wt-button x1"><p class="header">Deposit Payments</p></div>
+                        <div class="wt-button x1"><p class="header">Deposit Payments</p></div>
+                        <div class="wt-button x1"><p class="header">Deposit Payments</p></div>
+                        <div class="wt-button x1"><p class="header">Deposit Payments</p></div>
+                    </div>
 
-                <div class="nav-sidebar-menu">
-                    <ul class="">
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase<i class="cart arrow down icon"></i></a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales<i class="shopping basket icon"></i></a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance<i class="money bill alternate outline icon"></i></a></li>
-                        <li><a asp-area="" asp-controller="Stmas" asp-action="Index" class="main-menu">Stock<i class="cubes icon"></i></a></li>
-                        <li><div asp-area="" asp-controller="Glacc" asp-action="Index" asp-route-sort_by="accnum" aria-module="Account" onclick="$(this).showSubMenu(event)">Account<i class="dollar sign icon"></i></div></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Report<i class="chart bar icon"></i></a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup<i class="cogs icon"></i></a></li>
-                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Other<i class="braille icon"></i></a></li>
-                        <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company<i class="retweet icon"></i></a></li>
-                        <li><a href="#" onclick="confirmLogout()">Log out<i class="sign out icon"></i></a></li>
-                    </ul>
                 </div>
-
+                <div class="ui bottom attached tab segment" data-tab="second">
+                    Second
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="third">
+                    Third
+                </div>
+                <span id="show-top-menu" onclick="$(this).toggleShowTopMenu(event)"><i class="fa fa-angle-down"></i>Show Menu</span>
             </div>
-        </nav>
-        <div class="sub-menu-display-panel">
-            <i class="wt-close" id="close-sub-menu" style="cursor:pointer; float: right;" onclick="$(this).closeSubMenu(event)"></i>
-            <div id="sub-menu-display"></div>
         </div>
-    </div>
+        @*<div id="nav-container" class="nav-container minimize">
+            <nav class="nav-sidebar">
+                <div>
+                    <div class="nav-sidebar-brand">
+                        <a asp-controller="Home" asp-action="Index"><h2>@@</h2></a>
+                    </div>
+                    <div class="nav-sidebar-toggle-btn" onclick="$(this).toggleShowSidebar(event)">
+                        <i class="expand icon large"></i>
+                    </div>
+
+                    <div class="nav-sidebar-menu">
+                        <ul class="">
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Purchase<i class="cart arrow down icon"></i></a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Sales<i class="shopping basket icon"></i></a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Finance<i class="money bill alternate outline icon"></i></a></li>
+                            <li><a asp-area="" asp-controller="Stmas" asp-action="Index" class="main-menu">Stock<i class="cubes icon"></i></a></li>
+                            <li><div asp-area="" asp-controller="Glacc" asp-action="Index" asp-route-sort_by="accnum" aria-module="Account" onclick="$(this).showSubMenu(event)">Account<i class="dollar sign icon"></i></div></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Report<i class="chart bar icon"></i></a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Setup<i class="cogs icon"></i></a></li>
+                            <li><a asp-area="" asp-controller="Home" asp-action="Index">Other<i class="braille icon"></i></a></li>
+                            <li><a href="#" onclick="$('#select-comp-dialog').getSelectDataList('@serial_number', '@user_name')">Change Company<i class="retweet icon"></i></a></li>
+                            <li><a href="#" onclick="confirmLogout()">Log out<i class="sign out icon"></i></a></li>
+                        </ul>
+                    </div>
+
+                </div>
+            </nav>
+            <div class="sub-menu-display-panel">
+                <i class="wt-close" id="close-sub-menu" style="cursor:pointer; float: right;" onclick="$(this).closeSubMenu(event)"></i>
+                <div id="sub-menu-display"></div>
+            </div>
+        </div>*@
         
     }
     <div class="ui container body-content">
@@ -121,6 +203,7 @@
         <script src="~/lib/semantic-ui/dist/semantic.js" asp-append-version="true"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
         <script src="~/lib/jstree/jstree.js" asp-append-version="true"></script>
+        <script src="~/lib/font-awesome/fontawesome-all.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"
@@ -130,15 +213,16 @@
                 integrity="sha384-K+ctZQ+LL8q6tP7I94W+qzQsfRV2a+AfHIi9k8z8l9ggpc8X+Ytst4yBo/hH+8Fk">
         </script>
         @*<script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
-                    asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
-                    asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
-                    crossorigin="anonymous"
-                    integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
-            </script>
-            <script src="~/js/jquery.slimscroll.min.js" asp-append-version="true"></script>*@
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/jquery.slimscroll.min.js" asp-append-version="true"></script>*@
         <script src="~/lib/semantic-ui/dist/semantic.min.js" asp-append-version="true"></script>
         <script src="~/js/site.min.js" asp-append-version="true"></script>
         <script src="~/lib/jstree/jstree.min.js" asp-append-version="true"></script>
+        <script src="~/lib/font-awesome/fontawesome-all.min.js" asp-append-version="true"></script>
     </environment>
 
     @RenderSection("Scripts", required: false)

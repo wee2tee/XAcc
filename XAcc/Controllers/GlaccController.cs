@@ -1,6 +1,7 @@
 ﻿using Mailjet.Client;
 using Mailjet.Client.Resources;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
@@ -8,6 +9,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -309,129 +311,6 @@ namespace XAcc.Controllers
             this.dbacc_context.Glacc.Remove(glacc_to_remove);
             this.dbacc_context.SaveChanges();
             return Json(new AddEditResult { result = true, message = "Success" });
-        }
-
-        public async Task<IActionResult> SendMail()
-        {
-            await SendMailAsyncWithMailjet();
-            //await SendMailAsyncWithSendgrid();
-            return Json("OK");
-        }
-
-        public static async Task SendMailAsyncWithMailjet()
-        {
-            MailjetClient client = new MailjetClient("API_KEY_IN_MAILJET", "API_SECRET_IN_MAILJET")
-            {
-                Version = ApiVersion.V3_1,
-            };
-            MailjetRequest request = new MailjetRequest
-            {
-                Resource = Send.Resource,
-            }
-               .Property(Send.Messages, new JArray {
-                    new JObject
-                    {
-                        {
-                            "From", new JObject
-                            {
-                                {"Email", "email_in_mailjet"},
-                                {"Name", "label_of_email_in_mailjet"}
-                            }
-                        },
-                        {
-                            "To", new JArray
-                            {
-                                new JObject
-                                {
-                                    {"Email", "test@gmail.com"},
-                                    {"Name", "Wee"}
-                                },
-                                //new JObject
-                                //{
-                                //    {"Email", "test@hotmail.com" },
-                                //    {"Name", "WeeHot" }
-                                //},
-                                //new JObject
-                                //{
-                                //    {"Email", "test.again@gmail.com" },
-                                //    {"Name", "Win" }
-                                //}
-                            }
-                        },
-                        {
-                            "Subject",
-                            "Test sending email by MailJet ... ทดสอบส่งเมล์ด้วย MailJet"
-                        },
-                        {
-                            "TextPart",
-                            "ลองส่งอีเมล์ด้วย MailJet"
-                        },
-                        {
-                            "HTMLPart",
-                            "<h3>Hello World</h3><br />It'a amazing."
-                        },
-                        {
-                            "Attachments", new JArray
-                            {
-                                new JObject
-                                {
-                                    {"ContentType", "text/plain" },
-                                    {"FileName", "file_test.txt" },
-                                    {"Base64Content", Convert.ToBase64String(Encoding.ASCII.GetBytes("Test content in text file")) }
-                                }
-                            }
-                        }
-                    }
-                });
-
-            MailjetResponse response = await client.PostAsync(request);
-            if (response.IsSuccessStatusCode)
-            {
-                Console.WriteLine(string.Format("Total: {0}, Count: {1}\n", response.GetTotal(), response.GetCount()));
-                Console.WriteLine(response.GetData());
-            }
-            else
-            {
-                Console.WriteLine(string.Format("StatusCode: {0}\n", response.StatusCode));
-                Console.WriteLine(string.Format("ErrorInfo: {0}\n", response.GetErrorInfo()));
-                Console.WriteLine(response.GetData());
-                Console.WriteLine(string.Format("ErrorMessage: {0}\n", response.GetErrorMessage()));
-            }
-        }
-
-        static async Task SendMailAsyncWithSendgrid()
-        {
-            //var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
-            var client = new SendGridClient("Sendgrid_Api_Key");
-            var subject = "Test sending mail with SendGrid - ทดสอบ";
-            var plainTextContent = "ลองส่งเมล์ด้วย SendGrid";
-            var htmlContent = "<strong>It's so easy..</strong>";
-
-            var msg = new SendGridMessage(); 
-            msg.Personalizations = new List<Personalization>
-            {
-                new Personalization
-                {
-                    Tos = new List<EmailAddress>
-                    {
-                        new EmailAddress("test@gmail.com", "Wee")
-                    },
-                    Ccs = new List<EmailAddress>
-                    {
-                        new EmailAddress("test@hotmail.com", "WeeHot")
-                    },
-                    Bccs = new List<EmailAddress>
-                    {
-                        new EmailAddress("test.again@gmail.com", "Win")
-                    }
-                }
-            };
-            msg.From = new EmailAddress("from@gmail.com", "Sender");
-            msg.Subject = subject;
-            msg.PlainTextContent = plainTextContent;
-            msg.HtmlContent = htmlContent;
-            
-            var response = await client.SendEmailAsync(msg);
         }
     }
 }

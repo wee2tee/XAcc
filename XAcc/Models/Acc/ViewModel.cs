@@ -73,6 +73,14 @@ namespace XAcc.Models
     {
         public Scmodul Scmodul { get; set; }
         public bool hasChild { get; set; }
+        public int level
+        {
+            get
+            {
+                return this.Scmodul.modul.Split("|").Count();
+            }
+        }
+        public List<Scmodul> parents { get; set; }
     }
 
 
@@ -111,10 +119,36 @@ namespace XAcc.Models
             ScmodulVM s = new ScmodulVM
             {
                 Scmodul = scmodul,
-                hasChild = dbsecure_context.Scmodul.Where(sc => sc.parent_modul.Trim() == scmodul.modul.Trim()).Count() > 0 ? true : false
+                hasChild = dbsecure_context.Scmodul.Where(sc => sc.parent_modul.Trim() == scmodul.modul.Trim()).Count() > 0 ? true : false,
+                parents = new List<Scmodul>()
             };
 
+            s.Scmodul.FillScmodulParent(s.parents, dbsecure_context);
+            s.parents.Reverse();
+
             return s;
+        }
+
+        public static void FillScmodulParent(this Scmodul modul, List<Scmodul> parents, DBSecureContext dbsecure_context)
+        {
+            var parent = dbsecure_context.Scmodul.Where(sc => sc.modul != null && sc.modul.Trim() == modul.parent_modul.Trim()).FirstOrDefault();
+            if (parent != null)
+            {
+                parents.Add(parent);
+                if(parent.parent_modul != null && parent.parent_modul.Trim().Length > 0)
+                {
+                    parent.FillScmodulParent(parents, dbsecure_context);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else
+            {
+                return;
+            }
+
         }
 
         public static List<ScmodulVM> ToScmodulVM(this IEnumerable<Scmodul> scmodul, DBSecureContext dbsecure_context)

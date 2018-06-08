@@ -242,24 +242,7 @@ namespace XAcc.Controllers
             this.PrepareDbContext();
 
             List<ScmodulVM> modul = this.dbsecure_context.Scmodul.Where(s => s.parent_modul == modul_name).OrderBy(s => s.modul).ToScmodulVM(this.dbsecure_context);
-            
             return PartialView("_SubMenuDisplay", modul);
-            
-
-            //List<JstreeJson> json = new List<JstreeJson>();
-            //foreach (var item in this.dbsecure_context.Scmodul.Where(s => s.modul.StartsWith(modul_name)).OrderBy(s => s.modul).ToList())
-            //{
-            //    json.Add(new JstreeJson
-            //    {
-            //        id = item.modul,
-            //        parent = item.parent_modul == null || item.parent_modul.Trim().Length == 0 ? "#" : item.parent_modul,
-            //        state = new JstreeJsonState { disabled = false, opened = true, selected = false },
-            //        text = item.desc_th,
-            //        icon = ""
-            //    });
-            //}
-
-            //return Json(json);
         }
 
         [HttpPost]

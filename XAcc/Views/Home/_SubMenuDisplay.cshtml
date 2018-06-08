@@ -3,6 +3,23 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 <div>
+    <div class="segment">
+        <div class="ui big breadcrumb">
+            @foreach (var item in ((List<XAcc.Models.ScmodulVM>)Model).First().parents)
+            {
+                @if(item.id != ((List<XAcc.Models.ScmodulVM>)Model).First().parents.Last().id)
+                {
+                    <p class="section" aria-module="@item.modul" onclick="$(this).showSubMenu(event)">@item.desc_th</p>
+                    <i class="right chevron icon divider"></i>
+                }
+                else
+                {
+                    <p class="section">@item.desc_th</p>
+                }
+            }
+            @*<div class="active section">Personal Information</div>*@
+        </div>
+    </div>
     @foreach (var item in (List<XAcc.Models.ScmodulVM>)Model)
     {
         @if (item.hasChild)

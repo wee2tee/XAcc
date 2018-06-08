@@ -290,6 +290,230 @@ input[type='text']:focus {
     margin-right: 10px;
     margin-top: 10px;
 }
+.top-menu-panel {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 260px;
+    z-index: 1000;
+}
+.top-menu-panel.min {
+    top: -300px;
+}
+.top-menu-content {
+    position: relative;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 260px;
+    padding: 3px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #cccccc;
+    box-shadow: 0px 2px 5px rgba(150, 150, 150, 0.3);
+    z-index: 1001;
+}
+#show-top-menu {
+    position: absolute;
+    text-align: center;
+    font-size: 0.8em;
+    right: 10px;
+    bottom: -22px;
+    width: 100px;
+    height: 22px;
+    line-height: 22px;
+    border: 1px solid #cccccc;
+    border-top: none;
+    background-color: #ffffff;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    box-shadow: 0px 2px 3px rgba(150, 150, 150, 0.3);
+    cursor: pointer;
+    z-index: 1002;
+}
+#show-top-menu svg {
+    margin-right: 5px;
+}
+/****************************/
+#top-menu-panel .item {
+    font-size: 0.95em;
+}
+#top-menu-panel .segment {
+    margin: 0;
+    padding: 5px;
+    font-size: 0.85em;
+    height: 210px;
+    overflow: auto;
+}
+#top-menu-panel .button-container {
+    width: 255px;
+    float: left;
+}
+#top-menu-panel .button-container .button {
+    margin: 1%;
+    width: 99%;
+}
+#top-menu-panel .card {
+    float: left;
+    margin: 5px;
+}
+/*****************************/
+.wt-button {
+    width: 250px;
+    border: 1px solid #999999;
+    box-shadow: 1px 1px 2px rgba(150, 150, 150, 0.2);
+    border-radius: 3px !important;
+    overflow: hidden;
+    background-color: #fefefe;
+    color: #333333;
+}
+.wt-button:hover {
+    cursor: pointer;
+    background-color: #f8f8f8;
+    border-color: #666666;
+    box-shadow: 1px 1px 2px rgba(150, 150, 150, 0.5);
+    color: #000000;
+}
+.wt-button:hover .description {
+    text-shadow: 1px 1px 1px rgba(255, 255, 255, 1);
+}
+.wt-button.disabled,
+.wt-button.disabled:hover {
+    box-shadow: none;
+    border: 1px solid #eaeaea;
+    cursor: not-allowed;
+    background-color: #efefef;
+    color: #999999 !important;
+}
+.wt-button .header {
+    font-weight: bold;
+    font-size: 1.2em;
+    float: right;
+    margin-right: 10px;
+    margin-bottom: 0;
+    padding: 2px 0;
+    height: 24px;
+    line-height: 24px;
+    overflow: hidden;
+}
+.wt-button .description {
+    float: right;
+    margin-right: 10px;
+    color: #999999;
+    font-size: 0.95em;
+    line-height: 14px;
+    padding-bottom: 2px;
+    overflow: hidden;   
+}
+.wt-button svg {
+    float: left;
+}
+.wt-button.x1 {
+    height: 28px;
+    margin: 4px;
+}
+.wt-button.x2 {
+    height: 60px;
+    margin: 4px;
+}
+.wt-button.x3 {
+    height: 92px;
+    margin: 4px;
+}
+.wt-button.x4 {
+    height: 124px;
+    margin: 4px;
+}
+.wt-button.x5 {
+    height: 156px;
+    margin: 4px;
+}
+.wt-button.x6 {
+    height: 188px;
+    margin: 4px;
+}
+.wt-button.x1 .header {
+    float: none;
+    font-size: 1.1em;
+    padding: 1px 5px;
+}
+.wt-button.x1 .description {
+    float: none;
+    display: none;
+}
+.wt-button.x2 .header,
+.wt-button.x3 .header,
+.wt-button.x4 .header,
+.wt-button.x5 .header,
+.wt-button.x6 .header {
+    width: 75%;
+}
+.wt-button.x2 .description,
+.wt-button.x3 .description,
+.wt-button.x4 .description,
+.wt-button.x5 .description,
+.wt-button.x6 .description {
+    width: 75%;
+    height: 30px;
+}
+.wt-button.x3 .header {
+    margin-top: 10px;
+}
+.wt-button.x3 .description {
+    margin-top: 10px;
+    height: 30px;
+}
+.wt-button.x4 .header {
+    margin-top: 20px;
+    padding-right: 10px;
+}
+.wt-button.x4 .description {
+    margin-top: 10px;
+    padding-right: 10px;
+    height: 41px;
+}
+.wt-button.x5 .header {
+    margin-top: 30px;
+    padding-right: 10px;
+}
+.wt-button.x5 .description {
+    margin-top: 15px;
+    padding-right: 10px;
+    height: 55px;
+}
+.wt-button.x6 .header {
+    margin-top: 45px;
+    padding-right: 10px;
+}
+.wt-button.x6 .description {
+    margin-top: 15px;
+    padding-right: 10px;
+    height: 55px;
+}
+.wt-button.x2 svg {
+    margin-top: 13px;
+    margin-left: 13px;
+}
+.wt-button.x3 svg {
+    margin-top: 30px;
+    margin-left: 13px;
+}
+.wt-button.x4 svg {
+    margin-top: 45px;
+    margin-left: 13px;
+}
+.wt-button.x5 svg {
+    margin-top: 60px;
+    margin-left: 13px;
+}
+.wt-button.x6 svg {
+    margin-top: 75px;
+    margin-left: 13px;
+}
+/*#top-menu-panel .menu-btn {
+    width: 94% !important;
+    margin: 3% !important;
+}*/
 
 @media only screen and (max-width: 767px){
     .scrollable-box-wrapper,

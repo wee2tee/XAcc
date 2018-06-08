@@ -176,7 +176,20 @@
             <button type="button" class="ui button red" tabindex="1" disabled="disabled" id="btn-cancel" onclick="$(this).clearForm()"><i class="times circle icon"></i>Cancel</button>
         </form>
     </div>
-    <a asp-controller="Glacc" asp-action="SendMail">Send mail</a>
+    @{
+        var show_test_mail_form = false;
+        @if (show_test_mail_form == true)
+        {
+            <form method="post" asp-controller="Mailing" asp-action="SendMail">
+                <button type="submit">Submit</button>
+            </form>
+            <form method="post" asp-controller="Mailing" asp-action="SendMailWithAttachment" enctype="multipart/form-data">
+                <input type="file" name="files" multiple />
+                <button type="submit">Submit</button>
+            </form>
+        }
+    }
+
 </div>
 
 @section Scripts{
