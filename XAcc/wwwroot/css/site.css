@@ -60,13 +60,23 @@ footer.xstyle {
     text-shadow: 1px 1px 1px #ffffff;
     z-index: 1005;
 }
+.dim-overlay {
+    position: fixed;
+    display: none;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index:999;
+}
 #nav-container .sub-menu-display-panel {
     position: fixed;
     top: 0px;
     left: 200px;
     bottom: 20px;
     right: 0px;
-    z-index: 990 /*1000*/;
+    z-index: 990;
     background-color: rgba(255, 255, 255, 0.9);
     display: none;
 }
@@ -81,14 +91,12 @@ footer.xstyle {
     bottom: 60px;
     padding: 20px;
     overflow: auto;
-    /*box-shadow: 0px 0px 5px rgba(233, 248, 255, 0.9);*/
 }
 .sub-menu > a,
 .sub-menu > p {
     position: relative;
     display: block;
     padding: 20px;
-    /*border: 2px solid #999999;*/
     margin-bottom: 5px !important;
     font-size: 1.8em;
     line-height: 25px;
@@ -109,7 +117,7 @@ footer.xstyle {
     background-color: #ffffff;
     border-right: #efefef;
     box-shadow: 2px 0 5px rgba(100, 100, 100, 0.8);
-    z-index: 991 /*1001*/;
+    z-index: 991;
     overflow: auto;
     animation-duration: 4s;
 }
@@ -290,28 +298,37 @@ input[type='text']:focus {
     margin-right: 10px;
     margin-top: 10px;
 }
+#top-menu {
+    border-color: #999999;
+}
+#top-menu a.item.active {
+    border-color: #999999;
+}
 .top-menu-panel {
     position: fixed;
     top: 0px;
     left: 0px;
     right: 0px;
-    height: 260px;
+    height: 300px;
     z-index: 1000;
 }
 .top-menu-panel.min {
-    top: -300px;
+    top: -290px;
 }
 .top-menu-content {
     position: relative;
     top: 0px;
     left: 0px;
     right: 0px;
-    height: 260px;
+    height: 295px;
     padding: 3px;
     background-color: #ffffff;
     border-bottom: 1px solid #cccccc;
-    box-shadow: 0px 2px 5px rgba(150, 150, 150, 0.3);
+    box-shadow: 0px 2px 5px rgba(50, 50, 50, 0.2);
     z-index: 1001;
+}
+.top-menu-panel.min .top-menu-content {
+    box-shadow: 0px 2px 5px rgba(150, 150, 150, 0.2);
 }
 #show-top-menu {
     position: absolute;
@@ -327,54 +344,124 @@ input[type='text']:focus {
     background-color: #ffffff;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
-    box-shadow: 0px 2px 3px rgba(150, 150, 150, 0.3);
+    box-shadow: 0px 2px 3px rgba(50, 50, 50, 0.2);
     cursor: pointer;
     z-index: 1002;
+}
+.top-menu-panel.min #show-top-menu {
+    box-shadow: 0px 2px 3px rgba(150, 150, 150, 0.2);
 }
 #show-top-menu svg {
     margin-right: 5px;
 }
-/****************************/
-#top-menu-panel .item {
-    font-size: 0.95em;
-}
 #top-menu-panel .segment {
     margin: 0;
-    padding: 5px;
+    padding: 15px;
     font-size: 0.85em;
-    height: 210px;
-    overflow: auto;
+    height: 245px;
+    overflow-x: scroll;
+    border-top: none;
+    border-top-left-radius: unset;
+    border-top-right-radius: unset;
+    border-color: #999999;
 }
-#top-menu-panel .button-container {
-    width: 255px;
+/*#top-menu-panel .segment:before {
+    content: ' ';
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 20px;
+    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.9));
+    z-index: 900;
+}
+#top-menu-panel .segment:after {
+    content: ' ';
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    width: 20px;
+    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.1));
+    z-index: 900;
+}*/
+#top-menu-panel .sub-menu-wrapper {
+    position: relative;
+}
+#top-menu-panel .wt-button-container {
+    display: inline-block;
+    width: 250px;
+    height: 198px;
     float: left;
+    margin: 5px 0 0 5px;
+    padding: 0;
+    border-radius: 3px;
+    border: none;
 }
-#top-menu-panel .button-container .button {
-    margin: 1%;
-    width: 99%;
+#top-menu-panel .wt-button-container .wt-button {
+    margin-bottom: 5px;
 }
-#top-menu-panel .card {
-    float: left;
+
+#top-menu-panel .wt-button-container.group {
+    height: auto /*198px*/;
+    width: auto;
+    border: 1px solid #999999;
+    background-color: #ffffff;
+
+}
+#top-menu-panel .wt-button-container.group .wt-button {
     margin: 5px;
+    width: 238px;
 }
+/*#top-menu-panel .wt-button-container.group .wt-button.x1 {
+    height: 27px;
+}*/
+#top-menu-panel .wt-button-container.group .section {
+    float: left;
+}
+/*#top-menu-panel .wt-button-container.group .wt-button:last-child {
+    margin-bottom: 4px;
+}*/
+/*#top-menu-panel .wt-button-container.group .wt-button:first-child {
+    margin-top: 4px;
+}*/
 /*****************************/
+#top-menu-panel .wt-label {
+    font-weight: bolder;
+    font-size: 1.15em;
+    letter-spacing: 0.15em;
+    color: #535353;
+    height: 56px;
+    line-height: 55px;
+    width: 240px;
+    display: inline-block;
+    padding: 6px;
+    margin: 0;
+}
+#top-menu-panel .wt-label:before {
+    content: ':: ';
+}
+#top-menu-panel .item > svg {
+    margin-right: 2px;
+}
 .wt-button {
     width: 250px;
     border: 1px solid #999999;
     box-shadow: 1px 1px 2px rgba(150, 150, 150, 0.2);
     border-radius: 3px !important;
     overflow: hidden;
-    background-color: #fefefe;
+    background-color: #f4f4f4;
     color: #333333;
 }
 .wt-button:hover {
     cursor: pointer;
-    background-color: #f8f8f8;
-    border-color: #666666;
+    background-color: #e5f4fe;
+    border-color: #62c0ff;
     box-shadow: 1px 1px 2px rgba(150, 150, 150, 0.5);
-    color: #000000;
+    color: #0078c8;
 }
 .wt-button:hover .description {
+    color: #439dd9;
     text-shadow: 1px 1px 1px rgba(255, 255, 255, 1);
 }
 .wt-button.disabled,
@@ -409,28 +496,26 @@ input[type='text']:focus {
     float: left;
 }
 .wt-button.x1 {
-    height: 28px;
-    margin: 4px;
+    height: 29px;
 }
 .wt-button.x2 {
-    height: 60px;
-    margin: 4px;
+    height: 62px;
 }
 .wt-button.x3 {
-    height: 92px;
-    margin: 4px;
+    height: 96px;
 }
 .wt-button.x4 {
-    height: 124px;
-    margin: 4px;
+    height: 130px;
 }
 .wt-button.x5 {
-    height: 156px;
-    margin: 4px;
+    height: 164px;
 }
 .wt-button.x6 {
-    height: 188px;
-    margin: 4px;
+    height: 197px;
+}
+.wt-button.x1 i,
+.wt-button.x1 svg {
+    display: none;
 }
 .wt-button.x1 .header {
     float: none;
@@ -510,10 +595,7 @@ input[type='text']:focus {
     margin-top: 75px;
     margin-left: 13px;
 }
-/*#top-menu-panel .menu-btn {
-    width: 94% !important;
-    margin: 3% !important;
-}*/
+
 
 @media only screen and (max-width: 767px){
     .scrollable-box-wrapper,

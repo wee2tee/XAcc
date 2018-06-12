@@ -26,5 +26,11 @@
     "inputFiles": [
       "wwwroot/lib/font-awesome/fontawesome-all.js"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/lib/jquery-mousewheel/jquery.mousewheel.min.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-mousewheel/jquery.mousewheel.js"
+    ]
   }
 ]
