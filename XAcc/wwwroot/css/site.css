@@ -41,7 +41,8 @@
 
 /******** Extended ********/
 body {
-    padding-left: 40px !important;
+    /*padding-left: 40px !important;*/
+    height: auto !important;
 }
 .ui.container {
     margin-bottom: 20px;
@@ -54,7 +55,7 @@ footer.xstyle {
     left: 0px;
     right: 0px;
     height: 20px;
-    line-height: 22px;
+    line-height: 20px;
     background-color: #cecece;
     font-size: 0.82em;
     text-shadow: 1px 1px 1px #ffffff;
@@ -315,6 +316,16 @@ input[type='text']:focus {
 .top-menu-panel.min {
     top: -290px;
 }
+/*.top-menu-panel .item.active {
+    background-color: #f2fbff !important;
+}*/
+.top-menu-panel .item:hover {
+    color: #11a7ff !important;
+}
+.top-menu-panel .item.active:hover {
+    cursor: default !important;
+    color: #000000 !important;
+}
 .top-menu-content {
     position: relative;
     top: 0px;
@@ -364,6 +375,7 @@ input[type='text']:focus {
     border-top-left-radius: unset;
     border-top-right-radius: unset;
     border-color: #999999;
+    /*background-color: #f2fbff;*/
 }
 /*#top-menu-panel .segment:before {
     content: ' ';
@@ -432,7 +444,7 @@ input[type='text']:focus {
     letter-spacing: 0.15em;
     color: #535353;
     height: 56px;
-    line-height: 55px;
+    line-height: 25px;
     width: 240px;
     display: inline-block;
     padding: 6px;
@@ -445,6 +457,7 @@ input[type='text']:focus {
     margin-right: 2px;
 }
 .wt-button {
+    display: block;
     width: 250px;
     border: 1px solid #999999;
     box-shadow: 1px 1px 2px rgba(150, 150, 150, 0.2);

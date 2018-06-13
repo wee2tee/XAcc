@@ -25,7 +25,7 @@ namespace XAcc.Controllers
             this.configuration = configuration;
             this.dbmain_context = dbmain_context;
         }
-
+        [Authorize]
         public IActionResult Index()
         {
             this.PrepareDbContext();
