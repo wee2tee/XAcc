@@ -44,7 +44,24 @@
                     <a class="item" href="#" onclick="confirmLogout()">ออกระบบ (Log out)<i class="fas fa-sign-out-alt" style="margin-left: 2px;"></i></a>
                 </div>
                 <div class="ui tab segment active" data-tab="purchase">
-                    <div class="sub-menu-wrapper" style="width: 1550px;">
+                    <div class="sub-menu-wrapper" style="width: 1040px;">
+                        @*<div class="wt-button-container group">
+                            <div class="section">
+                                <p class="wt-label">Banking</p>
+                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                            </div>
+                        </div>
+                        <div class="wt-button-container">
+                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                        </div>*@
                         <div class="wt-button-container">
                             <a class="wt-button x2" asp-controller="Aptrn_ae" asp-action="Index">
                                 <i class="fab fa-2x fa-amazon"></i>
@@ -74,16 +91,6 @@
                                 <p class="description">ซื้อสินค้า / บริการ โดยได้เครดิตจากผู้จำหน่าย</p>
                             </a>
                         </div>
-                        <div class="wt-button-container group">
-                            <div class="section">
-                                <p class="wt-label">Banking</p>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            </div>
-                        </div>
-
                         <div class="wt-button-container">
                             <a class="wt-button x4">
                                 <i class="fas fa-2x fa-cart-arrow-down"></i>
@@ -107,14 +114,7 @@
                                 <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
                             </a>
                         </div>
-                        <div class="wt-button-container">
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                        </div>
+
                     </div>
 
 
@@ -123,32 +123,44 @@
                     Sales
                 </div>
                 <div class="ui tab segment" data-tab="finance">
-                    <div class="sub-menu-wrapper">
+                    <div class="sub-menu-wrapper" style="width: 1785px;">
                         <div class="wt-button-container group">
                             <div class="section">
                                 <p class="wt-label">รับเงิน (To Receive)</p>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                                <a class="wt-button x1"><p class="header">ใบวางบิล (A/R Bill Collection List)</p></a>
+                                <a class="wt-button x1"><p class="header">บันทึกวันนัดรับชำระ (Appoint to Collection)</p></a>
+                                <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">รับชำระหนี้</p><p class="description">บันทึกรายการรับชำระหนี้จากลูกหนี้ (Receipts)</p></a>
+                            </div>
+                            <div class="section">
+                                <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">ใบเพิ่มหนี้</p><p class="description">บันทึกรายการเพิ่มหนี้ลูกหนี้ (A/R Debit Note)</p></a>
+                                <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">ใบลดหนี้/รับคืนสินค้า</p><p class="description">บันทึกรายการลดหนี้ลูกหนี้/รับคืนสินค้า (A/R Credit Note/Sales Return)</p></a>
+                                <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">บันทึกรายการลูกหนี้คงค้างยกมา</p><p class="description">บันทึกรายการลูกหนี้คงค้างก่อนรอบปีบัญชีปัจจุบัน (Appoint to Collection)</p></a>
                             </div>
                         </div>
                         <div class="wt-button-container group">
                             <div class="section">
                                 <p class="wt-label">จ่ายเงิน (To Pay)</p>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                                <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">ใบรับวางบิล</p><p class="description">บันทึกรายการรับวางบิลจากเจ้าหนี้ (A/P Billing Slip)</p></a>
+                                <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">จ่ายชำระหนี้</p><p class="description">บันทึกรายการรับชำระหนี้จากลูกหนี้ (Receipts)</p></a>
+                            </div>
+                            <div class="section">
+                                <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">ใบเพิ่มหนี้</p><p class="description">บันทึกรายการเพิ่มหนี้ลูกหนี้ (A/R Debit Note)</p></a>
+                                <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">ใบลดหนี้/ส่งคืนสินค้า</p><p class="description">บันทึกรายการลดหนี้ลูกหนี้/รับคืนสินค้า (A/R Credit Note/Sales Return)</p></a>
+                                <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">บันทึกรายการเจ้าหนี้คงค้างยกมา</p><p class="description">บันทึกรายการลูกหนี้คงค้างก่อนรอบปีบัญชีปัจจุบัน (Appoint to Collection)</p></a>
                             </div>
                         </div>
                         <div class="wt-button-container group">
                             <div class="section">
                                 <p class="wt-label">ธนาคาร (Banking)</p>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
+                                <a class="wt-button x1"><p class="header">บันทึกเช็คนำฝาก (Cheque Deposits)</p></a>
+                                <a class="wt-button x1"><p class="header">บันทึกเช็คผ่าน (Cheque Receive - Cleared)</p></a>
+                                <a class="wt-button x2"><i class="fas fa-money-check-alt fa-2x"></i><p class="header">ทะเบียนเช็ครับ</p><p class="description">ทะเบียนเช็ครับ (Cheque Receivable)</p></a>
+                            </div>
+                            <div class="section">
+                                <a class="wt-button x2"><i class="fas fa-money-check-alt fa-2x"></i><p class="header">รายละเอียดบัญชีเงินฝาก</p><p class="description">รายละเอียดบัญชีเงินฝากของกิจการ (Bank Account File)</p></a>
+                                <div class="wt-button blank x1"></div>
+                                <a class="wt-button x1"><p class="header">ผ่านเช็คจ่าย (Cheque Paid - Cleared)</p></a>
+                                <a class="wt-button x2"><i class="fas fa-money-check-alt fa-2x"></i><p class="header">ทะเบียนเช็คจ่าย</p><p class="description">ทะเบียนเช็คจ่าย (Cheque Payable)</p></a>
                             </div>
                         </div>
                         <div class="wt-button-container group">

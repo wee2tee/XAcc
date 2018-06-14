@@ -314,7 +314,7 @@ input[type='text']:focus {
     z-index: 1000;
 }
 .top-menu-panel.min {
-    top: -290px;
+    top: -307px;
 }
 /*.top-menu-panel .item.active {
     background-color: #f2fbff !important;
@@ -331,9 +331,9 @@ input[type='text']:focus {
     top: 0px;
     left: 0px;
     right: 0px;
-    height: 295px;
+    height: 307px;
     padding: 3px;
-    background-color: #ffffff;
+    background-color: #eeeeee;
     border-bottom: 1px solid #cccccc;
     box-shadow: 0px 2px 5px rgba(50, 50, 50, 0.2);
     z-index: 1001;
@@ -345,6 +345,7 @@ input[type='text']:focus {
     position: absolute;
     text-align: center;
     font-size: 0.8em;
+    font-weight: bold;
     right: 10px;
     bottom: -22px;
     width: 100px;
@@ -369,7 +370,7 @@ input[type='text']:focus {
     margin: 0;
     padding: 15px;
     font-size: 0.85em;
-    height: 245px;
+    height: 257px;
     overflow-x: scroll;
     border-top: none;
     border-top-left-radius: unset;
@@ -403,52 +404,50 @@ input[type='text']:focus {
 #top-menu-panel .wt-button-container {
     display: inline-block;
     width: 250px;
-    height: 198px;
+    height: auto /*198px*/;
     float: left;
     margin: 5px 0 0 5px;
     padding: 0;
     border-radius: 3px;
     border: none;
 }
-#top-menu-panel .wt-button-container .wt-button {
+/*#top-menu-panel .wt-button-container .wt-button {
     margin-bottom: 5px;
-}
+}*/
 
 #top-menu-panel .wt-button-container.group {
     height: auto /*198px*/;
     width: auto;
-    border: 1px solid #999999;
-    background-color: #ffffff;
-
+    padding: 2px;
+    border: 1px solid #cccccc;
+    background-color: #f4f4f4;
 }
 #top-menu-panel .wt-button-container.group .wt-button {
     margin: 5px;
-    width: 238px;
+    width: 234px;
 }
-/*#top-menu-panel .wt-button-container.group .wt-button.x1 {
+#top-menu-panel .wt-button-container.group .x1 {
     height: 27px;
-}*/
+}
+#top-menu-panel .wt-button-container.group .x2 {
+    height: 59px;
+}
+
 #top-menu-panel .wt-button-container.group .section {
     float: left;
 }
-/*#top-menu-panel .wt-button-container.group .wt-button:last-child {
-    margin-bottom: 4px;
-}*/
-/*#top-menu-panel .wt-button-container.group .wt-button:first-child {
-    margin-top: 4px;
-}*/
 /*****************************/
 #top-menu-panel .wt-label {
     font-weight: bolder;
     font-size: 1.15em;
     letter-spacing: 0.15em;
     color: #535353;
-    height: 56px;
+    height: 60px;
     line-height: 25px;
-    width: 240px;
-    display: inline-block;
-    padding: 6px;
-    margin: 0;
+    width: 234px;
+    display: block;
+    margin: 5px;
+    padding: 1px;
 }
 #top-menu-panel .wt-label:before {
     content: ':: ';
@@ -458,13 +457,17 @@ input[type='text']:focus {
 }
 .wt-button {
     display: block;
+    margin-bottom: 5px;
     width: 250px;
     border: 1px solid #999999;
     box-shadow: 1px 1px 2px rgba(150, 150, 150, 0.2);
     border-radius: 3px !important;
     overflow: hidden;
-    background-color: #f4f4f4;
+    background-color: #ffffff;
     color: #333333;
+}
+.wt-button.blank {
+    visibility: hidden;
 }
 .wt-button:hover {
     cursor: pointer;
@@ -509,19 +512,19 @@ input[type='text']:focus {
     float: left;
 }
 .wt-button.x1 {
-    height: 29px;
+    height: 30px;
 }
 .wt-button.x2 {
-    height: 62px;
+    height: 65px;
 }
 .wt-button.x3 {
-    height: 96px;
+    height: 100px;
 }
 .wt-button.x4 {
-    height: 130px;
+    height: 135px;
 }
 .wt-button.x5 {
-    height: 164px;
+    height: 170px;
 }
 .wt-button.x6 {
     height: 197px;
@@ -532,8 +535,8 @@ input[type='text']:focus {
 }
 .wt-button.x1 .header {
     float: none;
-    font-size: 1.1em;
-    padding: 1px 5px;
+    font-size: 1em;
+    padding: 2px 5px;
 }
 .wt-button.x1 .description {
     float: none;
@@ -608,7 +611,18 @@ input[type='text']:focus {
     margin-top: 75px;
     margin-left: 13px;
 }
-
+.toolbar-panel {
+    position: fixed;
+    top: 5px;
+    left: 0px;
+    right: 0px;
+    background-color: #ffffff;
+    z-index: 900;
+}
+.content-panel {
+    margin-top: 130px;
+    padding-top: 5px;
+}
 
 @media only screen and (max-width: 767px){
     .scrollable-box-wrapper,

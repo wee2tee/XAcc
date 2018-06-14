@@ -5,192 +5,198 @@
     var selected_id = selected_item != null ? selected_item.id : -1;
 }
 
-<h2 class="title-text">@ViewData["Title"]</h2>
-@*<div class="ui pointing secondary menu" id="glacc-table">
-        <a class="item active" data-tab="GetAcc?acc_group=1" id="Assets">Assets</a>
-        <a class="item" data-tab="GetAcc?acc_group=2" id="Liabilities">Liabilities</a>
-        <a class="item" data-tab="GetAcc?acc_group=3" id="Equity">Shareholder's Equity</a>
-        <a class="item" data-tab="GetAcc?acc_group=4" id="Income">Income</a>
-        <a class="item" data-tab="GetAcc?acc_group=5" id="Expense">Expenses</a>
-    </div>
-    <div class="ui tab segment active active" data-tab="GetAcc?acc_group=1">
-        First
-    </div>
-    <div class="ui tab segment" data-tab="GetAcc?acc_group=2">
-        Second
-    </div>
-    <div class="ui tab segment" data-tab="GetAcc?acc_group=3">
-        Third
-    </div>
-    <div class="ui tab segment" data-tab="GetAcc?acc_group=4">
-        Fourth
-    </div>
-    <div class="ui tab segment" data-tab="GetAcc?acc_group=5">
-        Fifth
-    </div>
-
-
-    @section Scripts{
-        <script>
-            $(document).ready(function () {
-                $("#Assets").click();
-            })
-        </script>
-    }*@
-
-<div class="ui inverted menu">
-    <a class="item" onclick="$(this).addForm()" id="btn-add">
-        <i class="add icon green"></i>
-        Add
-    </a>
-    <a class="item" onclick="$(this).editForm()" id="btn-edit">
-        <i class="edit icon yellow"></i>
-        Edit
-    </a>
-    <a class="item" onclick="$(this).deleteConfirm()" id="btn-delete">
-        <i class="delete icon red"></i>
-        Delete
-    </a>
-    <a class="item" onclick="$('#glacc-chart').refreshAccChart()" id="btn-reload">
-        <i class="refresh icon blue"></i>
-        Reload
-    </a>
-    <div class="item">
-        <div class="ui icon input">
-            <input data-search-by="accnum" type="text" placeholder="Search..." id="search-key" onkeypress="$(this).enterPerformSearch(event)">
-            <i class="search link icon" onclick="$('#search-key').search()" id="btn-search"></i>
+<div class="toolbar-panel">
+    <h2 class="title-text">@ViewData["Title"]</h2>
+    @*<div class="ui pointing secondary menu" id="glacc-table">
+            <a class="item active" data-tab="GetAcc?acc_group=1" id="Assets">Assets</a>
+            <a class="item" data-tab="GetAcc?acc_group=2" id="Liabilities">Liabilities</a>
+            <a class="item" data-tab="GetAcc?acc_group=3" id="Equity">Shareholder's Equity</a>
+            <a class="item" data-tab="GetAcc?acc_group=4" id="Income">Income</a>
+            <a class="item" data-tab="GetAcc?acc_group=5" id="Expense">Expenses</a>
         </div>
-    </div>
-</div>
-<div class="ui one column">
-    <div class="ui form">
-        <div class="inline fields">
-            <label>Sort by</label>
-            <div class="ui small buttons">
-                <a href="@(ViewBag.sort_by == "accnum" ? "#" : "/Glacc/Index?sort_by=accnum")" class="ui button @(ViewBag.sort_by == "accnum" ? "active blue" : "") sort-btn"><i class="@(ViewBag.sort_by == "accnum" ? "check icon" : "")"></i>Account Number</a>
-                <div class="or"></div>
-                <a href="@(ViewBag.sort_by == "accnam" ? "#" : "/Glacc/Index?sort_by=accnam")" class="ui button @(ViewBag.sort_by == "accnam" ? "active blue" : "") sort-btn"><i class="@(ViewBag.sort_by == "accnam" ? "check icon" : "")"></i>Account Name</a>
+        <div class="ui tab segment active active" data-tab="GetAcc?acc_group=1">
+            First
+        </div>
+        <div class="ui tab segment" data-tab="GetAcc?acc_group=2">
+            Second
+        </div>
+        <div class="ui tab segment" data-tab="GetAcc?acc_group=3">
+            Third
+        </div>
+        <div class="ui tab segment" data-tab="GetAcc?acc_group=4">
+            Fourth
+        </div>
+        <div class="ui tab segment" data-tab="GetAcc?acc_group=5">
+            Fifth
+        </div>
+
+
+        @section Scripts{
+            <script>
+                $(document).ready(function () {
+                    $("#Assets").click();
+                })
+            </script>
+        }*@
+
+    <div class="ui inverted menu">
+        <a class="item" onclick="$(this).addForm()" id="btn-add">
+            <i class="add icon green"></i>
+            Add
+        </a>
+        <a class="item" onclick="$(this).editForm()" id="btn-edit">
+            <i class="edit icon yellow"></i>
+            Edit
+        </a>
+        <a class="item" onclick="$(this).deleteConfirm()" id="btn-delete">
+            <i class="delete icon red"></i>
+            Delete
+        </a>
+        <a class="item" onclick="$('#glacc-chart').refreshAccChart()" id="btn-reload">
+            <i class="refresh icon blue"></i>
+            Reload
+        </a>
+        <div class="item">
+            <div class="ui icon input">
+                <input data-search-by="accnum" type="text" placeholder="Search..." id="search-key" onkeypress="$(this).enterPerformSearch(event)">
+                <i class="search link icon" onclick="$('#search-key').search()" id="btn-search"></i>
             </div>
         </div>
     </div>
 </div>
-<div class="ui two column stackable grid">
-    <div class="ten wide column" id="glacc-chart-panel">
-        <div class="scrollable-box-wrapper">
-            <div class="scrollable-box">
-                <div class="layer" id="readonly-layer" style="display: none;"></div>
-                <p style="padding: 10px 10px 5px; margin-bottom: 0;">Chart of Accounts</p>
-                <div id="glacc-chart"></div>
+
+<div class="content-panel">
+    <div class="ui one column">
+        <div class="ui form">
+            <div class="inline fields">
+                <label>Sort by</label>
+                <div class="ui small buttons">
+                    <a href="@(ViewBag.sort_by == "accnum" ? "#" : "/Glacc/Index?sort_by=accnum")" class="ui button @(ViewBag.sort_by == "accnum" ? "active blue" : "") sort-btn"><i class="@(ViewBag.sort_by == "accnum" ? "check icon" : "")"></i>Account Number</a>
+                    <div class="or"></div>
+                    <a href="@(ViewBag.sort_by == "accnam" ? "#" : "/Glacc/Index?sort_by=accnam")" class="ui button @(ViewBag.sort_by == "accnam" ? "active blue" : "") sort-btn"><i class="@(ViewBag.sort_by == "accnam" ? "check icon" : "")"></i>Account Name</a>
+                </div>
             </div>
         </div>
-
-
     </div>
-    <div class="six wide column" id="glacc-form-panel">
-        <form class="ui form has-error" method="post" asp-controller="Glacc" asp-action="AddEdit" onsubmit="" id="glacc-form">
-            <h4 class="ui dividing header">Add/Edit Account</h4>
-            <input type="hidden" name="id" value="-1" />
-            <div class="field">
-                <label>Account Number</label>
-                <div class="eight wide field">
-                    <input type="text" name="accnum" placeholder="Account Number" disabled="disabled" onblur="$(this).checkDuplicate()" />
-                </div>
-            </div>
-            <div class="field">
-                <label>Account Name</label>
-                <div class="sixteen wide field">
-                    <input type="text" name="accnam" placeholder="Account Name (Th.)" disabled="disabled" />
-                </div>
-                <div class="sixteen wide field">
-                    <input type="text" name="accnam2" placeholder="Account Name (En.)" disabled="disabled" />
-                </div>
-            </div>
-            <div class="field">
-                <div class="fields">
-                    <div class="thirteen wide field">
-                        <label>Parent Account</label>
-                        <div class="field">
-                            <select class="ui search dropdown" name="parent" disabled="disabled" onchange="$(this).setDependValue()"></select>
-                        </div>
-                    </div>
-                    <div class="three wide field">
-                        <label>Level</label>
-                        <div class="field">
-                            <input type="text" name="level" readonly="readonly" value="" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="field">
-                <div class="fields">
-                    <div class="eight wide field">
-                        <label>Group</label>
-                        <div class="field">
-                            <select class="ui fluid dropdown" name="group" disabled="disabled">
-                                <option value="1">1 - Assets</option>
-                                <option value="2">2 - Liability</option>
-                                <option value="3">3 - Equity</option>
-                                <option value="4">4 - Revenue</option>
-                                <option value="5">5 - Expense</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="eight wide field">
-                        <label>Type</label>
-                        <div class="field">
-                            <select class="ui fluid dropdown" name="acctyp" disabled="disabled">
-                                <option value="0">0 - Posting</option>
-                                <option value="1">1 - Summary</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-            <div class="field">
-                <div class="fields">
-                    <div class="eight wide field">
-                        <label>Use Dept.</label>
-                        <div class="field">
-                            <select class="ui fluid dropdown" name="usedep" disabled="disabled">
-                                <option value="N">N - No</option>
-                                <option value="Y">Y - Yes</option>
-                                <option value="M">M - Must specify dept.</option>
-                            </select>
-                        </div>
-                    </div>
+    <div class="ui two column stackable grid">
+        <div class="ten wide column" id="glacc-chart-panel">
+            <div class="scrollable-box-wrapper">
+                <div class="scrollable-box">
+                    <div class="layer" id="readonly-layer" style="display: none;"></div>
+                    <p style="padding: 10px 10px 5px; margin-bottom: 0;">Chart of Accounts</p>
+                    <div id="glacc-chart"></div>
                 </div>
             </div>
 
-            @if (ViewBag.message != null)
-            {
+
+        </div>
+        <div class="six wide column" id="glacc-form-panel">
+            <form class="ui form has-error" method="post" asp-controller="Glacc" asp-action="AddEdit" onsubmit="" id="glacc-form">
+                <h4 class="ui dividing header">Add/Edit Account</h4>
+                <input type="hidden" name="id" value="-1" />
                 <div class="field">
-                    <div class="ui error message">
-                        <div class="header">Error Description</div>
-                        <p>You can only sign up for an account once with a given e-mail address.</p>
+                    <label>Account Number</label>
+                    <div class="eight wide field">
+                        <input type="text" name="accnum" placeholder="Account Number" disabled="disabled" onblur="$(this).checkDuplicate()" />
                     </div>
                 </div>
+                <div class="field">
+                    <label>Account Name</label>
+                    <div class="sixteen wide field">
+                        <input type="text" name="accnam" placeholder="Account Name (Th.)" disabled="disabled" />
+                    </div>
+                    <div class="sixteen wide field">
+                        <input type="text" name="accnam2" placeholder="Account Name (En.)" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="fields">
+                        <div class="thirteen wide field">
+                            <label>Parent Account</label>
+                            <div class="field">
+                                <select class="ui search dropdown" name="parent" disabled="disabled" onchange="$(this).setDependValue()"></select>
+                            </div>
+                        </div>
+                        <div class="three wide field">
+                            <label>Level</label>
+                            <div class="field">
+                                <input type="text" name="level" readonly="readonly" value="" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="fields">
+                        <div class="eight wide field">
+                            <label>Group</label>
+                            <div class="field">
+                                <select class="ui fluid dropdown" name="group" disabled="disabled">
+                                    <option value="1">1 - Assets</option>
+                                    <option value="2">2 - Liability</option>
+                                    <option value="3">3 - Equity</option>
+                                    <option value="4">4 - Revenue</option>
+                                    <option value="5">5 - Expense</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="eight wide field">
+                            <label>Type</label>
+                            <div class="field">
+                                <select class="ui fluid dropdown" name="acctyp" disabled="disabled">
+                                    <option value="0">0 - Posting</option>
+                                    <option value="1">1 - Summary</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="field">
+                    <div class="fields">
+                        <div class="eight wide field">
+                            <label>Use Dept.</label>
+                            <div class="field">
+                                <select class="ui fluid dropdown" name="usedep" disabled="disabled">
+                                    <option value="N">N - No</option>
+                                    <option value="Y">Y - Yes</option>
+                                    <option value="M">M - Must specify dept.</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if (ViewBag.message != null)
+                {
+                    <div class="field">
+                        <div class="ui error message">
+                            <div class="header">Error Description</div>
+                            <p>You can only sign up for an account once with a given e-mail address.</p>
+                        </div>
+                    </div>
+                }
+
+                <button type="button" class="ui button green" tabindex="0" disabled="disabled" id="btn-submit" onclick="$(this).submitForm()"><i class="check circle icon"></i>Submit</button>
+                <button type="button" class="ui button red" tabindex="1" disabled="disabled" id="btn-cancel" onclick="$(this).clearForm()"><i class="times circle icon"></i>Cancel</button>
+            </form>
+        </div>
+        @{
+            var show_test_mail_form = false;
+            @if (show_test_mail_form == true)
+            {
+                <form method="post" asp-controller="Mailing" asp-action="SendMail">
+                    <button type="submit">Submit</button>
+                </form>
+                <form method="post" asp-controller="Mailing" asp-action="SendMailWithAttachment" enctype="multipart/form-data">
+                    <input type="file" name="files" multiple />
+                    <button type="submit">Submit</button>
+                </form>
             }
-
-            <button type="button" class="ui button green" tabindex="0" disabled="disabled" id="btn-submit" onclick="$(this).submitForm()"><i class="check circle icon"></i>Submit</button>
-            <button type="button" class="ui button red" tabindex="1" disabled="disabled" id="btn-cancel" onclick="$(this).clearForm()"><i class="times circle icon"></i>Cancel</button>
-        </form>
-    </div>
-    @{
-        var show_test_mail_form = false;
-        @if (show_test_mail_form == true)
-        {
-            <form method="post" asp-controller="Mailing" asp-action="SendMail">
-                <button type="submit">Submit</button>
-            </form>
-            <form method="post" asp-controller="Mailing" asp-action="SendMailWithAttachment" enctype="multipart/form-data">
-                <input type="file" name="files" multiple />
-                <button type="submit">Submit</button>
-            </form>
         }
-    }
 
+    </div>
 </div>
+
 
 @section Scripts{
     <script>

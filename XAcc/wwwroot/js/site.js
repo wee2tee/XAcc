@@ -266,7 +266,7 @@ $.fn.extend({
         if (!($(menu_panel).hasClass('min'))) {
             $('.dim-overlay').fadeOut(200);
             $(menu_panel).animate({
-                top: "-290px"
+                top: "-307px"
             }, 300, function () {
                 $(menu_panel).addClass('min');
                 $(toggle_btn).html('<i class="fa fa-angle-down"></i>Show Menu');
