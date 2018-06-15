@@ -51,7 +51,8 @@ $(document).ready(function () {
     $('#top-menu .item').tab();
 
     // show top menu at first
-    //$('#show-top-menu').click();
+    $('#show-top-menu').click();
+    $('[data-tab="finance"]').click();
 
 
     //$("body").mousewheel(function (event, delta) {
