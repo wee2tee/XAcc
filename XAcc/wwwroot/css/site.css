@@ -420,7 +420,12 @@ input[type='text']:focus {
     width: auto;
     padding: 2px;
     border: 1px solid #cccccc;
-    background-color: #eeeeee/*#f4f4f4*/;
+    background-color: #f5f5f5/*#f4f4f4*/;
+    transition: border-color 0.5s ease 0s, background-color 0.5s ease 0s;
+}
+#top-menu-panel .wt-button-container.group:hover {
+    background-color: #e8e8e8;
+    border-color: #999999;
 }
 #top-menu-panel .wt-button-container.group .wt-button {
     margin: 5px;
@@ -471,6 +476,7 @@ input[type='text']:focus {
     overflow: hidden;
     background-color: #ffffff;
     color: #333333;
+    transition: background-color 0.3s ease 0s, border-color 0.3s ease 0s;
 }
 .wt-button.blank {
     visibility: hidden;

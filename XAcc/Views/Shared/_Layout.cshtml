@@ -35,95 +35,66 @@
         <div id="top-menu-panel" class="top-menu-panel min">
             <div class="top-menu-content" id="top-menu-content" onwheel="$(this).scrollHorizontal(event)" data-ready-scroll="1">
                 <div class="ui top attached tabular menu" id="top-menu">
-                    <a class="item" asp-controller="Home" asp-action="Index"><i class="fas fa-home "></i> Dashboard</a>
-                    <a class="item active" data-tab="purchase">ซื้อ (Purchase)</a>
-                    <a class="item" data-tab="sales">ขาย (Sales)</a>
-                    <a class="item" data-tab="finance">การเงิน (Finance)</a>
-                    <a class="item" data-tab="stock">สินค้า (Stock)</a>
-                    <a class="item" data-tab="account">บัญชี (Account)</a>
-                    <a class="item" href="#" onclick="confirmLogout()">ออกระบบ (Log out)<i class="fas fa-sign-out-alt" style="margin-left: 2px;"></i></a>
+                    <a class="item" asp-controller="Home" asp-action="Index"><i class="fas fa-home"></i> Dashboard</a>
+                    <a class="item active" data-tab="purchase">ซื้อ</a>
+                    <a class="item" data-tab="sales">ขาย</a>
+                    <a class="item" data-tab="finance">การเงิน</a>
+                    <a class="item" data-tab="tax">ภาษี</a>
+                    <a class="item" data-tab="stock">สินค้า</a>
+                    <a class="item" data-tab="account">บัญชี</a>
+                    <a class="item" href="#" onclick="confirmLogout()">ออกระบบ<i class="fas fa-sign-out-alt" style="margin-left: 2px;"></i></a>
                 </div>
                 <div class="ui tab segment active" data-tab="purchase">
+
                     <div class="sub-menu-wrapper" style="width: 1040px;">
-                        @*<div class="wt-button-container group">
-                            <div class="section">
-                                <p class="wt-label">Banking</p>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            </div>
+                        <div class="wt-button-container">
+                            <a class="wt-button x3" asp-controller="Apmas" asp-action="Index">
+                                <i class="fas fa-users fa-2x"></i>
+                                <p class="header">รายละเอียดผู้จำหน่าย</p>
+                                <p class="description">แฟ้มรายละเอียดผู้จำหน่าย (Supplier File)</p>
+                            </a>
+                            <a class="wt-button x3" asp-controller="Aptrn_ae" asp-action="Index">
+                                <i class="fab fa-2x fa-amazon"></i>
+                                <p class="header">รายละเอียดค่าใช้จ่ายอื่น ๆ</p>
+                                <p class="description">แฟ้มรายละเอียดค่าใช้จ่ายอื่น ๆ (Expenses File)</p>
+                            </a>
                         </div>
                         <div class="wt-button-container">
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                        </div>*@
-                        <div class="wt-button-container">
                             <a class="wt-button x2" asp-controller="Aptrn_ae" asp-action="Index">
-                                <i class="fab fa-2x fa-amazon"></i>
+                                <i class="fab fa-amazon fa-2x"></i>
                                 <p class="header">จ่ายเงินมัดจำ</p>
-                                <p class="description">จ่ายเงินสด/เช็ค/เงินโอน เพื่อมัดจำค่าสินค้า</p>
+                                <p class="description">จ่ายเงินสด/เช็ค/เงินโอน เพื่อมัดจำค่าสินค้า (Deposit Payment)</p>
                             </a>
+                            <a class="wt-button x2" asp-controller="Popr_po" asp-action="Index">
+                                <i class="fas fa-angle-down fa-2x"></i>
+                                <p class="header">ใบสั่งซื้อ</p>
+                                <p class="description">บันทึกรายการใบสั่งซื้อสินค้า/บริการ (Purchase Order)</p>
+                            </a>
+                        </div>
+                        <div class="wt-button-container">
                             <a class="wt-button x2">
                                 <i class="fas fa-2x fa-dove"></i>
                                 <p class="header">ซื้อเงินสด</p>
-                                <p class="description">ซื้อสินค้า / บริการ โดยชำระด้วยเงินสด/เช็ค/เงินโอน ทันทีในวันที่ซื้อ</p>
+                                <p class="description">ซื้อสินค้า/บริการ โดยชำระด้วยเงินสด/เช็ค/เงินโอน (Cash Purchase)</p>
                             </a>
                             <a class="wt-button x2">
                                 <i class="fas fa-2x fa-chess-rook"></i>
                                 <p class="header">ซื้อเงินเชื่อ</p>
-                                <p class="description">ซื้อสินค้า / บริการ โดยได้เครดิตจากผู้จำหน่าย</p>
-                            </a>
-                        </div>
-                        <div class="wt-button-container">
-                            <a class="wt-button x3">
-                                <i class="fas fa-2x fa-chess-rook"></i>
-                                <p class="header">ซื้อเงินเชื่อ</p>
-                                <p class="description">ซื้อสินค้า / บริการ โดยได้เครดิตจากผู้จำหน่าย</p>
-                            </a>
-                            <a class="wt-button x3">
-                                <i class="fas fa-2x fa-chess-rook"></i>
-                                <p class="header">ซื้อเงินเชื่อ</p>
-                                <p class="description">ซื้อสินค้า / บริการ โดยได้เครดิตจากผู้จำหน่าย</p>
-                            </a>
-                        </div>
-                        <div class="wt-button-container">
-                            <a class="wt-button x4">
-                                <i class="fas fa-2x fa-cart-arrow-down"></i>
-                                <p class="header">ใบสั่งซื้อ</p>
-                                <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
+                                <p class="description">ซื้อสินค้า/บริการ โดยได้เครดิตจากผู้จำหน่าย (Credit Purchase)</p>
                             </a>
                             <a class="wt-button x2">
-                                <i class="fas fa-2x fa-cart-arrow-down"></i>
-                                <p class="header">ใบสั่งซื้อ</p>
-                                <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
+                                <i class="fas fa-2x fa-chess-rook"></i>
+                                <p class="header">บันทึกค่าใช้จ่ายอื่น ๆ</p>
+                                <p class="description">บันทึกรายการค่าใช้จ่าย โดยชำระด้วยเงินสด/เช็ค/เงินสด (Other Expenses)</p>
                             </a>
                         </div>
-                        <div class="wt-button-container">
-                            <a class="wt-button x5">
-                                <i class="fas fa-2x fa-cart-arrow-down"></i>
-                                <p class="header">ใบสั่งซื้อ</p>
-                                <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
-                            </a>
-                            <a class="wt-button x1">
-                                <p class="header">ใบสั่งซื้อ</p>
-                                <p class="description">ใบสั่งซื้อสินค้าที่ส่งให้ผู้จำหน่าย</p>
-                            </a>
-                        </div>
-
                     </div>
-
-
                 </div>
                 <div class="ui tab segment" data-tab="sales">
                     Sales
                 </div>
                 <div class="ui tab segment" data-tab="finance">
-                    <div class="sub-menu-wrapper" style="width: 1785px;">
+                    <div class="sub-menu-wrapper" style="width: 1760px;">
                         <div class="wt-button-container group">
                             <div class="section">
                                 <p class="wt-label">รับเงิน (To Receive)</p>
@@ -171,6 +142,10 @@
                                 <a class="wt-button x1"><p class="header">ถอนเงินสดด้วยเช็ค (Withdraw by Cheque)</p></a>
                             </div>
                         </div>
+                    </div>
+                </div>
+                <div class="ui tab segment" data-tab="tax">
+                    <div class="sub-menu-wrapper" style="width: 530px;">
                         <div class="wt-button-container group">
                             <div class="section">
                                 <p class="wt-label">ภาษีมูลค่าเพิ่ม (VAT File)</p>
@@ -178,14 +153,8 @@
                                 <a class="wt-button x2"><i class="fas fa-receipt fa-2x"></i><p class="header">ภาษีขาย (Sales Tax)</p><p class="description">รายการใบกำกับภาษีขาย</p></a>
                             </div>
                         </div>
-                        <div class="wt-button-container group">
-                            <div class="section">
-                                <p class="wt-label">ภาษีหัก ณ ที่จ่าย (Withholding Tax)</p>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                                <a class="wt-button x1"><p class="header">Deposit Payments</p></a>
-                            </div>
+                        <div class="wt-button-container">
+                            <a class="wt-button x2"><i class="fas fa-inbox fa-2x"></i><p class="header">ภาษีหัก ณ ที่จ่าย</p><p class="description">แฟ้มรายการภาษีหัก ณ ที่จ่าย (Withholding Tax)</p></a>
                         </div>
                     </div>
                 </div>
