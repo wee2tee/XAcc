@@ -26,5 +26,7 @@ namespace XAcc.Models
         public string chgby { get; set; }
         public DateTime? chgdat { get; set; }
 
+
+        public ICollection<Gljnlit> gljnlit { get; set; }
     }
 }

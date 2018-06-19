@@ -50,18 +50,6 @@
                 <div class="ui tab segment active" data-tab="purchase">
 
                     <div class="sub-menu-wrapper" style="width: 1040px;">
-                        <div class="wt-button-container">
-                            <a class="wt-button x3" asp-controller="Apmas" asp-action="Index">
-                                <i class="fas fa-users fa-2x"></i>
-                                <p class="header">รายละเอียดผู้จำหน่าย</p>
-                                <p class="description">แฟ้มรายละเอียดผู้จำหน่าย (Supplier File)</p>
-                            </a>
-                            <a class="wt-button x3" asp-controller="Aptrn_ae" asp-action="Index">
-                                <i class="fab fa-2x fa-amazon"></i>
-                                <p class="header">รายละเอียดค่าใช้จ่ายอื่น ๆ</p>
-                                <p class="description">แฟ้มรายละเอียดค่าใช้จ่ายอื่น ๆ (Expenses File)</p>
-                            </a>
-                        </div>
                         <div class="wt-button-container group">
                             <div class="section">
                                 <p class="wt-label">รายการประจำวัน<br />(A/P Daily Transaction)</p>
@@ -94,27 +82,22 @@
                                 </a>
                             </div>
                         </div>
+                        <div class="wt-button-container">
+                            <a class="wt-button x3" asp-controller="Apmas" asp-action="Index">
+                                <i class="fas fa-users fa-2x"></i>
+                                <p class="header">รายละเอียดผู้จำหน่าย</p>
+                                <p class="description">แฟ้มรายละเอียดผู้จำหน่าย (Supplier File)</p>
+                            </a>
+                            <a class="wt-button x3" asp-controller="Aptrn_ae" asp-action="Index">
+                                <i class="fab fa-2x fa-amazon"></i>
+                                <p class="header">รายละเอียดค่าใช้จ่ายอื่น ๆ</p>
+                                <p class="description">แฟ้มรายละเอียดค่าใช้จ่ายอื่น ๆ (Expenses File)</p>
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="ui tab segment" data-tab="sales">
                     <div class="sub-menu-wrapper" style="width: 1040px;">
-                        <div class="wt-button-container">
-                            <a class="wt-button x2" asp-controller="Armas" asp-action="Index">
-                                <i class="fas fa-users fa-2x"></i>
-                                <p class="header">รายละเอียดลูกค้า</p>
-                                <p class="description">แฟ้มรายละเอียดลูกค้า (Customer File)</p>
-                            </a>
-                            <a class="wt-button x2" asp-controller="Stmas" asp-action="Index" asp-route-stktyp="4">
-                                <i class="fab fa-2x fa-amazon"></i>
-                                <p class="header">รายละเอียดรายได้อื่น ๆ</p>
-                                <p class="description">แฟ้มรายละเอียดรายได้อื่น ๆ (Income File)</p>
-                            </a>
-                            <a class="wt-button x2" asp-controller="Oeslm" asp-action="Index">
-                                <i class="fab fa-2x fa-amazon"></i>
-                                <p class="header">รายละเอียดพนักงานขาย</p>
-                                <p class="description">แฟ้มรายละเอียดพนักงานขาย (Salesman File)</p>
-                            </a>
-                        </div>
                         <div class="wt-button-container group">
                             <div class="section">
                                 <p class="wt-label">รายการประจำวัน<br />(A/R Daily Transaction)</p>
@@ -151,6 +134,23 @@
                                     <p class="description">บันทึกรายการรายได้อื่น ๆ (Other Income)</p>
                                 </a>
                             </div>
+                        </div>
+                        <div class="wt-button-container">
+                            <a class="wt-button x2" asp-controller="Armas" asp-action="Index">
+                                <i class="fas fa-users fa-2x"></i>
+                                <p class="header">รายละเอียดลูกค้า</p>
+                                <p class="description">แฟ้มรายละเอียดลูกค้า (Customer File)</p>
+                            </a>
+                            <a class="wt-button x2" asp-controller="Stmas" asp-action="Index" asp-route-stktyp="4">
+                                <i class="fab fa-2x fa-amazon"></i>
+                                <p class="header">รายละเอียดรายได้อื่น ๆ</p>
+                                <p class="description">แฟ้มรายละเอียดรายได้อื่น ๆ (Income File)</p>
+                            </a>
+                            <a class="wt-button x2" asp-controller="Oeslm" asp-action="Index">
+                                <i class="fab fa-2x fa-amazon"></i>
+                                <p class="header">รายละเอียดพนักงานขาย</p>
+                                <p class="description">แฟ้มรายละเอียดพนักงานขาย (Salesman File)</p>
+                            </a>
                         </div>
                         <div class="wt-button-container">
                             <a class="wt-button x2">
@@ -228,11 +228,6 @@
                 </div>
                 <div class="ui tab segment" data-tab="stock">
                     <div class="sub-menu-wrapper">
-                        <div class="wt-button-container">
-                            <a class="wt-button x2"><i class="fas fa-clipboard-list fa-2x"></i><p class="header">รายละเอียดสินค้า</p><p class="description">รายละเอียดสินค้าทั่วไป สินค้ามีสต็อค (Stock File)</p></a>
-                            <a class="wt-button x2"><i class="fas fa-clipboard-list fa-2x"></i><p class="header">รายละเอียดสินค้าชุด</p><p class="description">รายละเอียดสินค้าที่จัดเป็นชุด (Product Set File)</p></a>
-                            <a class="wt-button x2"><i class="fas fa-clipboard-list fa-2x"></i><p class="header">รายละเอียดสินค้าบริการ</p><p class="description">รายละเอียดสินค้าบริการ (Service File)</p></a>
-                        </div>
                         <div class="wt-button-container group">
                             <div class="section">
                                 <p class="wt-label">รายการประจำวัน<br />(Stock Daily Transaction)</p>
@@ -241,6 +236,11 @@
                                 <a class="wt-button x1"><p class="header">ปรับปรุงยอดสินค้า (Qty. Adjustment)</p></a>
                                 <a class="wt-button x1"><p class="header">ปรับปรุงต้นทุนสินค้า (Cost Adjustment)</p></a>
                             </div>
+                        </div>
+                        <div class="wt-button-container">
+                            <a class="wt-button x2"><i class="fas fa-clipboard-list fa-2x"></i><p class="header">รายละเอียดสินค้า</p><p class="description">รายละเอียดสินค้าทั่วไป สินค้ามีสต็อค (Stock File)</p></a>
+                            <a class="wt-button x2"><i class="fas fa-clipboard-list fa-2x"></i><p class="header">รายละเอียดสินค้าชุด</p><p class="description">รายละเอียดสินค้าที่จัดเป็นชุด (Product Set File)</p></a>
+                            <a class="wt-button x2"><i class="fas fa-clipboard-list fa-2x"></i><p class="header">รายละเอียดสินค้าบริการ</p><p class="description">รายละเอียดสินค้าบริการ (Service File)</p></a>
                         </div>
                         <div class="wt-button-container">
                             <a class="wt-button x2"><i class="fas fa-chess-rook fa-2x"></i><p class="header">ตารางราคาขาย</p><p class="description">กำหนดระดัลราคาของสินค้าในการขาย (Price List)</p></a>

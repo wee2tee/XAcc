@@ -108,12 +108,23 @@ namespace XAcc.Models
             mBuilder.Entity<Glacc>().Property(p => p.usedep).HasColumnType("varchar(1)");
             mBuilder.Entity<Glacc>().Property(p => p.usejob).HasColumnType("varchar(1)");
 
+            /* Gljnlit */
+            mBuilder.Entity<Gljnlit>().Property(p => p.amount).HasColumnType<decimal>("decimal(18,4)");
+            mBuilder.Entity<Gljnlit>().Property(p => p.depcod).HasColumnType("varchar(8)");
+            mBuilder.Entity<Gljnlit>().Property(p => p.jobcod).HasColumnType("varchar(8)");
+            mBuilder.Entity<Gljnlit>().Property(p => p.seqit).HasColumnType("varchar(4)");
+            mBuilder.Entity<Gljnlit>().Property(p => p.trntyp).HasColumnType("varchar(1)");
+
+            /* Stmas */
             mBuilder.Entity<Stmas>().Property(p => p.sellpr1).HasColumnType<decimal>("decimal(18,4)");
         }
 
+        public DbSet<Istab> Istab { get; set; }
         public DbSet<Stmas> Stmas { get; set; }
         public DbSet<Glacc> Glacc { get; set; }
-
+        public DbSet<Gljnl> Gljnl { get; set; }
+        public DbSet<Gljnlit> Gljnlit { get; set; }
+        
     }
 
     public class DBMainContext : DbContext
