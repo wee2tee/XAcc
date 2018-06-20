@@ -296,6 +296,15 @@
                 <div class="ui tab segment" data-tab="report">
                 </div>
                 <div class="ui tab segment" data-tab="setup">
+                    <div class="sub-menu-wrapper" style="width: 280px;">
+                        <div class="wt-button-container">
+                            <a class="wt-button x2" asp-controller="Istab" asp-action="Index" asp-route-tabtyp="@Istab.TABTYP.BNKCOD.GetTabtypCode()">
+                                <i class="fas fa-clipboard-list fa-2x"></i>
+                                <p class="header">กำหนดตารางข้อมูล</p>
+                                <p class="description">กำหนดหมวดหมู่ และ ตารางข้อมูลต่าง ๆ (Category Tables)</p>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <div class="ui tab segment" data-tab="others">
                 </div>

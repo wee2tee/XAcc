@@ -509,5 +509,95 @@ namespace XAcc.Models
                 return null;
             }
         }
+
+        public static string GetTabtypCode(this Istab.TABTYP tabtyp)
+        {
+            switch (tabtyp)
+            {
+                case Istab.TABTYP.BNKCOD:
+                    return "01";
+                case Istab.TABTYP.CHQSTAT:
+                    return "02";
+                case Istab.TABTYP.QUCOD:
+                    return "20";
+                case Istab.TABTYP.BRANCH:
+                    return "21";
+                case Istab.TABTYP.STKGRP:
+                    return "22";
+                case Istab.TABTYP.STKLEVEL:
+                    return "23";
+                case Istab.TABTYP.AREA:
+                    return "40";
+                case Istab.TABTYP.DLVBY:
+                    return "41";
+                case Istab.TABTYP.CANCEL_SO_REASON:
+                    return "42";
+                case Istab.TABTYP.CANCEL_PO_REASON:
+                    return "43";
+                case Istab.TABTYP.QT_STATUS:
+                    return "44";
+                case Istab.TABTYP.CUSTYP:
+                    return "45";
+                case Istab.TABTYP.SUPTYP:
+                    return "46";
+                case Istab.TABTYP.SLMTYP:
+                    return "47";
+                case Istab.TABTYP.DEPARTMENT:
+                    return "50";
+                case Istab.TABTYP.FASGRP:
+                    return "52";
+                case Istab.TABTYP.PCASH_STATUS:
+                    return "53";
+                case Istab.TABTYP.TAXGRP:
+                    return "55";
+                default:
+                    return "01";
+            }
+        }
+
+        public static string GetTabtypDesc(this Istab.TABTYP tabtyp)
+        {
+            switch (tabtyp)
+            {
+                case Istab.TABTYP.BNKCOD:
+                    return "รหัสธนาคาร";
+                case Istab.TABTYP.CHQSTAT:
+                    return "สถานะเช็ค";
+                case Istab.TABTYP.QUCOD:
+                    return "หน่วยนับ";
+                case Istab.TABTYP.BRANCH:
+                    return "สาขา";
+                case Istab.TABTYP.STKGRP:
+                    return "หมวดสินค้า";
+                case Istab.TABTYP.STKLEVEL:
+                    return "ระดับสินค้า";
+                case Istab.TABTYP.AREA:
+                    return "เขตการขาย";
+                case Istab.TABTYP.DLVBY:
+                    return "ขนส่งโดย";
+                case Istab.TABTYP.CANCEL_SO_REASON:
+                    return "เหตุผลการยกเลิกใบสั่งขาย";
+                case Istab.TABTYP.CANCEL_PO_REASON:
+                    return "เหตุผลการยกเลิกใบสั่งซื้อ";
+                case Istab.TABTYP.QT_STATUS:
+                    return "สถานะใบเสนอราคา";
+                case Istab.TABTYP.CUSTYP:
+                    return "ประเภทลูกค้า";
+                case Istab.TABTYP.SUPTYP:
+                    return "ประเภทผู้จำหน่าย";
+                case Istab.TABTYP.SLMTYP:
+                    return "ประเภทพนักงานขาย";
+                case Istab.TABTYP.DEPARTMENT:
+                    return "แผนก";
+                case Istab.TABTYP.FASGRP:
+                    return "หมวดทรัพย์สิน";
+                case Istab.TABTYP.PCASH_STATUS:
+                    return "สถานะใบเบิกเงินสดย่อย";
+                case Istab.TABTYP.TAXGRP:
+                    return "หมวดภาษีหัก ณ ที่จ่าย";
+                default:
+                    return "รหัสธนาคาร";
+            }
+        }
     }
 }

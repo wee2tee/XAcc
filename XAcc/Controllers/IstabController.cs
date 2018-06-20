@@ -16,11 +16,12 @@ namespace XAcc.Controllers
             this.configuration = configuration;
         }
 
-        public IActionResult Index(string tabtyp = Tabtyp.AREA)
+        public IActionResult Index(string tabtyp = "01")
         {
             this.PrepareDbContext();
 
             //var istab = this.dbacc_context.
+            ViewBag.tabtyp = tabtyp;
             return View();
         }
     }

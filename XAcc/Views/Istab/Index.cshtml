@@ -1,7 +1,142 @@
-﻿
-@{
-    ViewData["Title"] = "Index";
+﻿@{
+    ViewData["Title"] = "Istab";
 }
 
-<h2>Index</h2>
+<div class="toolbar-panel">
+    <h2 class="title-text">@ViewData["Title"] [@ViewBag.tabtyp]</h2>
+    @*<div class="ui pointing secondary menu" id="glacc-table">
+            <a class="item active" data-tab="GetAcc?acc_group=1" id="Assets">Assets</a>
+            <a class="item" data-tab="GetAcc?acc_group=2" id="Liabilities">Liabilities</a>
+            <a class="item" data-tab="GetAcc?acc_group=3" id="Equity">Shareholder's Equity</a>
+            <a class="item" data-tab="GetAcc?acc_group=4" id="Income">Income</a>
+            <a class="item" data-tab="GetAcc?acc_group=5" id="Expense">Expenses</a>
+        </div>
+        <div class="ui tab segment active active" data-tab="GetAcc?acc_group=1">
+            First
+        </div>
+        <div class="ui tab segment" data-tab="GetAcc?acc_group=2">
+            Second
+        </div>
+        <div class="ui tab segment" data-tab="GetAcc?acc_group=3">
+            Third
+        </div>
+        <div class="ui tab segment" data-tab="GetAcc?acc_group=4">
+            Fourth
+        </div>
+        <div class="ui tab segment" data-tab="GetAcc?acc_group=5">
+            Fifth
+        </div>
 
+
+        @section Scripts{
+            <script>
+                $(document).ready(function () {
+                    $("#Assets").click();
+                })
+            </script>
+        }*@
+
+    <div class="ui inverted menu">
+        <a class="item" onclick="$(this).addForm()" id="btn-add">
+            <i class="add icon green"></i>
+            Add
+        </a>
+        <a class="item" onclick="$(this).editForm()" id="btn-edit">
+            <i class="edit icon yellow"></i>
+            Edit
+        </a>
+        <a class="item" onclick="$(this).deleteConfirm()" id="btn-delete">
+            <i class="delete icon red"></i>
+            Delete
+        </a>
+        <a class="item" onclick="$('#glacc-chart').refreshAccChart()" id="btn-reload">
+            <i class="refresh icon blue"></i>
+            Reload
+        </a>
+        <div class="item">
+            <div class="ui icon input">
+                <input data-search-by="accnum" type="text" placeholder="Search..." id="search-key" onkeypress="$(this).enterPerformSearch(event)">
+                <i class="search link icon" onclick="$('#search-key').search()" id="btn-search"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="content-panel">
+    <div class="ui one column">
+        <div class="ui form">
+            <div class="inline fields">
+                <label>Tab Type </label>
+                <select class="ui search selection dropdown" id="search-select">
+                    @foreach (Istab.TABTYP item in Enum.GetValues(typeof(Istab.TABTYP)))
+                    {
+                        <option value="@item.GetTabtypCode()">@item.GetTabtypDesc()</option>
+                    }
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="ui two column stackable grid">
+        <div class="ten wide column" id="glacc-chart-panel">
+            <div class="scrollable-box-wrapper">
+                <div class="scrollable-box">
+                    <div class="layer" id="readonly-layer" style="display: none;"></div>
+                    <p style="padding: 10px 10px 5px; margin-bottom: 0;">Chart of Accounts</p>
+                    <div id="glacc-chart"></div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="six wide column" id="glacc-form-panel">
+            <form class="ui form" method="post" asp-controller="Istab" asp-action="AddEdit" onsubmit="" id="add-edit-form">
+                <h4 class="ui dividing header">Add/Edit Data</h4>
+                <input type="hidden" name="id" value="-1" />
+                <div class="field">
+                    <label>Code</label>
+                    <div class="six wide field">
+                        <input type="text" name="typcod" placeholder="Code" disabled="disabled" onblur="$(this).checkDuplicate()" />
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="fields">
+                        <div class="eight wide field">
+                            <label>Short Name (Th.)</label>
+                            <div class="field">
+                                <input type="text" name="shortnam" placeholder="Short Name (Th.)" disabled="disabled" />
+                            </div>
+                        </div>
+                        <div class="eight wide field">
+                            <label>Short Name (En.)</label>
+                            <div class="field">
+                                <input type="text" name="shortnam2" placeholder="Short Name (En.)" disabled="disabled" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Description (Th.)</label>
+                    <div class="sixteen wide field">
+                        <input type="text" name="typdes" placeholder="Description (Th.)" disabled="disabled" />
+                    </div>
+                </div>
+                <div class="field">
+                    <label>Description (En.)</label>
+                    <div class="sixteen wide field">
+                        <input type="text" name="typdes2" placeholder="Description (En.)" disabled="disabled" />
+                    </div>
+                </div>
+
+                <button type="button" class="ui button green" tabindex="0" disabled="disabled" id="btn-submit" onclick="$(this).submitForm()"><i class="check circle icon"></i>Submit</button>
+                <button type="button" class="ui button red" tabindex="1" disabled="disabled" id="btn-cancel" onclick="$(this).clearForm()"><i class="times circle icon"></i>Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{ 
+    <script>
+        $('#search-select').dropdown();
+    </script>
+}
