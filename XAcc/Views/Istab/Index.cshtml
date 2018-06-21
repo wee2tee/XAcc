@@ -1,9 +1,9 @@
 ﻿@{
-    ViewData["Title"] = "Istab";
+    ViewData["Title"] = ViewBag.tabtyp != null ? "[" + ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypCode() + "] " + ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypDesc() : string.Empty;
 }
 
 <div class="toolbar-panel">
-    <h2 class="title-text">@ViewData["Title"] [@ViewBag.tabtyp]</h2>
+    <h2 class="title-text">@ViewData["Title"]</h2>
     @*<div class="ui pointing secondary menu" id="glacc-table">
             <a class="item active" data-tab="GetAcc?acc_group=1" id="Assets">Assets</a>
             <a class="item" data-tab="GetAcc?acc_group=2" id="Liabilities">Liabilities</a>
@@ -66,13 +66,21 @@
     <div class="ui one column">
         <div class="ui form">
             <div class="inline fields">
-                <label>Tab Type </label>
-                <select class="ui search selection dropdown" id="search-select">
+                <label>Table Type </label>
+                <select class="ui search selection dropdown" id="tabtyp-select">
                     @foreach (Istab.TABTYP item in Enum.GetValues(typeof(Istab.TABTYP)))
                     {
-                        <option value="@item.GetTabtypCode()">@item.GetTabtypDesc()</option>
+                        if(ViewBag.tabtyp != null && item.GetTabtypCode() == ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypCode())
+                        {
+                            <option value="@item.GetTabtypCode()" selected="selected">@item.GetTabtypDesc()</option>
+                        }
+                        else
+                        {
+                            <option value="@item.GetTabtypCode()">@item.GetTabtypDesc()</option>
+                        }
                     }
                 </select>
+                <a asp-controller="Istab" asp-action="Index" asp-route-tabtyp="" id="switch-tabtyp" style="display: none;">Go</a>
             </div>
         </div>
     </div>
@@ -81,8 +89,6 @@
             <div class="scrollable-box-wrapper">
                 <div class="scrollable-box">
                     <div class="layer" id="readonly-layer" style="display: none;"></div>
-                    <p style="padding: 10px 10px 5px; margin-bottom: 0;">Chart of Accounts</p>
-                    <div id="glacc-chart"></div>
                 </div>
             </div>
 
@@ -137,6 +143,14 @@
 
 @section Scripts{ 
     <script>
-        $('#search-select').dropdown();
+        $('#tabtyp-select').dropdown({
+            onChange: function (value, text, $selectedItem) {
+                window.location = '/Istab/Index?tabtyp=' + value;
+            }
+        });
+
+        $.fn.extend({
+
+        });
     </script>
 }

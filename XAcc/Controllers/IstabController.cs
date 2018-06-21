@@ -21,7 +21,7 @@ namespace XAcc.Controllers
             this.PrepareDbContext();
 
             //var istab = this.dbacc_context.
-            ViewBag.tabtyp = tabtyp;
+            ViewBag.tabtyp = Enum.GetValues(typeof(Istab.TABTYP)).Cast<Istab.TABTYP>().Where(i => i.GetTabtypCode() == tabtyp).FirstOrDefault();
             return View();
         }
     }
