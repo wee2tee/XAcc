@@ -67,16 +67,16 @@
         <div class="ui form">
             <div class="inline fields">
                 <label>Table Type </label>
-                <select class="ui search selection dropdown" id="tabtyp-select">
-                    @foreach (Istab.TABTYP item in Enum.GetValues(typeof(Istab.TABTYP)))
+                <select class="ui selection dropdown" id="tabtyp-select" style="width: 350px;">
+                    @foreach (Istab.TABTYP item in Enum.GetValues(typeof(Istab.TABTYP)).Cast<Istab.TABTYP>().OrderBy(t => t.GetTabtypDesc()))
                     {
                         if(ViewBag.tabtyp != null && item.GetTabtypCode() == ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypCode())
                         {
-                            <option value="@item.GetTabtypCode()" selected="selected">@item.GetTabtypDesc()</option>
+                            <option value="@item.GetTabtypCode()" selected="selected">@item.GetTabtypDesc() @*[@item.GetTabtypCode()]*@</option>
                         }
                         else
                         {
-                            <option value="@item.GetTabtypCode()">@item.GetTabtypDesc()</option>
+                            <option value="@item.GetTabtypCode()">@item.GetTabtypDesc() @*[@item.GetTabtypCode()]*@</option>
                         }
                     }
                 </select>
@@ -89,6 +89,30 @@
             <div class="scrollable-box-wrapper">
                 <div class="scrollable-box">
                     <div class="layer" id="readonly-layer" style="display: none;"></div>
+                    <table class="ui selectable celled striped table">
+                        <thead>
+                            <tr>
+                                <th>Code</th>
+                                <th>Short Name (Th.)</th>
+                                <th>Short Name (En.)</th>
+                                <th>Description (Th.)</th>
+                                <th>Description (En.)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in (List<Istab>)Model)
+                            {
+                                <tr class="data-row" id="@item.id" onclick="$(this).Selected()">
+                                    <td>@item.typcod</td>
+                                    <td>@item.shortnam</td>
+                                    <td>@item.shortnam2</td>
+                                    <td>@item.typdes</td>
+                                    <td>@item.typdes2</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -150,7 +174,32 @@
         });
 
         $.fn.extend({
+            Selected: function () {
+                var id = $(this).attr('id');
 
+                var arr = $('.' + $(this).attr('class'));
+                $.each(arr, function (key, value) {
+                    $(arr[key]).removeClass('active');
+                });
+                $(this).addClass('active');
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/Istab/GetIstab',
+                    data: { id: id },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#add-edit-form').find('[name="id"]').val(data.id);
+                        $('#add-edit-form').find('[name="typcod"]').val(data.typcod);
+                        $('#add-edit-form').find('[name="shortnam"]').val(data.shortnam);
+                        $('#add-edit-form').find('[name="shortnam2"]').val(data.shortnam2);
+                        $('#add-edit-form').find('[name="typdes"]').val(data.typdes);
+                        $('#add-edit-form').find('[name="typdes2"]').val(data.typdes2);
+                    }
+
+                });
+            }
         });
     </script>
 }
