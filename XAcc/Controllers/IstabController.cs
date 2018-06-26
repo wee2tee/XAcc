@@ -24,7 +24,7 @@ namespace XAcc.Controllers
 
             //var istab = this.dbacc_context.
             ViewBag.tabtyp = Enum.GetValues(typeof(Istab.TABTYP)).Cast<Istab.TABTYP>().Where(i => i.GetTabtypCode() == tabtyp).FirstOrDefault();
-            var model = this.dbacc_context.Istab.Where(i => i.tabtyp.Trim() == tabtyp.Trim()).ToList();
+            var model = this.dbacc_context.Istab.Where(i => i.tabtyp.Trim() == tabtyp.Trim()).OrderBy(i => i.typcod).ToList();
             return View(model);
         }
 

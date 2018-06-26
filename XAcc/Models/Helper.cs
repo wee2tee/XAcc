@@ -536,6 +536,142 @@ namespace XAcc.Models
                             typcod = "KBANK",
                             typdes = "บมจ.ธนาคารกสิกรไทย",
                             typdes2 = "Kasikorn Thai Bank PLC."
+                        },
+                        new Istab
+                        {
+                            chgby = null,
+                            chgdat = null,
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            depcod = string.Empty,
+                            fld01 = string.Empty,
+                            fld02 = 0,
+                            shortnam = "ธ.กรุงเทพ",
+                            shortnam2 = "Bangkok Bank",
+                            status = string.Empty,
+                            tabtyp = Istab.TABTYP.BNKCOD.GetTabtypCode(),
+                            typcod = "BBL",
+                            typdes = "บมจ.ธนาคารกรุงเทพ",
+                            typdes2 = "Bangkok Bank PLC."
+                        },
+                        new Istab
+                        {
+                            chgby = null,
+                            chgdat = null,
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            depcod = string.Empty,
+                            fld01 = string.Empty,
+                            fld02 = 0,
+                            shortnam = "ธ.กสิกรไทย",
+                            shortnam2 = "Kasikorn Thai Bank",
+                            status = string.Empty,
+                            tabtyp = Istab.TABTYP.BNKCOD.GetTabtypCode(),
+                            typcod = "KBANK",
+                            typdes = "บมจ.ธนาคารกสิกรไทย",
+                            typdes2 = "Kasikorn Thai Bank PLC."
+                        },
+                        new Istab
+                        {
+                            chgby = null,
+                            chgdat = null,
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            depcod = string.Empty,
+                            fld01 = string.Empty,
+                            fld02 = 0,
+                            shortnam = "ธ.กรุงเทพ",
+                            shortnam2 = "Bangkok Bank",
+                            status = string.Empty,
+                            tabtyp = Istab.TABTYP.BNKCOD.GetTabtypCode(),
+                            typcod = "BBL",
+                            typdes = "บมจ.ธนาคารกรุงเทพ",
+                            typdes2 = "Bangkok Bank PLC."
+                        },
+                        new Istab
+                        {
+                            chgby = null,
+                            chgdat = null,
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            depcod = string.Empty,
+                            fld01 = string.Empty,
+                            fld02 = 0,
+                            shortnam = "ธ.กสิกรไทย",
+                            shortnam2 = "Kasikorn Thai Bank",
+                            status = string.Empty,
+                            tabtyp = Istab.TABTYP.BNKCOD.GetTabtypCode(),
+                            typcod = "KBANK",
+                            typdes = "บมจ.ธนาคารกสิกรไทย",
+                            typdes2 = "Kasikorn Thai Bank PLC."
+                        },
+                        new Istab
+                        {
+                            chgby = null,
+                            chgdat = null,
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            depcod = string.Empty,
+                            fld01 = string.Empty,
+                            fld02 = 0,
+                            shortnam = "ธ.กรุงเทพ",
+                            shortnam2 = "Bangkok Bank",
+                            status = string.Empty,
+                            tabtyp = Istab.TABTYP.BNKCOD.GetTabtypCode(),
+                            typcod = "BBL",
+                            typdes = "บมจ.ธนาคารกรุงเทพ",
+                            typdes2 = "Bangkok Bank PLC."
+                        },
+                        new Istab
+                        {
+                            chgby = null,
+                            chgdat = null,
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            depcod = string.Empty,
+                            fld01 = string.Empty,
+                            fld02 = 0,
+                            shortnam = "ธ.กสิกรไทย",
+                            shortnam2 = "Kasikorn Thai Bank",
+                            status = string.Empty,
+                            tabtyp = Istab.TABTYP.BNKCOD.GetTabtypCode(),
+                            typcod = "KBANK",
+                            typdes = "บมจ.ธนาคารกสิกรไทย",
+                            typdes2 = "Kasikorn Thai Bank PLC."
+                        },
+                        new Istab
+                        {
+                            chgby = null,
+                            chgdat = null,
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            depcod = string.Empty,
+                            fld01 = string.Empty,
+                            fld02 = 0,
+                            shortnam = "ธ.กรุงเทพ",
+                            shortnam2 = "Bangkok Bank",
+                            status = string.Empty,
+                            tabtyp = Istab.TABTYP.BNKCOD.GetTabtypCode(),
+                            typcod = "BBL",
+                            typdes = "บมจ.ธนาคารกรุงเทพ",
+                            typdes2 = "Bangkok Bank PLC."
+                        },
+                        new Istab
+                        {
+                            chgby = null,
+                            chgdat = null,
+                            creby = "BIT9",
+                            credat = DateTime.Now,
+                            depcod = string.Empty,
+                            fld01 = string.Empty,
+                            fld02 = 0,
+                            shortnam = "ธ.กสิกรไทย",
+                            shortnam2 = "Kasikorn Thai Bank",
+                            status = string.Empty,
+                            tabtyp = Istab.TABTYP.BNKCOD.GetTabtypCode(),
+                            typcod = "KBANK",
+                            typdes = "บมจ.ธนาคารกสิกรไทย",
+                            typdes2 = "Kasikorn Thai Bank PLC."
                         }
                     });
 

@@ -4,38 +4,6 @@
 
 <div class="toolbar-panel">
     <h2 class="title-text">@ViewData["Title"]</h2>
-    @*<div class="ui pointing secondary menu" id="glacc-table">
-            <a class="item active" data-tab="GetAcc?acc_group=1" id="Assets">Assets</a>
-            <a class="item" data-tab="GetAcc?acc_group=2" id="Liabilities">Liabilities</a>
-            <a class="item" data-tab="GetAcc?acc_group=3" id="Equity">Shareholder's Equity</a>
-            <a class="item" data-tab="GetAcc?acc_group=4" id="Income">Income</a>
-            <a class="item" data-tab="GetAcc?acc_group=5" id="Expense">Expenses</a>
-        </div>
-        <div class="ui tab segment active active" data-tab="GetAcc?acc_group=1">
-            First
-        </div>
-        <div class="ui tab segment" data-tab="GetAcc?acc_group=2">
-            Second
-        </div>
-        <div class="ui tab segment" data-tab="GetAcc?acc_group=3">
-            Third
-        </div>
-        <div class="ui tab segment" data-tab="GetAcc?acc_group=4">
-            Fourth
-        </div>
-        <div class="ui tab segment" data-tab="GetAcc?acc_group=5">
-            Fifth
-        </div>
-
-
-        @section Scripts{
-            <script>
-                $(document).ready(function () {
-                    $("#Assets").click();
-                })
-            </script>
-        }*@
-
     <div class="ui inverted menu">
         <a class="item" onclick="$(this).addForm()" id="btn-add">
             <i class="add icon green"></i>
@@ -84,7 +52,7 @@
             </div>
         </div>
     </div>
-    <div class="ui two column stackable grid">
+    <div class="ui two column stackable grid" style="min-height: 550px;">
         <div class="ten wide column" id="glacc-chart-panel">
             <div class="scrollable-box-wrapper">
                 <div class="scrollable-box">
@@ -118,7 +86,7 @@
 
 
         </div>
-        <div class="six wide column" id="glacc-form-panel">
+        <div class="six wide column" id="istab-form-panel">
             <form class="ui form" method="post" asp-controller="Istab" asp-action="AddEdit" onsubmit="" id="add-edit-form">
                 <h4 class="ui dividing header">Add/Edit Data</h4>
                 <input type="hidden" name="id" value="-1" />

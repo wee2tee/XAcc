@@ -9,8 +9,9 @@
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    /*border: 1px solid red;*/
-    margin-top: 1px;
+    padding-bottom: 35px;
+    margin: 0px !important;
+    height: 100% !important;
 }
 
 /* Carousel */
@@ -42,7 +43,8 @@
 /******** Extended ********/
 body {
     /*padding-left: 40px !important;*/
-    height: auto !important;
+    /*height: auto !important;*/
+    height: 100% !important;
 }
 .ui.container {
     margin-bottom: 20px;
@@ -237,6 +239,9 @@ footer.xstyle {
     border: 1px solid rgb(240, 240, 240);
     border-radius: 3px;
     min-height: 250px;
+}
+.scrollable-box .ui.table {
+    margin: 0;
 }
 .title-text {
     padding: 15px;
@@ -608,15 +613,24 @@ input[type='text']:focus {
 }
 .toolbar-panel {
     position: fixed;
-    top: 5px;
+    top: 0px;
     left: 0px;
     right: 0px;
     background-color: #ffffff;
     z-index: 900;
 }
 .content-panel {
-    margin-top: 130px;
-    padding-top: 5px;
+    position: relative;
+    padding: 0px;
+    margin: 0px ;
+    padding-top: 135px;
+    top: 0px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+}
+.ui.inverted.menu {
+    margin: 0 !important;
 }
 
 @media only screen and (max-width: 767px){
