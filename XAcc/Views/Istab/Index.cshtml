@@ -17,7 +17,7 @@
             <i class="delete icon red"></i>
             Delete
         </a>
-        <a class="item" onclick="$('#glacc-chart').refreshAccChart()" id="btn-reload">
+        <a class="item" onclick="window.location.reload(true)" id="btn-reload">
             <i class="refresh icon blue"></i>
             Reload
         </a>
@@ -38,7 +38,7 @@
                 <select class="ui selection dropdown" id="tabtyp-select" style="width: 350px;">
                     @foreach (Istab.TABTYP item in Enum.GetValues(typeof(Istab.TABTYP)).Cast<Istab.TABTYP>().OrderBy(t => t.GetTabtypDesc()))
                     {
-                        if(ViewBag.tabtyp != null && item.GetTabtypCode() == ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypCode())
+                        if (ViewBag.tabtyp != null && item.GetTabtypCode() == ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypCode())
                         {
                             <option value="@item.GetTabtypCode()" selected="selected">@item.GetTabtypDesc() @*[@item.GetTabtypCode()]*@</option>
                         }
@@ -70,7 +70,7 @@
                         <tbody>
                             @foreach (var item in (List<Istab>)Model)
                             {
-                                <tr class="data-row" id="@item.id" onclick="$(this).Selected()">
+                                <tr class="data-row" id="@item.id" style="cursor: pointer;" onclick="$(this).Selected()">
                                     <td>@item.typcod</td>
                                     <td>@item.shortnam</td>
                                     <td>@item.shortnam2</td>
@@ -90,10 +90,11 @@
             <form class="ui form" method="post" asp-controller="Istab" asp-action="AddEdit" onsubmit="" id="add-edit-form">
                 <h4 class="ui dividing header">Add/Edit Data</h4>
                 <input type="hidden" name="id" value="-1" />
+                <input type="hidden" name="tabtyp" value="@(((Istab.TABTYP)ViewBag.tabtyp).GetTabtypCode())" />
                 <div class="field">
                     <label>Code</label>
                     <div class="six wide field">
-                        <input type="text" name="typcod" placeholder="Code" disabled="disabled" onblur="$(this).checkDuplicate()" />
+                        <input type="text" name="typcod" class="text-uppercase" placeholder="Code" disabled="disabled" onblur="$(this).checkDuplicate()" />
                     </div>
                 </div>
                 <div class="field">
@@ -167,6 +168,65 @@
                     }
 
                 });
+            },
+
+            addForm: function () {
+                $('#add-edit-form').find('[name="id"]').val('-1');
+                $('#add-edit-form').find('[name="typcod"]').removeAttr('disabled').val('').focus();
+                $('#add-edit-form').find('[name="shortnam"]').removeAttr('disabled').val('');
+                $('#add-edit-form').find('[name="shortnam2"]').removeAttr('disabled').val('');
+                $('#add-edit-form').find('[name="typdes"]').removeAttr('disabled').val('');
+                $('#add-edit-form').find('[name="typdes2"]').removeAttr('disabled').val('');
+                $('#btn-submit').removeAttr('disabled').val('');
+                $('#btn-cancel').removeAttr('disabled').val('');
+            },
+
+            editForm: function () {
+                var selected_row = $('.data-row.active');
+
+                if (selected_row.length == 0)
+                    return;
+
+                $('#add-edit-form').find('[name="shortnam"]').removeAttr('disabled').focus();
+                $('#add-edit-form').find('[name="shortnam2"]').removeAttr('disabled');
+                $('#add-edit-form').find('[name="typdes"]').removeAttr('disabled');
+                $('#add-edit-form').find('[name="typdes2"]').removeAttr('disabled');
+                $('#btn-submit').removeAttr('disabled');
+                $('#btn-cancel').removeAttr('disabled');
+            },
+
+            clearForm: function () {
+                var selected_row = $('.data-row.active');
+
+                $('#add-edit-form').find('[name="typcod"]').attr({ 'disabled': 'disabled' }).val('');
+                $('#add-edit-form').find('[name="shortnam"]').attr({ 'disabled': 'disabled' }).val('');
+                $('#add-edit-form').find('[name="shortnam2"]').attr({ 'disabled': 'disabled' }).val('');
+                $('#add-edit-form').find('[name="typdes"]').attr({ 'disabled': 'disabled' }).val('');
+                $('#add-edit-form').find('[name="typdes2"]').attr({ 'disabled': 'disabled' }).val('');
+                $('#btn-submit').attr({ 'disabled': 'disabled' }).val('');
+                $('#btn-cancel').attr({ 'disabled': 'disabled' }).val('');
+
+                if (selected_row.length > 0) {
+                    selected_row.click();
+                }
+            },
+
+            checkDuplicate: function () {
+                var typcod = $(this).val();
+
+                $.ajax({
+                    type: 'GET',
+                    url: '/Istab/CheckDuplicate',
+                    data: { tabtyp: $('#add-edit-form').find('[name="tabtyp"]').val(), typcod: typcod },
+                    contentType: "application/json; charset=utf-8",
+                    dataType: 'json',
+                    success: function (data) {
+                        if (data.result == false) {
+                            alert(data.message);
+                        }
+                    }
+                });
+
             }
         });
     </script>

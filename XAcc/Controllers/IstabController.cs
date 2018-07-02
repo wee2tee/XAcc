@@ -46,5 +46,21 @@ namespace XAcc.Controllers
                 return Json("Error, Data not found");
             }
         }
+
+        [Authorize, HttpGet]
+        public IActionResult CheckDuplicate(string tabtyp, string typcod)
+        {
+            //return Json(tabtyp + " ... " + typcod);
+            this.PrepareDbContext();
+
+            if(this.dbacc_context.Istab.Where(i => i.tabtyp == tabtyp && i.typcod.ToUpper() == typcod.ToUpper()).Count() == 0)
+            {
+                return Json(new { result = true, message = string.Empty });
+            }
+            else
+            {
+                return Json(new { result = false, message = "รหัส \'" + typcod.ToUpper() + "\' นี้มีอยู่แล้ว" });
+            }
+        }
     }
 }

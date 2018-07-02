@@ -46,6 +46,9 @@ body {
     /*height: auto !important;*/
     height: 100% !important;
 }
+.text-uppercase {
+    text-transform: uppercase;
+}
 .ui.container {
     margin-bottom: 20px;
 }
