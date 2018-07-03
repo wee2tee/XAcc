@@ -49,6 +49,16 @@ body {
 .text-uppercase {
     text-transform: uppercase;
 }
+.err-message {
+    display: none;
+    padding: 4px;
+    font-size: 0.8em;
+    border: 1px solid #ff8b8b;
+    background-color: #ffcfcf;
+    /*height: 25px;
+    line-height: 25px;*/
+    color: #a92020;
+}
 .ui.container {
     margin-bottom: 20px;
 }

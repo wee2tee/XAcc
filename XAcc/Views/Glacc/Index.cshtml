@@ -48,7 +48,7 @@
             <i class="edit icon yellow"></i>
             Edit
         </a>
-        <a class="item" onclick="$(this).deleteConfirm()" id="btn-delete">
+        <a class="item" onclick="$(this).confirmDelete()" id="btn-delete">
             <i class="delete icon red"></i>
             Delete
         </a>
@@ -418,7 +418,7 @@
                 });
             },
 
-            deleteConfirm: function () {
+            confirmDelete: function () {
                 if (form_state !== 'R')
                     return;
 

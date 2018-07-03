@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = ViewBag.tabtyp != null ? "[" + ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypCode() + "] " + ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypDesc() : string.Empty;
+    ViewData["Title"] = "Category Tables  :  " + (ViewBag.tabtyp != null ? "[" + ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypCode() + "] " + ((Istab.TABTYP)ViewBag.tabtyp).GetTabtypDesc() : string.Empty);
 }
 
 <div class="toolbar-panel">
@@ -13,7 +13,7 @@
             <i class="edit icon yellow"></i>
             Edit
         </a>
-        <a class="item" onclick="$(this).deleteConfirm()" id="btn-delete">
+        <a class="item" onclick="$(this).confirmDelete()" id="btn-delete">
             <i class="delete icon red"></i>
             Delete
         </a>
@@ -70,7 +70,7 @@
                         <tbody>
                             @foreach (var item in (List<Istab>)Model)
                             {
-                                <tr class="data-row" id="@item.id" style="cursor: pointer;" onclick="$(this).Selected()">
+                                <tr class="data-row" id="@item.id" aria-typcod="@item.typcod" style="cursor: pointer;" onclick="$(this).Selected()">
                                     <td>@item.typcod</td>
                                     <td>@item.shortnam</td>
                                     <td>@item.shortnam2</td>
@@ -94,7 +94,13 @@
                 <div class="field">
                     <label>Code</label>
                     <div class="six wide field">
-                        <input type="text" name="typcod" class="text-uppercase" placeholder="Code" disabled="disabled" onblur="$(this).checkDuplicate()" />
+                        <input type="text" name="typcod" value="" class="text-uppercase" placeholder="Code" disabled="disabled" />
+                        @{
+                                // onblur="$(this).checkDuplicate()"
+                            }
+                    </div>
+                    <div class="sixteen wide field err-message" id="err-message">
+                        
                     </div>
                 </div>
                 <div class="field">
@@ -125,7 +131,6 @@
                         <input type="text" name="typdes2" placeholder="Description (En.)" disabled="disabled" />
                     </div>
                 </div>
-
                 <button type="button" class="ui button green" tabindex="0" disabled="disabled" id="btn-submit" onclick="$(this).submitForm()"><i class="check circle icon"></i>Submit</button>
                 <button type="button" class="ui button red" tabindex="1" disabled="disabled" id="btn-cancel" onclick="$(this).clearForm()"><i class="times circle icon"></i>Cancel</button>
             </form>
@@ -179,6 +184,7 @@
                 $('#add-edit-form').find('[name="typdes2"]').removeAttr('disabled').val('');
                 $('#btn-submit').removeAttr('disabled').val('');
                 $('#btn-cancel').removeAttr('disabled').val('');
+                $('#readonly-layer').show();
             },
 
             editForm: function () {
@@ -193,6 +199,41 @@
                 $('#add-edit-form').find('[name="typdes2"]').removeAttr('disabled');
                 $('#btn-submit').removeAttr('disabled');
                 $('#btn-cancel').removeAttr('disabled');
+                $('#readonly-layer').show();
+            },
+
+            confirmDelete: function () {
+                var selected_row = $('.data-row.active');
+
+                if (selected_row.length == 0)
+                    return;
+
+                if (confirm("Delete " + $(selected_row).attr('aria-typcod') + ", Are you want to continue?") === true) {
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Istab/DeleteAsync',
+                        data: JSON.stringify({ id: $(selected_row).attr('id') }),
+                        dataType: 'json',
+                        contentType: "application/json; charset=utf-8",
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("XSRF-TOKEN",
+                                $('input:hidden[name="__RequestVerificationToken"]').val());
+                        },
+                        error: function (err) {
+                            if (err.status === 400) {
+                                alert("An error has occured.");
+                            }
+                        },
+                        success: function (data) {
+                            if (data.result === true) {
+                                $('#btn-reload').click();
+                            }
+                            else {
+                                alert(data.message);
+                            }
+                        }
+                    });
+                }
             },
 
             clearForm: function () {
@@ -205,14 +246,59 @@
                 $('#add-edit-form').find('[name="typdes2"]').attr({ 'disabled': 'disabled' }).val('');
                 $('#btn-submit').attr({ 'disabled': 'disabled' }).val('');
                 $('#btn-cancel').attr({ 'disabled': 'disabled' }).val('');
+                $('#err-message').html('').hide();
+                $('#readonly-layer').hide();
 
                 if (selected_row.length > 0) {
                     selected_row.click();
                 }
             },
 
+            submitForm: function () {
+                var data = new Object();
+                data.id = $('#add-edit-form').find('[name="id"]').val();
+                data.tabtyp = $('#add-edit-form').find('[name="tabtyp"]').val();
+                data.typcod = $('#add-edit-form').find('[name="typcod"]').val().toUpperCase();
+                data.shortnam = $('#add-edit-form').find('[name="shortnam"]').val();
+                data.shortnam2 = $('#add-edit-form').find('[name="shortnam2"]').val();
+                data.typdes = $('#add-edit-form').find('[name="typdes"]').val();
+                data.typdes2 = $('#add-edit-form').find('[name="typdes2"]').val();
+
+                if (data.typcod != null && data.typcod.trim().length == 0) {
+                    $('#add-edit-form').find('[name="typcod"]').focus();
+                    alert('Please specify code');
+                    return;
+                }
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Istab/AddEditAsync',
+                    data: JSON.stringify(data),
+                    dataType: 'json',
+                    contentType: "application/json; charset=utf-8",
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("XSRF-TOKEN",
+                            $('input:hidden[name="__RequestVerificationToken"]').val());
+                    },
+                    error: function (err) {
+                        if (err.status === 400) {
+                            alert("An error has occured.");
+                        }
+                    },
+                    success: function (data) {
+                        if (data.result == true) {
+                            $('#btn-reload').click();
+                        }
+                        else {
+                            $('#err-message').html(data.message).slideDown('fast');
+                            $('#add-edit-form').find('[name="typcod"]').focus();
+                        }
+                    }
+                })
+            },
+
             checkDuplicate: function () {
-                var typcod = $(this).val();
+                var typcod = $(this).val().toUpperCase();
 
                 $.ajax({
                     type: 'GET',
@@ -222,7 +308,11 @@
                     dataType: 'json',
                     success: function (data) {
                         if (data.result == false) {
-                            alert(data.message);
+                            $('#err-message').html(data.message).slideDown('fast');
+                        }
+                        else {
+
+
                         }
                     }
                 });
